@@ -2,6 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yinghu.netlify.app/posts/bf1c7c16.html</loc>
+    
+    <lastmod>2024-02-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/e928503c.html</loc>
+    
+    <lastmod>2024-02-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/62be98b0.html</loc>
+    
+    <lastmod>2024-02-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/61780357.html</loc>
+    
+    <lastmod>2024-02-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/posts/c262478.html</loc>
     
     <lastmod>2024-02-21</lastmod>
@@ -263,15 +299,6 @@
   </url>
   
   <url>
-    <loc>https://yinghu.netlify.app/posts/61780357.html</loc>
-    
-    <lastmod>2024-02-17</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://yinghu.netlify.app/posts/9c6906e4.html</loc>
     
     <lastmod>2024-02-17</lastmod>
@@ -463,7 +490,7 @@
 
   <url>
     <loc>https://yinghu.netlify.app/</loc>
-    <lastmod>2024-02-21</lastmod>
+    <lastmod>2024-02-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -471,14 +498,14 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/</loc>
-    <lastmod>2024-02-21</lastmod>
+    <lastmod>2024-02-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/gal%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2024-02-21</lastmod>
+    <lastmod>2024-02-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
