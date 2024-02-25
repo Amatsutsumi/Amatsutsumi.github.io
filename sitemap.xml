@@ -2,6 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yinghu.netlify.app/posts/606c0299.html</loc>
+    
+    <lastmod>2024-02-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/d0f09971.html</loc>
+    
+    <lastmod>2024-02-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/45fa26ef.html</loc>
+    
+    <lastmod>2024-02-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/posts/60245768.html</loc>
     
     <lastmod>2024-02-24</lastmod>
@@ -598,7 +625,7 @@
 
   <url>
     <loc>https://yinghu.netlify.app/</loc>
-    <lastmod>2024-02-24</lastmod>
+    <lastmod>2024-02-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -606,14 +633,14 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/</loc>
-    <lastmod>2024-02-24</lastmod>
+    <lastmod>2024-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/gal%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2024-02-24</lastmod>
+    <lastmod>2024-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
