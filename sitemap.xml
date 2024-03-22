@@ -2,6 +2,60 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yinghu.netlify.app/about/index.html</loc>
+    
+    <lastmod>2024-03-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/ed7b6d31.html</loc>
+    
+    <lastmod>2024-03-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/f855118e.html</loc>
+    
+    <lastmod>2024-03-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/7807c037.html</loc>
+    
+    <lastmod>2024-03-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/c48f62f9.html</loc>
+    
+    <lastmod>2024-03-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/68e22f22.html</loc>
+    
+    <lastmod>2024-03-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/posts/3a52eec0.html</loc>
     
     <lastmod>2024-03-21</lastmod>
@@ -479,7 +533,7 @@
   </url>
   
   <url>
-    <loc>https://yinghu.netlify.app/posts/8a29d40f.html</loc>
+    <loc>https://yinghu.netlify.app/posts/ba67278a.html</loc>
     
     <lastmod>2024-03-12</lastmod>
     
@@ -488,7 +542,7 @@
   </url>
   
   <url>
-    <loc>https://yinghu.netlify.app/posts/ba67278a.html</loc>
+    <loc>https://yinghu.netlify.app/posts/8a29d40f.html</loc>
     
     <lastmod>2024-03-12</lastmod>
     
@@ -885,15 +939,6 @@
   
   <url>
     <loc>https://yinghu.netlify.app/posts/246b59de.html</loc>
-    
-    <lastmod>2024-03-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://yinghu.netlify.app/about/index.html</loc>
     
     <lastmod>2024-03-06</lastmod>
     
@@ -1903,7 +1948,7 @@
 
   <url>
     <loc>https://yinghu.netlify.app/</loc>
-    <lastmod>2024-03-21</lastmod>
+    <lastmod>2024-03-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -1911,14 +1956,14 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/gal%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2024-03-21</lastmod>
+    <lastmod>2024-03-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/</loc>
-    <lastmod>2024-03-21</lastmod>
+    <lastmod>2024-03-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
