@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://yinghu.netlify.app/posts/58d148dc.html</loc>
+    <loc>https://yinghu.netlify.app/posts/3b4b656d.html</loc>
     
-    <lastmod>2024-07-04</lastmod>
+    <lastmod>2024-07-06</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -40,15 +40,15 @@
 
   <url>
     <loc>https://yinghu.netlify.app/</loc>
-    <lastmod>2024-07-04</lastmod>
+    <lastmod>2024-07-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://yinghu.netlify.app/tags/%E5%85%AC%E5%91%8A/</loc>
-    <lastmod>2024-07-04</lastmod>
+    <loc>https://yinghu.netlify.app/tags/%E5%85%B3%E4%BA%8E/</loc>
+    <lastmod>2024-07-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
