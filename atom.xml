@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>萤ノ光</title>
+  
+  <subtitle>二次元小站</subtitle>
+  <link href="https://yinghu.netlify.app/atom.xml" rel="self"/>
+  
+  <link href="https://yinghu.netlify.app/"/>
+  <updated>2025-01-24T08:10:03.549Z</updated>
+  <id>https://yinghu.netlify.app/</id>
+  
+  <author>
+    <name>理理</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>资源暂时迁移通知</title>
+    <link href="https://yinghu.netlify.app/posts/15ef14c2.html"/>
+    <id>https://yinghu.netlify.app/posts/15ef14c2.html</id>
+    <published>2025-01-24T01:21:46.000Z</published>
+    <updated>2025-01-24T08:10:03.549Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><b><font color = "red">总结：资源下载使用auroraisok.serv00.net</font></b></p><hr><b>Q：为什么迁移至Alist网盘站？</b><p>网站最核心的功能就是下载，本站大多资源都对接我自己的Alist网盘，于是干脆直接开放出Alist网盘就好了。本站维护工作太费心费力，我没太多时间和精力去维护，就采用最省事的方法。</p><p><b>Q：为什么不换网站框架、换网站形式？</b></p><p>本站目前是hexo框架+netlify搭建的，资源存储用serv00+alist，这样的好处是真正做到零成本、不需要买服务器。为什么不自建存储？为什么不用wordpress？最直接的原因就是没钱。</br><br>另外感觉也没必要，网站核心功能就是下载东西，页面美化、功能开发这些都是额外的东西。比如有的网站注册才能下载、反而感觉很麻烦，最直接的Alist网盘成本低、使用起来还方便。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;&#92;assets&#92;css&#92;APlayer.min.css&quot;&gt;&lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    <category term="公告" scheme="https://yinghu.netlify.app/categories/%E5%85%AC%E5%91%8A/"/>
+    
+    
+    <category term="公告" scheme="https://yinghu.netlify.app/tags/%E5%85%AC%E5%91%8A/"/>
+    
+  </entry>
+  
+</feed>
