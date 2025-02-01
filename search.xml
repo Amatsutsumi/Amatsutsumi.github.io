@@ -1,21 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>资源暂时迁移通知</title>
-    <url>/posts/15ef14c2.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><b><font color = "red">总结：资源下载使用auroraisok.serv00.net</font></b></p>
-<hr>
-<b>Q：为什么迁移至Alist网盘站？</b>
-
-<p>网站最核心的功能就是下载，本站大多资源都对接我自己的Alist网盘，于是干脆直接开放出Alist网盘就好了。本站维护工作太费心费力，我没太多时间和精力去维护，就采用最省事的方法。</p>
-<p><b>Q：为什么不换网站框架、换网站形式？</b></p>
-<p>本站目前是hexo框架+netlify搭建的，资源存储用serv00+alist，这样的好处是真正做到零成本、不需要买服务器。为什么不自建存储？为什么不用wordpress？最直接的原因就是没钱。</br><br>另外感觉也没必要，网站核心功能就是下载东西，页面美化、功能开发这些都是额外的东西。比如有的网站注册才能下载、反而感觉很麻烦，最直接的Alist网盘成本低、使用起来还方便。</p>
-]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>【PC，生肉】ねこねこソフト　おかえしＣＤ</title>
+      <link href="/posts/44124a6b.html"/>
+      <url>/posts/44124a6b.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>2022年猫猫社CD8，包含冬季北极星后续部分内容</p><p>A collection of four short Mizuiro stories:</p><p>１.はなくまちょう<br>２.野武士<br>３.ほりーゆーじを倒せ<br>４.水色の土曜日</p><p>vndbreview</p><hr><a class="btn-beautify " href="https://www.123865.com/s/RP16Vv-AhiW"   title="PC"><i class="red larger"></i><span>PC</span></a>]]></content>
+      
+      
       <categories>
-        <category>公告</category>
+          
+          <category> galgame </category>
+          
       </categories>
-      <tags>
-        <tag>公告</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> 猫猫社 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>资源暂时迁移通知</title>
+      <link href="/posts/15ef14c2.html"/>
+      <url>/posts/15ef14c2.html</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><b><font color = "red">总结：资源下载使用auroraisok.serv00.net</font></b></p><hr><b>Q：为什么迁移至Alist网盘站？</b><p>网站最核心的功能就是下载，本站大多资源都对接我自己的Alist网盘，于是干脆直接开放出Alist网盘就好了。本站维护工作太费心费力，我没太多时间和精力去维护，就采用最省事的方法。</p><p><b>Q：为什么不换网站框架、换网站形式？</b></p><p>本站目前是hexo框架+netlify搭建的，资源存储用serv00+alist，这样的好处是真正做到零成本、不需要买服务器。为什么不自建存储？为什么不用wordpress？最直接的原因就是没钱。</br><br>另外感觉也没必要，网站核心功能就是下载东西，页面美化、功能开发这些都是额外的东西。比如有的网站注册才能下载、反而感觉很麻烦，最直接的Alist网盘成本低、使用起来还方便。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 公告 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 公告 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>
