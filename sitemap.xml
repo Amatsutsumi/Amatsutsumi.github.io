@@ -2,7 +2,70 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://yinghu.netlify.app/posts/15ef14c2.html</loc>
+    <loc>https://yinghu.netlify.app/posts/c5de299a.html</loc>
+    
+    <lastmod>2025-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/52b5b3c6.html</loc>
+    
+    <lastmod>2025-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/98662d05.html</loc>
+    
+    <lastmod>2025-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/886f8d3.html</loc>
+    
+    <lastmod>2025-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/1d59b71f.html</loc>
+    
+    <lastmod>2025-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/d3a745a8.html</loc>
+    
+    <lastmod>2025-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/2cf620f0.html</loc>
+    
+    <lastmod>2025-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/8f555654.html</loc>
     
     <lastmod>2025-02-04</lastmod>
     
@@ -12,6 +75,15 @@
   
   <url>
     <loc>https://yinghu.netlify.app/posts/94d3c794.html</loc>
+    
+    <lastmod>2025-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/15ef14c2.html</loc>
     
     <lastmod>2025-02-04</lastmod>
     
@@ -97,6 +169,13 @@
   </url>
   
   <url>
+    <loc>https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/</loc>
+    <lastmod>2025-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/tags/Omega%E3%81%AE%E8%A6%96%E7%95%8C/</loc>
     <lastmod>2025-02-04</lastmod>
     <changefreq>weekly</changefreq>
@@ -104,14 +183,21 @@
   </url>
   
   <url>
-    <loc>https://yinghu.netlify.app/tags/rkr/</loc>
+    <loc>https://yinghu.netlify.app/tags/%E7%8C%AB%E7%8C%AB%E7%A4%BE/</loc>
     <lastmod>2025-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://yinghu.netlify.app/tags/%E7%8C%AB%E7%8C%AB%E7%A4%BE/</loc>
+    <loc>https://yinghu.netlify.app/tags/%E6%B0%B4%E4%BB%99/</loc>
+    <lastmod>2025-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/rkr/</loc>
     <lastmod>2025-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
