@@ -1,3 +1,4 @@
+https://yinghu.netlify.app/posts/9a2f6162.html
 https://yinghu.netlify.app/posts/52b5b3c6.html
 https://yinghu.netlify.app/posts/c5de299a.html
 https://yinghu.netlify.app/posts/98662d05.html
@@ -18,10 +19,11 @@ https://yinghu.netlify.app/
 https://yinghu.netlify.app/tags/galgame/
 https://yinghu.netlify.app/tags/Circle-Mebius/
 https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/
-https://yinghu.netlify.app/tags/Omega%E3%81%AE%E8%A6%96%E7%95%8C/
 https://yinghu.netlify.app/tags/%E7%8C%AB%E7%8C%AB%E7%A4%BE/
 https://yinghu.netlify.app/tags/%E6%B0%B4%E4%BB%99/
+https://yinghu.netlify.app/tags/Omega%E3%81%AE%E8%A6%96%E7%95%8C/
 https://yinghu.netlify.app/tags/rkr/
+https://yinghu.netlify.app/tags/Witch/
 https://yinghu.netlify.app/tags/%E5%85%AC%E5%91%8A/
 https://yinghu.netlify.app/categories/galgame/
 https://yinghu.netlify.app/categories/%E5%85%AC%E5%91%8A/
