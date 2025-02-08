@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yinghu.netlify.app/posts/51c9b1ff.html</loc>
+    
+    <lastmod>2025-02-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/81ac52e9.html</loc>
+    
+    <lastmod>2025-02-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/posts/3f7d823a.html</loc>
     
     <lastmod>2025-02-07</lastmod>
@@ -337,7 +355,7 @@
 
   <url>
     <loc>https://yinghu.netlify.app/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -345,70 +363,77 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/galgame/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/Circle-Mebius/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/Omega%E3%81%AE%E8%A6%96%E7%95%8C/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/rkr/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/%E7%8C%AB%E7%8C%AB%E7%A4%BE/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/%E6%B0%B4%E4%BB%99/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/Witch/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/%E5%81%9C%E4%BA%A7/</loc>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/%E5%90%8C%E4%BA%BA/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/tags/%E5%85%AC%E5%91%8A/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -417,14 +442,14 @@
   
   <url>
     <loc>https://yinghu.netlify.app/categories/galgame/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://yinghu.netlify.app/categories/%E5%85%AC%E5%91%8A/</loc>
-    <lastmod>2025-02-07</lastmod>
+    <lastmod>2025-02-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
