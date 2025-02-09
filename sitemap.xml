@@ -11,6 +11,33 @@
   </url>
   
   <url>
+    <loc>https://yinghu.netlify.app/posts/e3ab6ad8.html</loc>
+    
+    <lastmod>2025-02-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/c70bba9c.html</loc>
+    
+    <lastmod>2025-02-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/posts/28397adc.html</loc>
+    
+    <lastmod>2025-02-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/about/index.html</loc>
     
     <lastmod>2025-02-08</lastmod>
@@ -371,13 +398,6 @@
 
   
   <url>
-    <loc>https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/</loc>
-    <lastmod>2025-02-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://yinghu.netlify.app/tags/galgame/</loc>
     <lastmod>2025-02-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -386,6 +406,20 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/Circle-Mebius/</loc>
+    <lastmod>2025-02-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/%E5%81%9C%E4%BA%A7/</loc>
+    <lastmod>2025-02-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/</loc>
     <lastmod>2025-02-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -421,13 +455,6 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/Witch/</loc>
-    <lastmod>2025-02-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://yinghu.netlify.app/tags/%E5%81%9C%E4%BA%A7/</loc>
     <lastmod>2025-02-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
