@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yinghu.netlify.app/1995.html</loc>
+    
+    <lastmod>2025-02-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/posts/303007ad.html</loc>
     
     <lastmod>2025-02-09</lastmod>
