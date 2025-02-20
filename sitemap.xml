@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yinghu.netlify.app/posts/20b3f3a4.html</loc>
+    
+    <lastmod>2025-02-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/posts/15ef14c2.html</loc>
     
     <lastmod>2025-02-20</lastmod>
@@ -441,6 +450,13 @@
   </url>
   
   <url>
+    <loc>https://yinghu.netlify.app/tags/Circle-Mebius/</loc>
+    <lastmod>2025-02-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/tags/%E5%81%9C%E4%BA%A7/</loc>
     <lastmod>2025-02-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -449,13 +465,6 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/gal%E8%B5%84%E6%BA%90/</loc>
-    <lastmod>2025-02-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://yinghu.netlify.app/tags/Circle-Mebius/</loc>
     <lastmod>2025-02-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
