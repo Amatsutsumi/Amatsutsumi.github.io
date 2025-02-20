@@ -1,3 +1,5 @@
+https://yinghu.netlify.app/about/index.html
+https://yinghu.netlify.app/sumire/index.html
 https://yinghu.netlify.app/posts/20b3f3a4.html
 https://yinghu.netlify.app/posts/15ef14c2.html
 https://yinghu.netlify.app/posts/5f6e0c59.html
@@ -10,7 +12,6 @@ https://yinghu.netlify.app/posts/c5de299a.html
 https://yinghu.netlify.app/posts/e3ab6ad8.html
 https://yinghu.netlify.app/posts/c70bba9c.html
 https://yinghu.netlify.app/posts/28397adc.html
-https://yinghu.netlify.app/about/index.html
 https://yinghu.netlify.app/posts/81ac52e9.html
 https://yinghu.netlify.app/posts/51c9b1ff.html
 https://yinghu.netlify.app/posts/3f7d823a.html
