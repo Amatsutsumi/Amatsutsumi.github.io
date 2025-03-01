@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yinghu.netlify.app/posts/e624b065.html</loc>
+    
+    <lastmod>2025-03-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/posts/303007ad.html</loc>
     
     <lastmod>2025-03-01</lastmod>
@@ -561,6 +570,13 @@
   </url>
   
   <url>
+    <loc>https://yinghu.netlify.app/tags/PC88/</loc>
+    <lastmod>2025-03-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/tags/%E7%8C%AB%E7%8C%AB%E7%A4%BE/</loc>
     <lastmod>2025-03-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -576,13 +592,6 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/%E7%89%87%E5%86%88%E6%99%BA/</loc>
-    <lastmod>2025-03-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://yinghu.netlify.app/tags/PC88/</loc>
     <lastmod>2025-03-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
