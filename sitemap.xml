@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yinghu.netlify.app/posts/6aa4177c.html</loc>
+    
+    <lastmod>2025-03-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yinghu.netlify.app/posts/cae2c959.html</loc>
     
     <lastmod>2025-03-03</lastmod>
@@ -606,7 +615,28 @@
   </url>
   
   <url>
-    <loc>https://yinghu.netlify.app/tags/PC88/</loc>
+    <loc>https://yinghu.netlify.app/tags/Kanon/</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/Cherry-Pie/</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/O-S-I/</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/%E5%A4%96%E6%B5%B7%E3%81%AA%E3%81%8A%E3%81%8D/</loc>
     <lastmod>2025-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -634,14 +664,7 @@
   </url>
   
   <url>
-    <loc>https://yinghu.netlify.app/tags/%E9%96%82%E5%A4%9C%E6%98%8E/</loc>
-    <lastmod>2025-03-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://yinghu.netlify.app/tags/%E3%81%AD%E3%81%93%E3%83%90%E3%83%8A%E3%83%8A/</loc>
+    <loc>https://yinghu.netlify.app/tags/PC88/</loc>
     <lastmod>2025-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -662,7 +685,14 @@
   </url>
   
   <url>
-    <loc>https://yinghu.netlify.app/tags/Dos/</loc>
+    <loc>https://yinghu.netlify.app/tags/%E9%96%82%E5%A4%9C%E6%98%8E/</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/%E3%81%AD%E3%81%93%E3%83%90%E3%83%8A%E3%83%8A/</loc>
     <lastmod>2025-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -670,6 +700,13 @@
   
   <url>
     <loc>https://yinghu.netlify.app/tags/Omega%E3%81%AE%E8%A6%96%E7%95%8C/</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://yinghu.netlify.app/tags/Dos/</loc>
     <lastmod>2025-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
