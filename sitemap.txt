@@ -1,4 +1,5 @@
-https://yinghu.netlify.app/posts/909f8f97.html
+https://yinghu.netlify.app/posts/f1b0ad49.html
+https://yinghu.netlify.app/posts/c85b034b.html
 https://yinghu.netlify.app/about/index.html
 https://yinghu.netlify.app/posts/244daa7a.html
 https://yinghu.netlify.app/posts/4b689be3.html
@@ -257,5 +258,6 @@ https://yinghu.netlify.app/tags/%E7%BC%BA%E5%A4%B1/
 https://yinghu.netlify.app/tags/Project-Twintail/
 https://yinghu.netlify.app/tags/%E7%94%BB%E9%9B%86/
 https://yinghu.netlify.app/tags/%E5%85%AC%E5%91%8A/
+https://yinghu.netlify.app/tags/%E7%94%9F%E6%B4%BB/
 https://yinghu.netlify.app/categories/galgame/
 https://yinghu.netlify.app/categories/%E5%85%AC%E5%91%8A/
