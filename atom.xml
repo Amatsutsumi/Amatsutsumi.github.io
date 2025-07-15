@@ -6,7 +6,7 @@
   <link href="https://yinghu.netlify.app/atom.xml" rel="self"/>
   
   <link href="https://yinghu.netlify.app/"/>
-  <updated>2025-06-23T08:07:27.525Z</updated>
+  <updated>2025-07-15T06:27:18.071Z</updated>
   <id>https://yinghu.netlify.app/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网站运营的烦恼</title>
+    <link href="https://yinghu.netlify.app/posts/db220b7c.html"/>
+    <id>https://yinghu.netlify.app/posts/db220b7c.html</id>
+    <published>3999-07-15T05:31:27.000Z</published>
+    <updated>2025-07-15T06:27:18.071Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>好久没更新了，原因是太忙了、一直没时间去更新。近四个月内，我的哔哩哔哩涨粉很快，知名度比以前要高很多了hh。随之也有各种各样的问题之类的吧阿巴阿巴…</br></p><p>第一点是，我比较敏感吧，在比以前知名后，感到一些不自在。尽管我听到的都是一些好的声音，赛博考古学家、感谢挖掘，阿巴阿巴…但同时我会去想，我做这些会不会有一些批评的声音（虽然我没听到就是了O_o）。虽然圈子不大、但我感觉总是在吵架…A去B的gal群被踢了，C骂D的群恶俗，E去F的群被骂串子，G被H骂恶俗婆罗门，I带领全群去爆破J的galgame群，K把L挂百度贴吧、发哔哩哔哩上骂人，M把N的哔哩哔哩号和galgame群举报了…用朋友的话说，比起游戏圈子更像开团圈子，总是互相攻击（）。以前我自己开的一个gal群也差点被爆破、后来和解了hhh</br></p><p>我加了500多个QQ群，有时会看到自己的bangumi账号被转发、哔哩哔哩账号被转发…“查查这个埋埋埋埋喵的成分”，“去他QQ群看看”，“他QQ群有我的仇人，我要去爆破！”。虽然最后倒是没人攻击我，但总感觉提心吊胆的…</br></p><p>小圈子是否出圈、该怎么做？有人说出圈好、有人说出圈不好，很疑惑的问题吧。做网站有很多问题和风险，我也渐渐得不想去做了。</br></p><p>第二点是太忙了，我做的东西太多了。我的哔哩哔哩有16万+粉丝，每天都是999+的消息；我加了500多个QQ群聊、加了500多个QQ好友；我有一个自己的Unity开发项目、一个没做完的前端项目、有两个汉化项目，最近又在自学音乐；真的是太忙了，网站更新就更没时间去做了。</br></p><hr>如果你需要游戏资源的话，我的网盘还有运行，能帮到你的话最好了。https://vwhlopkm.us-east-1.clawcloudrun.com ，账号和密码都是ying]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;&#92;assets&#92;css&#92;APlayer.min.css&quot;&gt;&lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="生活" scheme="https://yinghu.netlify.app/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>【250623】网站必读公告（6.23更新）</title>
@@ -37,50 +59,6 @@
     
     
     <category term="公告" scheme="https://yinghu.netlify.app/tags/%E5%85%AC%E5%91%8A/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>主站长期不更新状态</title>
-    <link href="https://yinghu.netlify.app/posts/1e57b380.html"/>
-    <id>https://yinghu.netlify.app/posts/1e57b380.html</id>
-    <published>2225-07-06T00:37:07.000Z</published>
-    <updated>2025-07-06T01:01:12.377Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>总结：资源更新主要在<a href="https://vwhlopkm.us-east-1.clawcloudrun.com/">春ノ雪</a>，账号密码都是ying</p><hr><p>本站进入长期不更新状态，原因是自己越来越忙了，于是我把资源全部放在Alist网盘上了，资源补档等问题可联系<a href="mailto:&#99;&#104;&#101;&#x6e;&#50;&#x32;&#x38;&#48;&#48;&#49;&#64;&#x6f;&#117;&#116;&#x6c;&#111;&#111;&#107;&#x2e;&#x63;&#x6f;&#109;">&#99;&#104;&#101;&#x6e;&#50;&#x32;&#x38;&#48;&#48;&#49;&#64;&#x6f;&#117;&#116;&#x6c;&#111;&#111;&#107;&#x2e;&#x63;&#x6f;&#109;</a></br><br>回想起来真是奇妙。这个网站是我23年时学习hexo时搭建的，当初我突发奇想、想搭建一个Galgame站点；后来我又突发奇想做了很多事：突发奇想要不要参与国G制作？突发奇想做Galgame汉化？突发奇想整理冷门同人游戏？突发奇想整理音乐？突发奇想学习Unity？突发奇想学习web前端？突发奇想能否成为十万粉up主？现在我又突发奇想了，零基础的我暑假在学电子琴和编曲。</br><br>我也结识了各个圈子的朋友，有音乐爱好者、网易云冷门歌手；有Galgame爱好者，freem爱好者，日乙爱好者，同人爱好者；有失传媒体爱好者，有都市传说爱好者，有程序员，有日语爱好者，有汉化组的一批小伙伴——真是奇妙的缘分。</br></p><hr><p>最近高考结束报志愿，有好多小伙伴在悲伤：分数考得不好，志愿报错了。结合我自身经历，我想说：没事的，不要灰心。高考不是终点，是新的起点吧。</br><br>我在河南高考，当年能考去211，最后去了没听说过的新乡医学院、被调剂到全校最末流和冷门的专业，分数比我专业分数线高了60多分。学校没有计算机、音乐、电子信息等专业，连转专业都没法转O_o。但这并不妨碍我热爱着计算机、音乐和游戏，并不意味着我”人生就完蛋了、毕业就失业了（我家长和老师曾经说的O_o）”</br><br>倘若没经历挫折，我大概不会有之后乐观的心态、对学习和生活的热爱。网站大概不会建立、哔哩哔哩不会有“埋埋埋埋喵”，不会去开发国G和做游戏汉化了。</br></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;&#92;assets&#92;css&#92;APlayer.min.css&quot;&gt;&lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot; cla</summary>
-      
-    
-    
-    
-    
-    <category term="公告" scheme="https://yinghu.netlify.app/tags/%E5%85%AC%E5%91%8A/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>缺失游戏汇总</title>
-    <link href="https://yinghu.netlify.app/posts/ada3f440.html"/>
-    <id>https://yinghu.netlify.app/posts/ada3f440.html</id>
-    <published>2125-04-12T12:21:08.000Z</published>
-    <updated>2025-07-06T00:37:50.272Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>本帖子用于不定期记录网友需要的、本站缺失的游戏，旨在互帮互助。</br><br>所有缺失的游戏，数量太庞杂太多了，于是只收录网友通过各种方式询问过我、而我缺失的游戏</br><br>如拥有以下游戏并想要分享的话，可前往<a href="https://aurorayh.asia/d/395-qiu-zhu-tie-zong-jie">论坛</a>，或者发邮件到<a href="mailto:&#99;&#x68;&#x65;&#110;&#50;&#x32;&#x38;&#48;&#48;&#49;&#x40;&#111;&#x75;&#x74;&#108;&#x6f;&#x6f;&#x6b;&#x2e;&#99;&#x6f;&#109;">&#99;&#x68;&#x65;&#110;&#50;&#x32;&#x38;&#48;&#48;&#49;&#x40;&#111;&#x75;&#x74;&#108;&#x6f;&#x6f;&#x6b;&#x2e;&#99;&#x6f;&#109;</a></br><br>同步记录在<a href="https://aurorayh.asia/d/395-qiu-zhu-tie-zong-jie">这个帖子</a></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">[981230]Black Album</span><br><span class="line">[020801]月下蝶の館</span><br><span class="line">[071001]Dear World -the one-</span><br><span class="line">[981230]伝説の後で・ラブラブの章</span><br><span class="line">[03xxxx]遠い空 初秋版</span><br><span class="line">[中止]ミトドケビト</span><br><span class="line">[110519]群青カタストロフ（停产）</span><br><span class="line">[991207]Moonlight Blue</span><br><span class="line">[06xxxx]ボアダムキラーズ ディレイレイン</span><br><span class="line">[090225]Selene 〜エンディミオンの微睡み〜</span><br><span class="line">[090710]Abend Eden</span><br><span class="line">[110121]AURELIA～あなたの世界にサヨウナラ～</span><br><span class="line">[070805]あなたの傍で笑っていたい</span><br><span class="line">[110106]目盛りある嬢（vndb未收录）</span><br><span class="line">[100402]精神鳶（vndb未收录）</span><br><span class="line">[101223]のべるたん（vndb未收录）</span><br><span class="line">[100401]iRodoRi-m（vndb未收录）</span><br><span class="line">[091122]秋空を探して - Time Stair -（vndb未收录）</span><br><span class="line">[100521]夕櫻を見つめて</span><br><span class="line">[030801]Blue Blood ～Vampire Princess～</span><br><span class="line">[03XXXX]I&#x27;ll Be Back</span><br><span class="line">[051230]始まりは終わりとともに… Beginning is the End…</span><br><span class="line">[020120]月のあかり猫のひとみ</span><br><span class="line">[030815]雪姫</span><br><span class="line">[XXXXXX]四方の月(Team Eye Mask制作)</span><br><span class="line">[081229]マヨイガ</span><br><span class="line">[060813]錯交路</span><br><span class="line">[021230]霞我身（已找回）</span><br><span class="line">[020504]想い出よりせつなく</span><br><span class="line">[121231]遥か彼方の蜃気楼</span><br><span class="line">[051230]白路</span><br><span class="line">[080119]きみしか。</span><br><span class="line">[040429]夏恋 -the love story in summer-（已找回）</span><br><span class="line">[040815]想いノ破片 ～オモイノカケラ～</span><br><span class="line">[141230]七重想物語</span><br><span class="line">[031230]そらのかなた</span><br><span class="line">[991207]Moonlight Blue</span><br><span class="line">[XXXXXX]pult ～concerto～</span><br><span class="line">[060803][Re:]</span><br><span class="line">[051230]ふたりたび</span><br><span class="line">[060813]とらいあんぐるっ！ likes You in the Blue sky</span><br><span class="line">[060504]鄙の雨</span><br><span class="line">[071008]守るべき人 第二部 十六夜 -IZAYOI- ～綾音・沙耶～</span><br><span class="line">[040815]Last Lies -Lies1-</span><br><span class="line">[041230]Last Lies -Lies2-</span><br><span class="line">[030817]Last lies prologue 0-1-2</span><br><span class="line">[000813]秋風のラヴ・ソングス</span><br><span class="line">[031230]SARABAPASS SideA</span><br><span class="line">[050814]星の聖杯（已找回）</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;&#92;assets&#92;css&#92;APlayer.min.css&quot;&gt;&lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot; cla</summary>
-      
-    
-    
-    
-    
-    <category term="缺失" scheme="https://yinghu.netlify.app/tags/%E7%BC%BA%E5%A4%B1/"/>
     
   </entry>
   
@@ -111,7 +89,7 @@
     <link href="https://yinghu.netlify.app/posts/b190bc66.html"/>
     <id>https://yinghu.netlify.app/posts/b190bc66.html</id>
     <published>2025-07-08T02:09:14.000Z</published>
-    <updated>2025-07-08T02:11:55.431Z</updated>
+    <updated>2025-07-08T02:12:19.679Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>龍と人間を巡って起こる様々な世界模様が描かれております。</p><hr><a class="btn-beautify " href="https://vwhlopkm.us-east-1.clawcloudrun.com/d/%E7%90%86%E7%90%86%E7%9A%84%E6%9D%82%E8%B4%A7%E9%97%B4/%E9%BE%8D%E8%88%8C%E8%98%AD%20%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BD%9E%E9%9C%88%E9%9C%96%EF%BD%9E.rar"   title="点击下载"><i class="red larger"></i><span>点击下载</span></a>]]></content>
     
@@ -479,6 +457,28 @@
     <category term="女性向" scheme="https://yinghu.netlify.app/tags/%E5%A5%B3%E6%80%A7%E5%90%91/"/>
     
     <category term="Blue Line Games" scheme="https://yinghu.netlify.app/tags/Blue-Line-Games/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【XXXXXX】誰も時を刻まない</title>
+    <link href="https://yinghu.netlify.app/posts/96b281f2.html"/>
+    <id>https://yinghu.netlify.app/posts/96b281f2.html</id>
+    <published>2025-04-26T10:14:20.000Z</published>
+    <updated>2025-05-27T05:28:04.836Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>RPGツクール2000で作られたストーリー重視のRPG。</p><p>久し振りにHPにお邪魔したら、ゲームの配布は終わっていました。</p><p>ストーリーは、廃校となり、取り壊しが決まった学校に<br>忘れ物を取りにいきたいというヒロイン（従姉妹）と<br>一緒に出掛け、そこで事件に巻き込まれていくというもの。<br>時折出てくる少女は？？…という感じです。<br>難易度は低め、だそうですが…そうかなぁ。<br>序盤は私が回復アイテムを売っているのに気付かなかった<br>事が最大の理由だとは思いますが、戦闘には苦労しました。<br>また、そらうさぎさんのHPにある攻略がなければ<br>先に進めなかったであろう場面もいくつかりました。<br>ストーリーには力を入れていると思います。<br>最初は展開とノリについていけないような印象もありましたが<br>中盤～終盤は結構楽しめました。<br>マルチエンディングで、何度も楽しめます。<br>まずまず良作だと思います。<br>でもなぁ。あそこで女の子置き去りにするかなぁ。</p><hr><a class="btn-beautify green larger" href="http://vwhlopkm.us-east-1.clawcloudrun.com/d/2011-2016%E5%86%B7%E9%97%A8%E6%B8%B8%E6%88%8F/%E4%BF%9D%E7%AE%A1%E5%BA%AB/%E8%AA%B0%E3%82%82%E6%99%82%E3%82%92%E5%88%BB%E3%81%BE%E3%81%AA%E3%81%84/%E8%AA%B0%E3%82%82%E6%99%82%E3%82%92%E5%88%BB%E3%81%BE%E3%81%AA%E3%81%84.lzh"   title="点击下载"><i class="far fa-hand-point-right"></i><span>点击下载</span></a>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;&#92;assets&#92;css&#92;APlayer.min.css&quot;&gt;&lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    
+    <category term="RPG2000" scheme="https://yinghu.netlify.app/tags/RPG2000/"/>
     
   </entry>
   
