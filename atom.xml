@@ -39,26 +39,6 @@
   </entry>
   
   <entry>
-    <title>赛博考古工作募集</title>
-    <link href="https://yinghu.netlify.app/posts/f2664b99.html"/>
-    <id>https://yinghu.netlify.app/posts/f2664b99.html</id>
-    <published>2025-07-22T10:17:25.000Z</published>
-    <updated>2025-07-22T10:17:25.296Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;&#92;assets&#92;css&#92;APlayer.min.css&quot;&gt;&lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot; cla</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>音乐笔记</title>
     <link href="https://yinghu.netlify.app/posts/10cc2d44.html"/>
     <id>https://yinghu.netlify.app/posts/10cc2d44.html</id>
@@ -529,6 +509,36 @@
     
     
     <category term="github" scheme="https://yinghu.netlify.app/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【怪物AI设计】敌人不规则移动</title>
+    <link href="https://yinghu.netlify.app/posts/8de056bd.html"/>
+    <id>https://yinghu.netlify.app/posts/8de056bd.html</id>
+    <published>2025-01-11T03:48:55.000Z</published>
+    <updated>2025-07-17T03:10:50.387Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最近有空时在学做怪物AI设计，于是记录一下不规则移动。</p><h2>怪物AI设计常见思路</h2>目前Unity制作怪物AI主要有两种方案，第一类是有限状态机，之前写过文章介绍过;第二类是行为树，Unity的一个插件。综合对比，状态机纯靠代码实现、是免费的，缺点是状态复杂、比较难以理解，状态多起来的时候会变得比较难以维护;行为树是靠图形化界面+代码实现的，缺点是付费插件、略微耗性能。其实我么手写的有限状态机就是行为树逻辑的体现。有限状态机实现AI移动，我之前已经实现过了（可以参考我前面写的文章）；这里我用的行为树，插件可以在论坛aurorayh.asia获取。（仅学习使用）<h2>行为树实现</h2>这里我们自己写一个节点，继承行为树为我们封装好的Action类，EnemyMovementController和EnemyCombatController类是我自己写的，前者提供了SetAnimation方法，用来设置敌人移动速度；后者则是写了个GetAttackCommand方法来接收攻击指令，还有一个SetAttackCommand方法提供给外部、用来分发攻击指令。ExpandClass类是我自己手写的一些方法。我们通过FreeMoveIndex+switch...case语句，使敌人不规则移动，通过actionTimer改变动作时间，防止敌人一直处于一个状态不变。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">using BehaviorDesigner.Runtime;</span><br><span class="line">using BehaviorDesigner.Runtime.Tasks;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Collections;</span><br><span class="line"></span><br><span class="line">public class AIFreeMoveACtion : Action</span><br><span class="line">&#123;</span><br><span class="line">    private EnemyMovementController moveController;</span><br><span class="line">    private EnemyCombatController combatController;</span><br><span class="line">    private int FreeMoveIndex;</span><br><span class="line">    private int lastIndex;</span><br><span class="line">    private float actionTimer = 2f;</span><br><span class="line">    public override void OnAwake()</span><br><span class="line">    &#123;</span><br><span class="line">        moveController = this.GetComponent&lt;EnemyMovementController&gt;();</span><br><span class="line">        combatController = this.GetComponent&lt;EnemyCombatController&gt;();</span><br><span class="line">        FreeMoveIndex = Random.Range(0, 3);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override TaskStatus OnUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        //接收到攻击指令就结束了</span><br><span class="line">        if (combatController.GetAttackCommand())</span><br><span class="line">            return TaskStatus.Success;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            //时间管理器，让10秒后自动设置为攻击</span><br><span class="line">            if(ExpandClass.GetTransformDistance(this.transform,EnemyManager.Instance().GetPlayer())  &gt; 8f)</span><br><span class="line">            &#123;</span><br><span class="line">                moveController.SetAnimation(0f, 1f);</span><br><span class="line">            &#125;</span><br><span class="line">            if(ExpandClass.GetTransformDistance(this.transform, EnemyManager.Instance().GetPlayer()) &lt; 8f &amp;&amp; ExpandClass.GetTransformDistance(this.transform, EnemyManager.Instance().GetPlayer()) &gt; 3f)</span><br><span class="line">            &#123;</span><br><span class="line">                FreeMove();</span><br><span class="line">                UpdateIndex();</span><br><span class="line">            &#125;</span><br><span class="line">            if (ExpandClass.GetTransformDistance(this.transform, EnemyManager.Instance().GetPlayer()) &lt; 3f &amp;&amp; ExpandClass.GetTransformDistance(this.transform, EnemyManager.Instance().GetPlayer()) &gt; 0f)</span><br><span class="line">            &#123;</span><br><span class="line">                moveController.SetAnimation(-1f, -1f);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return TaskStatus.Running;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void FreeMove()</span><br><span class="line">    &#123;</span><br><span class="line">        switch (FreeMoveIndex)</span><br><span class="line">        &#123;</span><br><span class="line">            case 0:</span><br><span class="line">                moveController.SetAnimation(-1f, 0f);</span><br><span class="line">                break;</span><br><span class="line">            case 1:</span><br><span class="line">                moveController.SetAnimation(0f, 0f);</span><br><span class="line">                break;</span><br><span class="line">            case 2:</span><br><span class="line">                moveController.SetAnimation(1f,0f);</span><br><span class="line">                break;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void UpdateIndex()</span><br><span class="line">    &#123;</span><br><span class="line">        actionTimer -= Time.deltaTime;</span><br><span class="line">        if (actionTimer &lt; 0f)</span><br><span class="line">        &#123;</span><br><span class="line">            UpdateTwo();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void UpdateTwo()</span><br><span class="line">    &#123;</span><br><span class="line">        lastIndex = FreeMoveIndex;</span><br><span class="line">        FreeMoveIndex = Random.Range(0, 3);</span><br><span class="line">        if (FreeMoveIndex == lastIndex)</span><br><span class="line">        &#123;</span><br><span class="line">            FreeMoveIndex = Random.Range(0, 3);</span><br><span class="line">        &#125;</span><br><span class="line">        actionTimer = 2f;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>至于界面部分就更简单了，任何学过行为树的人都知道，如果你没有学过行为树的话，可以去b站搜视频看，有一个2019年的视频，虽然很老了但同样很适用。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;&#92;assets&#92;css&#92;APlayer.min.css&quot;&gt;&lt;script src=&quot;&#92;assets&#92;js&#92;APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    <category term="Unity" scheme="https://yinghu.netlify.app/categories/Unity/"/>
+    
+    
+    <category term="Unity" scheme="https://yinghu.netlify.app/tags/Unity/"/>
+    
+    <category term="游戏开发" scheme="https://yinghu.netlify.app/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
+    
+    <category term="怪物AI" scheme="https://yinghu.netlify.app/tags/%E6%80%AA%E7%89%A9AI/"/>
+    
+    <category term="行为树" scheme="https://yinghu.netlify.app/tags/%E8%A1%8C%E4%B8%BA%E6%A0%91/"/>
     
   </entry>
   
