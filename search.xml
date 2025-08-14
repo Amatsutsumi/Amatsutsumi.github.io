@@ -15,23 +15,20 @@
       </tags>
   </entry>
   <entry>
-    <title>资源下架通知</title>
-    <url>/posts/f48e37fa.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>25年7月17日，我打算停止运营网站“春ノ雪”，下架本站所有游戏资源。</p>
+    <title>【二】公共Mono模块</title>
+    <url>/posts/ab8e2857.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在Unity开发中，有时我们不想继承Mono却想使用其中的功能，于是写了这样一个公共Mono模块，使用举例：MonoManager.MainInstance.AddStart(传入一个Action)</p>
 <hr>
-想了很久，我觉得这是最明智、最安全的做法了，主要有三点吧：</br>
 
-<p>第一点，资源站本身存在一定的风险，是一种吃力不讨好的行为。从23年开始，我的很多友站都已经失联。为了保障我自身的安全，我决定停止运营网站。</br></p>
-<p>第二点，如今我的哔哩哔哩账号已经有十多万粉丝了，相应地做网站的风险更大了，我必须要更加的谨言慎行。资源网站本身就处于边缘地带，谁也无法预知继续做下去的风险，我所要面临的风险也比其他站长更大。</br></p>
-<p>第三点，我做的内容太过繁杂，而且本身涨粉后可能更出名了，相应地我必须更加谨言慎行。我做的内容会有什么影响？我加的好多群聊里有挂人、吵架，会不会有一天突然被人挂出来拷打？…为了规避这些风险，关闭网站也省了不少心。</br></p>
-<p>虽然很遗憾，但考虑到这三点，我还是打算下架所有资源。我不希望某天自己因为做galgame网站GG了…我的好几个友站都是鲜活的例子，我亲眼见过。</p>
-<hr>
-所以我打算，现在我声誉还算不错，趁早网站转型，转成我的学习笔记吧。哔哩哔哩的话继续做，我发现哔哩哔哩官方的态度还是很积极的（官方账号给过我三连ahhh），被推送到过热门。但是音乐文件的话，我只会提供源出处供网友自行下载。</br>
-
-<p>在做账号的同时，我也发现自己对音乐很感兴趣，目前也在慢慢学习，刚学完基础乐理，不定期更新自己的学习笔记。在调查日本作者期间，我发现很多人并非科班出身、并非专业音乐人，反而给了我一部分勇气。我幻想某一天，我能写出像Consider老师一样的曲子。</p>
-]]></content>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class MonoManager : SingleMono&lt;MonoManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 使用标准的 System.Action 替代 UnityAction（除非需要序列化）</span><br><span class="line">    private event Action onStart;</span><br><span class="line">    private event Action onUpdate;</span><br><span class="line">    private event Action onLateUpdate;</span><br><span class="line">    private event Action onFixedUpdate;</span><br><span class="line"></span><br><span class="line">    void Start() =&gt; onStart?.Invoke();</span><br><span class="line">    void Update() =&gt; onUpdate?.Invoke();</span><br><span class="line">    void LateUpdate() =&gt; onLateUpdate?.Invoke();</span><br><span class="line">    void FixedUpdate() =&gt; onFixedUpdate?.Invoke();</span><br><span class="line">    //防止内存泄露</span><br><span class="line">    void OnDestroy() =&gt; ClearAll();</span><br><span class="line"></span><br><span class="line">    // 添加监听（线程安全版）</span><br><span class="line">    public void AddStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 移除监听（线程安全版）</span><br><span class="line">    public void RemoveStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空所有监听</span><br><span class="line">    public void ClearAll()</span><br><span class="line">    &#123;</span><br><span class="line">        onStart = null;</span><br><span class="line">        onUpdate = null;</span><br><span class="line">        onLateUpdate = null;</span><br><span class="line">        onFixedUpdate = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
       <tags>
-        <tag>公告</tag>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>公共Mono模块</tag>
       </tags>
   </entry>
   <entry>
@@ -53,20 +50,23 @@
       </tags>
   </entry>
   <entry>
-    <title>二</title>
-    <url>/posts/ab8e2857.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在Unity开发中，有时我们不想继承Mono却想使用其中的功能，于是写了这样一个公共Mono模块，使用举例：MonoManager.MainInstance.AddStart(传入一个Action)</p>
+    <title>资源下架通知</title>
+    <url>/posts/f48e37fa.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>25年7月17日，我打算停止运营网站“春ノ雪”，下架本站所有游戏资源。</p>
 <hr>
+想了很久，我觉得这是最明智、最安全的做法了，主要有三点吧：</br>
 
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class MonoManager : SingleMono&lt;MonoManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 使用标准的 System.Action 替代 UnityAction（除非需要序列化）</span><br><span class="line">    private event Action onStart;</span><br><span class="line">    private event Action onUpdate;</span><br><span class="line">    private event Action onLateUpdate;</span><br><span class="line">    private event Action onFixedUpdate;</span><br><span class="line"></span><br><span class="line">    void Start() =&gt; onStart?.Invoke();</span><br><span class="line">    void Update() =&gt; onUpdate?.Invoke();</span><br><span class="line">    void LateUpdate() =&gt; onLateUpdate?.Invoke();</span><br><span class="line">    void FixedUpdate() =&gt; onFixedUpdate?.Invoke();</span><br><span class="line">    //防止内存泄露</span><br><span class="line">    void OnDestroy() =&gt; ClearAll();</span><br><span class="line"></span><br><span class="line">    // 添加监听（线程安全版）</span><br><span class="line">    public void AddStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 移除监听（线程安全版）</span><br><span class="line">    public void RemoveStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空所有监听</span><br><span class="line">    public void ClearAll()</span><br><span class="line">    &#123;</span><br><span class="line">        onStart = null;</span><br><span class="line">        onUpdate = null;</span><br><span class="line">        onLateUpdate = null;</span><br><span class="line">        onFixedUpdate = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Unity框架</category>
-      </categories>
+<p>第一点，资源站本身存在一定的风险，是一种吃力不讨好的行为。从23年开始，我的很多友站都已经失联。为了保障我自身的安全，我决定停止运营网站。</br></p>
+<p>第二点，如今我的哔哩哔哩账号已经有十多万粉丝了，相应地做网站的风险更大了，我必须要更加的谨言慎行。资源网站本身就处于边缘地带，谁也无法预知继续做下去的风险，我所要面临的风险也比其他站长更大。</br></p>
+<p>第三点，我做的内容太过繁杂，而且本身涨粉后可能更出名了，相应地我必须更加谨言慎行。我做的内容会有什么影响？我加的好多群聊里有挂人、吵架，会不会有一天突然被人挂出来拷打？…为了规避这些风险，关闭网站也省了不少心。</br></p>
+<p>虽然很遗憾，但考虑到这三点，我还是打算下架所有资源。我不希望某天自己因为做galgame网站GG了…我的好几个友站都是鲜活的例子，我亲眼见过。</p>
+<hr>
+所以我打算，现在我声誉还算不错，趁早网站转型，转成我的学习笔记吧。哔哩哔哩的话继续做，我发现哔哩哔哩官方的态度还是很积极的（官方账号给过我三连ahhh），被推送到过热门。但是音乐文件的话，我只会提供源出处供网友自行下载。</br>
+
+<p>在做账号的同时，我也发现自己对音乐很感兴趣，目前也在慢慢学习，刚学完基础乐理，不定期更新自己的学习笔记。在调查日本作者期间，我发现很多人并非科班出身、并非专业音乐人，反而给了我一部分勇气。我幻想某一天，我能写出像Consider老师一样的曲子。</p>
+]]></content>
       <tags>
-        <tag>Untiy</tag>
-        <tag>游戏开发</tag>
-        <tag>ARPG</tag>
-        <tag>公共Mono模块</tag>
+        <tag>公告</tag>
       </tags>
   </entry>
 </search>
