@@ -15,6 +15,24 @@
       </tags>
   </entry>
   <entry>
+    <title>【一】单例模式基类</title>
+    <url>/posts/8205b61c.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>首先最基础的便是单例模式基类，在Unity开发中，有些东西我们只想让它有一个，比如单独的关卡管理器、单独的公共Mono模块，而单例模式就是为了实现这一需求。</br><br>下面的单例模式，是我结合各家所长（如唐老狮、鬼鬼鬼ii、joker老师）写的一个较为简易的版本，虽然简易，但足够够用，它考虑到多线程、继承MonoBehaviour等方面，可以直接复制粘贴使用。</p>
+<h3 id="不继承MonoBehaviour的单例模式基类"><a href="#不继承MonoBehaviour的单例模式基类" class="headerlink" title="不继承MonoBehaviour的单例模式基类"></a>不继承MonoBehaviour的单例模式基类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class SingleTonBase&lt;T&gt; where T : class, new()</span><br><span class="line">&#123;</span><br><span class="line">    private static T instance;</span><br><span class="line">    protected static readonly object _lock = new object();</span><br><span class="line">    public static T GetInstance()</span><br><span class="line">    &#123;</span><br><span class="line">        if (instance == null)</span><br><span class="line">        &#123;</span><br><span class="line">            lock (_lock)</span><br><span class="line">            &#123;</span><br><span class="line">                if (instance == null)</span><br><span class="line">                &#123;</span><br><span class="line">                    instance = new T();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;    </span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+
+<h3 id="继承MonoBehaviour的单例模式基类"><a href="#继承MonoBehaviour的单例模式基类" class="headerlink" title="继承MonoBehaviour的单例模式基类"></a>继承MonoBehaviour的单例模式基类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class SingleMono&lt;T&gt; : MonoBehaviour where T : SingleMono&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    private static T _instance;</span><br><span class="line">    private static object _lock = new object();</span><br><span class="line"></span><br><span class="line">    public static T MainInstance</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            if (_instance == null)</span><br><span class="line">            &#123;</span><br><span class="line">                lock (_lock)</span><br><span class="line">                &#123;</span><br><span class="line">                    _instance = FindFirstObjectByType&lt;T&gt;() as T; //先去场景中找有没有这个类</span><br><span class="line"></span><br><span class="line">                    if (_instance == null)//如果没有，那么我们自己创建一个Gameobject然后给他加一个T这个类型的脚本，并赋值给instance;</span><br><span class="line">                    &#123;</span><br><span class="line">                        GameObject go = new GameObject(typeof(T).Name);</span><br><span class="line">                        _instance = go.AddComponent&lt;T&gt;();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return _instance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    protected virtual void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        if (_instance == null)</span><br><span class="line">        &#123;</span><br><span class="line">            _instance = (T)this;</span><br><span class="line">            DontDestroyOnLoad(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Destroy(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private void OnApplicationQuit()//程序退出时，将instance清空</span><br><span class="line">    &#123;</span><br><span class="line">        _instance = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>单例模式</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【七】武器层逻辑与伤害判定</title>
     <url>/posts/ee272537.html</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>接下来要处理武器层逻辑，即要开始进行战斗系统开发。关于状态转换，前面我们写好的状态机框架已经足够，接下来最基础的便是伤害判定。</br></p>
@@ -38,24 +56,6 @@
         <tag>游戏开发</tag>
         <tag>ARPG</tag>
         <tag>武器层</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【一】单例模式基类</title>
-    <url>/posts/8205b61c.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>首先最基础的便是单例模式基类，在Unity开发中，有些东西我们只想让它有一个，比如单独的关卡管理器、单独的公共Mono模块，而单例模式就是为了实现这一需求。</br><br>下面的单例模式，是我结合各家所长（如唐老狮、鬼鬼鬼ii、joker老师）写的一个较为简易的版本，虽然简易，但足够够用，它考虑到多线程、继承MonoBehaviour等方面，可以直接复制粘贴使用。</p>
-<h3 id="不继承MonoBehaviour的单例模式基类"><a href="#不继承MonoBehaviour的单例模式基类" class="headerlink" title="不继承MonoBehaviour的单例模式基类"></a>不继承MonoBehaviour的单例模式基类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class SingleTonBase&lt;T&gt; where T : class, new()</span><br><span class="line">&#123;</span><br><span class="line">    private static T instance;</span><br><span class="line">    protected static readonly object _lock = new object();</span><br><span class="line">    public static T GetInstance()</span><br><span class="line">    &#123;</span><br><span class="line">        if (instance == null)</span><br><span class="line">        &#123;</span><br><span class="line">            lock (_lock)</span><br><span class="line">            &#123;</span><br><span class="line">                if (instance == null)</span><br><span class="line">                &#123;</span><br><span class="line">                    instance = new T();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;    </span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-
-<h3 id="继承MonoBehaviour的单例模式基类"><a href="#继承MonoBehaviour的单例模式基类" class="headerlink" title="继承MonoBehaviour的单例模式基类"></a>继承MonoBehaviour的单例模式基类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class SingleMono&lt;T&gt; : MonoBehaviour where T : SingleMono&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    private static T _instance;</span><br><span class="line">    private static object _lock = new object();</span><br><span class="line"></span><br><span class="line">    public static T MainInstance</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            if (_instance == null)</span><br><span class="line">            &#123;</span><br><span class="line">                lock (_lock)</span><br><span class="line">                &#123;</span><br><span class="line">                    _instance = FindFirstObjectByType&lt;T&gt;() as T; //先去场景中找有没有这个类</span><br><span class="line"></span><br><span class="line">                    if (_instance == null)//如果没有，那么我们自己创建一个Gameobject然后给他加一个T这个类型的脚本，并赋值给instance;</span><br><span class="line">                    &#123;</span><br><span class="line">                        GameObject go = new GameObject(typeof(T).Name);</span><br><span class="line">                        _instance = go.AddComponent&lt;T&gt;();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return _instance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    protected virtual void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        if (_instance == null)</span><br><span class="line">        &#123;</span><br><span class="line">            _instance = (T)this;</span><br><span class="line">            DontDestroyOnLoad(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Destroy(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private void OnApplicationQuit()//程序退出时，将instance清空</span><br><span class="line">    &#123;</span><br><span class="line">        _instance = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Unity框架</category>
-      </categories>
-      <tags>
-        <tag>Untiy</tag>
-        <tag>游戏开发</tag>
-        <tag>ARPG</tag>
-        <tag>单例模式</tag>
       </tags>
   </entry>
   <entry>
@@ -96,23 +96,6 @@
         <tag>游戏开发</tag>
         <tag>ARPG</tag>
         <tag>有限状态机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【二】公共Mono模块</title>
-    <url>/posts/ab8e2857.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在Unity开发中，有时我们不想继承Mono却想使用其中的功能，于是写了这样一个公共Mono模块，使用举例：MonoManager.MainInstance.AddStart(传入一个Action)</p>
-<hr>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class MonoManager : SingleMono&lt;MonoManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 使用标准的 System.Action 替代 UnityAction（除非需要序列化）</span><br><span class="line">    private event Action onStart;</span><br><span class="line">    private event Action onUpdate;</span><br><span class="line">    private event Action onLateUpdate;</span><br><span class="line">    private event Action onFixedUpdate;</span><br><span class="line"></span><br><span class="line">    void Start() =&gt; onStart?.Invoke();</span><br><span class="line">    void Update() =&gt; onUpdate?.Invoke();</span><br><span class="line">    void LateUpdate() =&gt; onLateUpdate?.Invoke();</span><br><span class="line">    void FixedUpdate() =&gt; onFixedUpdate?.Invoke();</span><br><span class="line">    //防止内存泄露</span><br><span class="line">    void OnDestroy() =&gt; ClearAll();</span><br><span class="line"></span><br><span class="line">    // 添加监听（线程安全版）</span><br><span class="line">    public void AddStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 移除监听（线程安全版）</span><br><span class="line">    public void RemoveStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空所有监听</span><br><span class="line">    public void ClearAll()</span><br><span class="line">    &#123;</span><br><span class="line">        onStart = null;</span><br><span class="line">        onUpdate = null;</span><br><span class="line">        onLateUpdate = null;</span><br><span class="line">        onFixedUpdate = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Unity框架</category>
-      </categories>
-      <tags>
-        <tag>Untiy</tag>
-        <tag>游戏开发</tag>
-        <tag>ARPG</tag>
-        <tag>公共Mono模块</tag>
       </tags>
   </entry>
   <entry>
@@ -165,6 +148,23 @@
       </tags>
   </entry>
   <entry>
+    <title>【二】公共Mono模块</title>
+    <url>/posts/ab8e2857.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在Unity开发中，有时我们不想继承Mono却想使用其中的功能，于是写了这样一个公共Mono模块，使用举例：MonoManager.MainInstance.AddStart(传入一个Action)</p>
+<hr>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class MonoManager : SingleMono&lt;MonoManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 使用标准的 System.Action 替代 UnityAction（除非需要序列化）</span><br><span class="line">    private event Action onStart;</span><br><span class="line">    private event Action onUpdate;</span><br><span class="line">    private event Action onLateUpdate;</span><br><span class="line">    private event Action onFixedUpdate;</span><br><span class="line"></span><br><span class="line">    void Start() =&gt; onStart?.Invoke();</span><br><span class="line">    void Update() =&gt; onUpdate?.Invoke();</span><br><span class="line">    void LateUpdate() =&gt; onLateUpdate?.Invoke();</span><br><span class="line">    void FixedUpdate() =&gt; onFixedUpdate?.Invoke();</span><br><span class="line">    //防止内存泄露</span><br><span class="line">    void OnDestroy() =&gt; ClearAll();</span><br><span class="line"></span><br><span class="line">    // 添加监听（线程安全版）</span><br><span class="line">    public void AddStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 移除监听（线程安全版）</span><br><span class="line">    public void RemoveStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空所有监听</span><br><span class="line">    public void ClearAll()</span><br><span class="line">    &#123;</span><br><span class="line">        onStart = null;</span><br><span class="line">        onUpdate = null;</span><br><span class="line">        onLateUpdate = null;</span><br><span class="line">        onFixedUpdate = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>公共Mono模块</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【四】计时器</title>
     <url>/posts/57fbe87e.html</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在试图做ACT游戏demo时，想要给角色加上技能冷却CD，在CD时间内角色不能释放技能，CD后才可以。于是有了需求，写了计时器。</p>
@@ -185,6 +185,26 @@
         <tag>游戏开发</tag>
         <tag>ARPG</tag>
         <tag>计时器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>资源下架通知</title>
+    <url>/posts/f48e37fa.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>25年7月17日，我打算停止运营网站“春ノ雪”，下架本站所有游戏资源。</p>
+<hr>
+想了很久，我觉得这是最明智、最安全的做法了，主要有三点吧：</br>
+
+<p>第一点，资源站本身存在一定的风险，是一种吃力不讨好的行为。从23年开始，我的很多友站都已经失联。为了保障我自身的安全，我决定停止运营网站。</br></p>
+<p>第二点，如今我的哔哩哔哩账号已经有十多万粉丝了，相应地做网站的风险更大了，我必须要更加的谨言慎行。资源网站本身就处于边缘地带，谁也无法预知继续做下去的风险，我所要面临的风险也比其他站长更大。</br></p>
+<p>第三点，我做的内容太过繁杂，而且本身涨粉后可能更出名了，相应地我必须更加谨言慎行。我做的内容会有什么影响？我加的好多群聊里有挂人、吵架，会不会有一天突然被人挂出来拷打？…为了规避这些风险，关闭网站也省了不少心。</br></p>
+<p>虽然很遗憾，但考虑到这三点，我还是打算下架所有资源。我不希望某天自己因为做galgame网站GG了…我的好几个友站都是鲜活的例子，我亲眼见过。</p>
+<hr>
+所以我打算，现在我声誉还算不错，趁早网站转型，转成我的学习笔记吧。哔哩哔哩的话继续做，我发现哔哩哔哩官方的态度还是很积极的（官方账号给过我三连ahhh），被推送到过热门。但是音乐文件的话，我只会提供源出处供网友自行下载。</br>
+
+<p>在做账号的同时，我也发现自己对音乐很感兴趣，目前也在慢慢学习，刚学完基础乐理，不定期更新自己的学习笔记。在调查日本作者期间，我发现很多人并非科班出身、并非专业音乐人，反而给了我一部分勇气。我幻想某一天，我能写出像Consider老师一样的曲子。</p>
+]]></content>
+      <tags>
+        <tag>公告</tag>
       </tags>
   </entry>
   <entry>
@@ -210,23 +230,83 @@
       </tags>
   </entry>
   <entry>
-    <title>资源下架通知</title>
-    <url>/posts/f48e37fa.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>25年7月17日，我打算停止运营网站“春ノ雪”，下架本站所有游戏资源。</p>
-<hr>
-想了很久，我觉得这是最明智、最安全的做法了，主要有三点吧：</br>
-
-<p>第一点，资源站本身存在一定的风险，是一种吃力不讨好的行为。从23年开始，我的很多友站都已经失联。为了保障我自身的安全，我决定停止运营网站。</br></p>
-<p>第二点，如今我的哔哩哔哩账号已经有十多万粉丝了，相应地做网站的风险更大了，我必须要更加的谨言慎行。资源网站本身就处于边缘地带，谁也无法预知继续做下去的风险，我所要面临的风险也比其他站长更大。</br></p>
-<p>第三点，我做的内容太过繁杂，而且本身涨粉后可能更出名了，相应地我必须更加谨言慎行。我做的内容会有什么影响？我加的好多群聊里有挂人、吵架，会不会有一天突然被人挂出来拷打？…为了规避这些风险，关闭网站也省了不少心。</br></p>
-<p>虽然很遗憾，但考虑到这三点，我还是打算下架所有资源。我不希望某天自己因为做galgame网站GG了…我的好几个友站都是鲜活的例子，我亲眼见过。</p>
-<hr>
-所以我打算，现在我声誉还算不错，趁早网站转型，转成我的学习笔记吧。哔哩哔哩的话继续做，我发现哔哩哔哩官方的态度还是很积极的（官方账号给过我三连ahhh），被推送到过热门。但是音乐文件的话，我只会提供源出处供网友自行下载。</br>
-
-<p>在做账号的同时，我也发现自己对音乐很感兴趣，目前也在慢慢学习，刚学完基础乐理，不定期更新自己的学习笔记。在调查日本作者期间，我发现很多人并非科班出身、并非专业音乐人，反而给了我一部分勇气。我幻想某一天，我能写出像Consider老师一样的曲子。</p>
+    <title>音乐笔记</title>
+    <url>/posts/10cc2d44.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="大调与小调"><a href="#大调与小调" class="headerlink" title="大调与小调"></a>大调与小调</h2><p>自然大调：全全半全全全半</br><br>自然小调：全半全全半全全</br></p>
+<h2 id="音程（有截图）"><a href="#音程（有截图）" class="headerlink" title="音程（有截图）"></a>音程（有截图）</h2><p>1458无大小，2367不单纯。多少度就是多少键。</p>
+<h3 id="快速识别音程"><a href="#快速识别音程" class="headerlink" title="快速识别音程"></a>快速识别音程</h3><p><b>不涉及升降号下：</b><br>有EF、BC是小二度，其余大二度。</br><br>三度：包含EF或BC是小三度，否则大三度。</br><br>四度：包含EF或BC其中之一是纯四度，都不包含是增四度（只有F到B）。</br><br>五度：包含EF或BC其中之一是纯五度，都包含是减五度（只有B到F）。</br><br>六度和七度 ：包含EF或BC其中之一是大，都包含是小。</br><br>涉及升降号下很简单，看升降。</p>
+<h2 id="三和弦"><a href="#三和弦" class="headerlink" title="三和弦"></a>三和弦</h2><p>大三度：所有键中间隔三个键。小三度：所有键中间隔两个键。</br><br>大二度：所有键中间隔一个键。小二度：相邻的两个键。</br><br>大三和弦：大三度+小三度 C 一般欢快明亮</br><br>小三和弦：小三度+大三度 Cm 一般暗淡悲伤</br><br>减三和弦：小三度+小三度 Cdim 扩张的紧张压抑</br><br>增三和弦：大三度+大三度 Caug 收缩的紧张压抑</br></p>
+<h3 id="三和弦的转位"><a href="#三和弦的转位" class="headerlink" title="三和弦的转位"></a>三和弦的转位</h3><p>原位：CEG</br><br>三和弦的第一转位(六和弦)：EGC三五根</br><br>三和弦的第二转位(四六和弦)：GCE五根三</p>
+<h2 id="七和弦"><a href="#七和弦" class="headerlink" title="七和弦"></a>七和弦</h2><p>属音：调式第五个音</br><br>大七和弦：大三和弦+大七度 Cmaj7</br><br>大小七和弦（属七和弦其中一个含义）：大三和弦+小七度 C7（C调G为属音，G构成的大小七和弦为属七和弦）</br><br>小七和弦：小三和弦+小七度 Cmin7</br><br>小大七和弦：小三和弦+大七度 CmM7</br><br>减小七和弦（半减七和弦，小七降五和弦）：减三和弦+小七度 Cm7-5</br><br>减七和弦：减三和弦+减七度 Cdim7</br><br>​​增大七和弦（半增七和弦，大七升五和弦）​​​​​​：增三和弦 + ​​大七度​​​​</p>
+<h3 id="七和弦的转位"><a href="#七和弦的转位" class="headerlink" title="七和弦的转位"></a>七和弦的转位</h3><p>原位：CEGB</br><br>七和弦的第一转位：EGBC 五六和弦</br><br>七和弦的第二转位：GBCE 三四和弦</br><br>七和弦的第三转位：BCEG 二和弦</br></p>
+<h3 id="转位和弦标记方法"><a href="#转位和弦标记方法" class="headerlink" title="转位和弦标记方法"></a>转位和弦标记方法</h3><p>C&#x2F;E：表示CEG的第一转位，即EGC，大六和弦</br><br>Dm&#x2F;A：D小三和弦，转位低音是A</br><br>Bm7-5&#x2F;A：B减小七和弦，低音是A</br><br>和弦转位的意义：声部进行流畅，构建低音线条</p>
+<h2 id="九和弦"><a href="#九和弦" class="headerlink" title="九和弦"></a>九和弦</h2><p>大九和弦：大七和弦+小三度 Cmai9</br><br>小九和弦：小七和弦+大三度 Cm9</br><br>属九和弦：属七和弦+大三度 C9</br><br>属七降九和弦：属九和弦九音降半音 C7b9</br><br>ADD9和弦：三和弦+九音 Cadd9</br></p>
+<h2 id="挂二和弦"><a href="#挂二和弦" class="headerlink" title="挂二和弦"></a>挂二和弦</h2><p>原本的三度音变成二度，CEG——CDG，Csus2</br><br>原本的三度音变成四度，CEG——CFG，Csus4</br><br>一般用于调式的1和5级和弦</br></p>
+<h2 id="大调"><a href="#大调" class="headerlink" title="大调"></a>大调</h2><p>在音乐理论中，大调音阶由七个音符组成，每个大调音阶都有其特定的音符排列。以下是一些常见大调音阶的音符排列：</br><br>C大调（无升号或降号）：C D E F G A B C</br><br>G大调（一个升号，F#）：G A B C D E F# G</br><br>D大调（两个升号，F# 和 C#）：D E F# G A B C# D</br><br>A大调（三个升号，F#、C# 和 G#）：A B C# D E F# G# A</br><br>E大调（四个升号，F#、C#、G# 和 D#）：E F# G# A B C# D# E</br><br>B大调（五个升号，F#、C#、G#、D# 和 A#）：B C# D# E F# G# A# B</br><br>F#大调（六个升号，F#、C#、G#、D#、A# 和 E#）：F# G# A# B C# D# E# F#</br><br>C#大调（七个升号，F#、C#、G#、D#、A#、E# 和 B#）：C# D# E# F# G# A# B# C#</br><br>F大调（一个降号，B♭）：F G A B♭ C D E F</br><br>B♭大调（两个降号，B♭ 和 E♭）：B♭ C D E♭ F G A B♭</br><br>E♭大调（三个降号，B♭、E♭ 和 A♭）：E♭ F G A♭ B♭ C D E♭</br><br>A♭大调（四个降号，B♭、E♭、A♭ 和 D♭）：A♭ B♭ C D♭ E♭ F G A♭</br><br>D♭大调（五个降号，B♭、E♭、A♭、D♭ 和 G♭）：D♭ E♭ F G♭ A♭ B♭ C D♭</br><br>G♭大调（六个降号，B♭、E♭、A♭、D♭、G♭ 和 C♭）：G♭ A♭ B♭ C♭ D♭ E♭ F G♭</br><br>每个大调音阶的音符排列遵循特定的规律，即全音-全音-半音-全音-全音-全音-半音的间隔。例如，C大调的音符排列是C（主音）到D（全音），D到E（全音），E到F（半音），F到G（全音），G到A（全音），A到B（全音），B到C（半音）。其他大调音阶也是按照这个规律，只是在五线谱上的位置不同。</p>
+<h2 id="小调"><a href="#小调" class="headerlink" title="小调"></a>小调</h2><p>小调音阶也由七个音符组成，但与大调音阶相比，小调音阶的音符排列和情感色彩有所不同。小调通常给人一种较为忧郁或哀伤的感觉。以下是一些常见小调音阶的音符排列，包括自然小调、和声小调以及旋律小调：</br><br>自然小调音阶</br><br>自然小调音阶遵循全音-半音-全音-全音-半音-全音-全音的间隔。</br><br>A小调（无升号或降号）：A B C D E F G A</br><br>E小调（一个升号，F#）：E F# G A B C D E</br><br>B小调（两个升号，F# 和 C#）：B C# D E F# G A B</br><br>F#小调（三个升号，F#、C# 和 G#）：F# G# A B C# D E F#</br><br>C#小调（四个升号，F#、C#、G# 和 D#）：C# D# E F# G# A B C#</br><br>G#小调（五个升号，F#、C#、G#、D# 和 A#）：G# A# B C# D# E F# G#</br><br>D#小调（六个升号，F#、C#、G#、D#、A# 和 E#）：D# E# F# G# A# B C# D#</br><br>F小调（一个降号，B♭）：F G A♭ B♭ C D E♭ F</br><br>B♭小调（两个降号，B♭ 和 E♭）：B♭ C D E♭ F G A♭ B♭</br><br>E♭小调（三个降号，B♭、E♭ 和 A♭）：E♭ F G A♭ B♭ C D E♭</br><br>A♭小调（四个降号，B♭、E♭、A♭ 和 D♭）：A♭ B♭ C D♭ E♭ F G A♭</br><br>D♭小调（五个降号，B♭、E♭、A♭、D♭ 和 G♭）：D♭ E♭ F G A♭ B♭ C D♭</br><br>G♭小调（六个降号，B♭、E♭、A♭、D♭、G♭ 和 C♭）：G♭ A♭ B♭ C♭ D♭ E♭ F G♭</br><br>C小调（七个降号，B♭、E♭、A♭、D♭、G♭、C♭ 和 F♭）：C D E♭ F G A♭ B♭ C</p>
+<h2 id="4152637"><a href="#4152637" class="headerlink" title="4152637"></a>4152637</h2><p>这个就是用升的那么几个音来判断调号的，好用！</br><br>一个升号，升4，是G调；（4对应F，F下一个是G）</br><br>两个升号，升41，是D调；（1对应C，C下一个是D）</br><br>三个升号，升415，是A调；（5对应G，G下一个是A）</br><br>四个升号，升4152，是E调；</br><br>五个升号，升41526，是B调；</br><br>六个升号，升415263，是升F调；</br><br>七个升号，升4152637，是升C调。</br></p>
+<h2 id="和弦先行模板化作曲法"><a href="#和弦先行模板化作曲法" class="headerlink" title="和弦先行模板化作曲法"></a>和弦先行模板化作曲法</h2><p>自然音阶（只有白键）的六个和弦：C、Dm、Em、F、G、Am</br><br>根据模版+和弦作曲，一些长音符，用上和弦中任选两个的构成音符。短音符（装饰音）随便填</br></p>
+<h2 id="三种和弦节奏型"><a href="#三种和弦节奏型" class="headerlink" title="三种和弦节奏型"></a>三种和弦节奏型</h2><p>关键点：强弱、高低、长短</br><br>柱式，分解，半柱式</p>
+<h2 id="协和音程"><a href="#协和音程" class="headerlink" title="协和音程"></a>协和音程</h2><p>极完全协和音程：纯一度、纯八度</br><br>完全协和音程：纯四度、纯五度</br><br>不完全协和音程：大三度小三度，大六度小六度</br><br>不协和音程：大小二度、大小七度、所有增减、倍增倍减音程</br></p>
+<h2 id="调式"><a href="#调式" class="headerlink" title="调式"></a>调式</h2><p>和声大调：VI降半音</br><br>旋律大调：下行时VI、VII同时降半音</br><br>和声小调：VII升半音</br><br>旋律小调：上行时VI、VII同时升半音</br><br>关系大小调：使用相同音名、或者相同调式。C大调与A小调</br></p>
+<h2 id="七大中古调式-以-C-大调音阶为基础-：​​"><a href="#七大中古调式-以-C-大调音阶为基础-：​​" class="headerlink" title="七大中古调式 (以 C 大调音阶为基础)：​​"></a>七大中古调式 (以 C 大调音阶为基础)：​​</h2><p>​​C 伊奥尼亚调式：​​</br><br>​​起始音：​​ C</br><br>​​音阶：​​ C - D - E - F - G - A - B - C</br><br>​​音程结构：​​ 全音 - 全音 - 半音 - 全音 - 全音 - 全音 - 半音</br><br>​​特点：​​ 这就是​​自然大调​​本身。音响明亮、稳定、常见。中心感明确（结束在 C 上）。</br><br>​​与大调关系：​​ 等同于 C 自然大调。</br><br>​​D 多利亚调式：​​</br><br>​​起始音：​​ D</br><br>​​音阶：​​ D - E - F - G - A - B - C - D</br><br>​​音程结构：​​ 全音 - 半音 - 全音 - 全音 - 全音 - 半音 - 全音</br><br>​​特点：​​ ​​小调性质​​，但其第六级音（B）是​​自然大六度​​（相对于自然小调升高的六级）。带来一种忧伤但略带明亮、带有希望或民歌风味的色彩。常用于爵士、布鲁斯、摇滚。听感中心在 D 上。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​D​​ 开始弹奏。可理解为 D 自然小调升高第六级（♯B，相对于 D 小调的 B♭）。</br><br>​​E 弗里几亚调式：​​</br><br>​​起始音：​​ E</br><br>​​音阶：​​ E - F - G - A - B - C - D - E</br><br>​​音程结构：​​ 半音 - 全音 - 全音 - 全音 - 半音 - 全音 - 全音</br><br>​​特点：​​ ​​小调性质​​，其第二级音（F）与主音（E）形成​​小二度​​关系。产生强烈的异域、神秘、忧郁、西班牙弗拉门戈风味，有时带有紧张感（因为小二度在上方）。中心音是 E。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​E​​ 开始弹奏。可理解为 E 自然小调降低第二级（♭F，相对于 E 小调的 F♯）。</br><br>​​F 利底亚调式：​​</br><br>​​起始音：​​ F</br><br>​​音阶：​​ F - G - A - B - C - D - E - F</br><br>​​音程结构：​​ 全音 - 全音 - 全音 - 半音 - 全音 - 全音 - 半音</br><br>​​特点：​​ ​​大调性质​​，但其第四级音（B）与主音（F）形成​​增四度​​（三全音）。这带来一种梦幻、空灵、悬浮感、甚至有些科幻色彩（”Simpsons”主题曲）。明亮中带点不稳定。听感中心在 F 上。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​F​​ 开始弹奏。可理解为 F 自然大调升高第四级（♯B，相对于 F 大调的 B♭）。</br><br>​​G 混合利底亚调式：​​</br><br>​​起始音：​​ G</br><br>​​音阶：​​ G - A - B - C - D - E - F - G</br><br>​​音程结构：​​ 全音 - 全音 - 半音 - 全音 - 全音 - 半音 - 全音</br><br>​​特点：​​ ​​大调性质​​，但其第七级音（F）与主音（G）形成​​小七度​​关系（相对于大调降低的七级）。音响感觉像“未解决”的大调，带有蓝调、乡村、摇滚的味道，有点野性或接地气的色彩。听感中心在 G 上。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​G​​ 开始弹奏。可理解为 G 自然大调降低第七级（♭F，相对于 G 大调的 F♯）。</br><br>​​A 爱奥利亚调式：​​</br><br>​​起始音：​​ A</br><br>​​音阶：​​ A - B - C - D - E - F - G - A</br><br>​​音程结构：​​ 全音 - 半音 - 全音 - 全音 - 半音 - 全音 - 全音</br><br>​​特点：​​ 这就是​​自然小调​​本身。音响感伤、忧郁、黑暗、浪漫、抒情的典型小调色彩。听感中心在 A 上。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​A​​ 开始弹奏（也等同于 A 自然小调）。是 C 大调的​​关系小调​​。</br><br>​​B 洛克里亚调式：​​</br><br>​​起始音：​​ B</br><br>​​音阶：​​ B - C - D - E - F - G - A - B</br><br>​​音程结构：​​ 半音 - 全音 - 全音 - 半音 - 全音 - 全音 - 全音</br><br>​​特点：​​ ​​小调性质​​，但其第二级音（C）与主音（B）形成​​小二度​​，同时其第五级音（F）与主音（B）形成​​减五度​​（三全音）。这是所有调式中最不稳定、最不和谐的。听起来黑暗、悬疑、不协和，非常不稳定，中心音感（B）很弱，倾向于“解决”到其他音。非常不常用。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​B​​ 开始弹奏。可理解为 B 自然小调降低第二级（♭C，相对于 B 小调的 C♯）和第五级（♭F，相对于 B 小调的 F♯）。</br></p>
+<h2 id="TSD"><a href="#TSD" class="headerlink" title="TSD"></a>TSD</h2><p>T：135构成，S：461构成，D：572构成。属和弦（D）在自然大调或和声小调中必须是大三和弦​</br><br>C大调&#x2F;a小调：无</br><br>D大调&#x2F;b小调：F# C#</br><br>E大调&#x2F;#c小调：F# C# G# D#</br><br>F大调&#x2F;d小调：B♭</br><br>G大调&#x2F;e小调：F#</br><br>A大调&#x2F;#f小调：F# C# G#</br><br>B大调&#x2F;g小调；F# C# G# D# A#</br><br>c小调：B♭、E♭、A♭</br><br>f小调：B♭、E♭、A♭、D♭</br></p>
+<table>
+<thead>
+<tr>
+<th><strong>降号数量</strong></th>
+<th><strong>具体降号</strong></th>
+<th><strong>大调</strong></th>
+<th><strong>关系小调</strong></th>
+<th><strong>记忆技巧</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1降</strong></td>
+<td>B♭</td>
+<td><strong>F大调</strong></td>
+<td>d小调</td>
+<td>“<strong>F</strong>riends <strong>B</strong>uy Beer”</td>
+</tr>
+<tr>
+<td><strong>2降</strong></td>
+<td>B♭、E♭</td>
+<td><strong>B♭大调</strong></td>
+<td>g小调</td>
+<td>“<strong>B</strong>e <strong>E</strong>asy”</td>
+</tr>
+<tr>
+<td><strong>3降</strong></td>
+<td>B♭、E♭、A♭</td>
+<td><strong>E♭大调</strong></td>
+<td>c小调</td>
+<td>“<strong>E</strong>at <strong>A</strong>ll <strong>B</strong>read”</td>
+</tr>
+<tr>
+<td><strong>4降</strong></td>
+<td>B♭、E♭、A♭、D♭</td>
+<td><strong>A♭大调</strong></td>
+<td>f小调</td>
+<td><strong>倒数第二个降号 &#x3D; A♭</strong></td>
+</tr>
+<tr>
+<td><strong>5降</strong></td>
+<td>B♭、E♭、A♭、D♭、G♭</td>
+<td><strong>D♭大调</strong></td>
+<td>b♭小调</td>
+<td>倒数第二个降号 &#x3D; D♭</td>
+</tr>
+<tr>
+<td><strong>6降</strong></td>
+<td>B♭、E♭、A♭、D♭、G♭、C♭</td>
+<td><strong>G♭大调</strong></td>
+<td>e♭小调</td>
+<td>倒数第二个降号 &#x3D; G♭</td>
+</tr>
+</tbody></table>
 ]]></content>
       <tags>
-        <tag>公告</tag>
+        <tag>音乐</tag>
       </tags>
   </entry>
 </search>
