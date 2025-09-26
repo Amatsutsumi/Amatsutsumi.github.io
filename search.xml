@@ -20,6 +20,20 @@ NowPaper老师整体的思路是，先声明InputType来存储输入类型，Inp
       </tags>
   </entry>
   <entry>
+    <title>Unity轮子合集</title>
+    <url>/posts/d8721301.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最近我又开始捣鼓我的Unity了，在一年多的学习后，我写了一些简单的框架，却始终没做出来游戏O_o</br><br>原因在我的学习态度，去年学Unity时，我主打学习和练习，总想着要全凭自己、独立去开发一个游戏（吐槽自己，怎么不把汇编、造计算机也学一遍），重复的轮子一直在造。现在看来，无论通过什么方式、能开发出来游戏就是好游戏。</br><br>我主要学习的是开发ARPG游戏，在此期间我写了很多框架，虽然并不是太完美就是了…为了方便Unity使用者能迅速上手、不用花费太多时间去造轮子，于是我想要把我写的代码开源在网上，公共Mono模块、单例模式，还有其它乱七八糟的，想要使用时直接复制粘贴。</br><br>话已至此，开干吧。</p>
+]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【七】武器层逻辑与伤害判定</title>
     <url>/posts/ee272537.html</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>接下来要处理武器层逻辑，即要开始进行战斗系统开发。关于状态转换，前面我们写好的状态机框架已经足够，接下来最基础的便是伤害判定。</br></p>
@@ -64,20 +78,6 @@ NowPaper老师整体的思路是，先声明InputType来存储输入类型，Inp
       </tags>
   </entry>
   <entry>
-    <title>Unity轮子合集</title>
-    <url>/posts/d8721301.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最近我又开始捣鼓我的Unity了，在一年多的学习后，我写了一些简单的框架，却始终没做出来游戏O_o</br><br>原因在我的学习态度，去年学Unity时，我主打学习和练习，总想着要全凭自己、独立去开发一个游戏（吐槽自己，怎么不把汇编、造计算机也学一遍），重复的轮子一直在造。现在看来，无论通过什么方式、能开发出来游戏就是好游戏。</br><br>我主要学习的是开发ARPG游戏，在此期间我写了很多框架，虽然并不是太完美就是了…为了方便Unity使用者能迅速上手、不用花费太多时间去造轮子，于是我想要把我写的代码开源在网上，公共Mono模块、单例模式，还有其它乱七八糟的，想要使用时直接复制粘贴。</br><br>话已至此，开干吧。</p>
-]]></content>
-      <categories>
-        <category>Unity框架</category>
-      </categories>
-      <tags>
-        <tag>Untiy</tag>
-        <tag>游戏开发</tag>
-        <tag>ARPG</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【三】有限状态机</title>
     <url>/posts/55a6df37.html</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>老实说，很久前学习了多种有限状态机写法，有学习打工人小祺的、有跟着鬼鬼鬼ii的，有学习Joker老师的…学得越多反而越来越不知道怎么做。但是分析这次需求，我们决定玩家和敌人都用有限状态机，我觉得Joker老师写得最好。既然Joker老师造好了轮子，我们直接拿来用最方便了。</br></p>
@@ -118,6 +118,38 @@ NowPaper老师整体的思路是，先声明InputType来存储输入类型，Inp
       </tags>
   </entry>
   <entry>
+    <title>【二】公共Mono模块</title>
+    <url>/posts/ab8e2857.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在Unity开发中，有时我们不想继承Mono却想使用其中的功能，于是写了这样一个公共Mono模块，使用举例：MonoManager.MainInstance.AddStart(传入一个Action)</p>
+<hr>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class MonoManager : SingleMono&lt;MonoManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 使用标准的 System.Action 替代 UnityAction（除非需要序列化）</span><br><span class="line">    private event Action onStart;</span><br><span class="line">    private event Action onUpdate;</span><br><span class="line">    private event Action onLateUpdate;</span><br><span class="line">    private event Action onFixedUpdate;</span><br><span class="line"></span><br><span class="line">    void Start() =&gt; onStart?.Invoke();</span><br><span class="line">    void Update() =&gt; onUpdate?.Invoke();</span><br><span class="line">    void LateUpdate() =&gt; onLateUpdate?.Invoke();</span><br><span class="line">    void FixedUpdate() =&gt; onFixedUpdate?.Invoke();</span><br><span class="line">    //防止内存泄露</span><br><span class="line">    void OnDestroy() =&gt; ClearAll();</span><br><span class="line"></span><br><span class="line">    // 添加监听（线程安全版）</span><br><span class="line">    public void AddStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 移除监听（线程安全版）</span><br><span class="line">    public void RemoveStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空所有监听</span><br><span class="line">    public void ClearAll()</span><br><span class="line">    &#123;</span><br><span class="line">        onStart = null;</span><br><span class="line">        onUpdate = null;</span><br><span class="line">        onLateUpdate = null;</span><br><span class="line">        onFixedUpdate = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>公共Mono模块</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【六】子状态管理</title>
+    <url>/posts/bd539c03.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>大体思路，同一个状态下定义多个枚举，可以通过该方法实现奔跑+急停。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Player_MoveState : PlayerStateBase</span><br><span class="line">&#123;</span><br><span class="line">    //声明过渡</span><br><span class="line">    private float walk2RunTransition;</span><br><span class="line"></span><br><span class="line">    //枚举一下</span><br><span class="line">    private enum MoveChildState</span><br><span class="line">    &#123;</span><br><span class="line">        Move,</span><br><span class="line">        Stop</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private MoveChildState moveState;</span><br><span class="line">    private MoveChildState MoveState</span><br><span class="line">    &#123;</span><br><span class="line">        get =&gt; moveState;</span><br><span class="line">        set</span><br><span class="line">        &#123;</span><br><span class="line">            moveState = value;</span><br><span class="line">            switch (moveState)</span><br><span class="line">            &#123;</span><br><span class="line">                case MoveChildState.Move:</span><br><span class="line">                    //注册根运动</span><br><span class="line">                    player_controller.Model.SetRootMotionAction(OnRootMotion);</span><br><span class="line">                    player_controller.PlayAnimation(&quot;Move&quot;);</span><br><span class="line">                    break;</span><br><span class="line">                case MoveChildState.Stop:</span><br><span class="line">                    player_controller.ClearCurrentSpeed();</span><br><span class="line">                    player_controller.PlayAnimation(&quot;RunStop&quot;);</span><br><span class="line">                    player_controller.Model.ClearRootMotionAction();</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public override void OnEnter()</span><br><span class="line">    &#123;</span><br><span class="line">        base.OnEnter();</span><br><span class="line">        Debug.Log(&quot;状态转换成Move&quot;);</span><br><span class="line">        MoveState = MoveChildState.Move;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void OnMoveUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        //记录速度值</span><br><span class="line">        player_controller.currentSpeed = player_controller.Model.Animator.deltaPosition;</span><br><span class="line">        //重力</span><br><span class="line">        player_controller.CharacterController.Move(new Vector3(0, player_controller.gravity * -1 * Time.deltaTime, 0));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //切换待机状态</span><br><span class="line">        if (GameInputManager.MainInstance.move == Vector2.zero)</span><br><span class="line">        &#123;</span><br><span class="line">            //如果当前速度大于某个值</span><br><span class="line">            if(walk2RunTransition &gt;= 0.7)</span><br><span class="line">            &#123;</span><br><span class="line">                //切换为静止状态</span><br><span class="line">                MoveState = MoveChildState.Stop;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                player_controller.ClearCurrentSpeed();</span><br><span class="line">                player_controller.ChangeState(PlayerState.Idle);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            CharacterRotate();</span><br><span class="line">            //如果按了加速键</span><br><span class="line">            if (GameInputManager.MainInstance.Speed)</span><br><span class="line">            &#123;</span><br><span class="line">                walk2RunTransition = Mathf.Clamp(walk2RunTransition + player_controller.walk2runSpeed * Time.deltaTime, 0, 1);</span><br><span class="line">            &#125;</span><br><span class="line">            else//跑到走</span><br><span class="line">            &#123;</span><br><span class="line">                walk2RunTransition = Mathf.Clamp(walk2RunTransition - player_controller.walk2runSpeed * Time.deltaTime, 0, 1);</span><br><span class="line">            &#125;</span><br><span class="line">            player_controller.Model.Animator.SetFloat(&quot;Move&quot;, walk2RunTransition);</span><br><span class="line">            //模型速度调整</span><br><span class="line">            player_controller.Model.Animator.speed = Mathf.Lerp(player_controller.walkSpeed, player_controller.runSpeed, walk2RunTransition);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //TODO:切换翻滚状态</span><br><span class="line"></span><br><span class="line">        //TODO:切换攻击状态</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnStopUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        //书写切换逻辑</span><br><span class="line">        if(CheckAnimatorName(&quot;RunStop&quot;,out float time))</span><br><span class="line">        &#123;</span><br><span class="line">            if(time &gt;= 1f)</span><br><span class="line">            &#123;</span><br><span class="line">                player_controller.ChangeState(PlayerState.Idle);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public override void OnUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        base.OnUpdate();</span><br><span class="line">        //进入跳跃逻辑</span><br><span class="line">        if (GameInputManager.MainInstance.Jump)</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.Jump);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //下落逻辑</span><br><span class="line">        if (!IsReallyGround())</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.AirDown);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //移动逻辑</span><br><span class="line">        switch (moveState)</span><br><span class="line">        &#123;</span><br><span class="line">            case MoveChildState.Move:</span><br><span class="line">                OnMoveUpdate();</span><br><span class="line">                break;</span><br><span class="line">            case MoveChildState.Stop:</span><br><span class="line">                OnStopUpdate();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //翻滚逻辑</span><br><span class="line">        if (GameInputManager.MainInstance.Roll)</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.Roll);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void OnExit()</span><br><span class="line">    &#123;</span><br><span class="line">        walk2RunTransition = 0;</span><br><span class="line">        player_controller.Model.ClearRootMotionAction();</span><br><span class="line">        player_controller.Model.Animator.speed = 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //根运动逻辑</span><br><span class="line">    private void OnRootMotion(Vector3 deltaPosition, Quaternion deltaRotation)</span><br><span class="line">    &#123;</span><br><span class="line">        deltaPosition.y = player_controller.gravity * -1 * Time.deltaTime;</span><br><span class="line">        player_controller.CharacterController.Move(deltaPosition);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //旋转逻辑</span><br><span class="line">    private void CharacterRotate()</span><br><span class="line">    &#123;</span><br><span class="line">        Vector3 input = new Vector3(GameInputManager.MainInstance.move.x, 0, GameInputManager.MainInstance.move.y);</span><br><span class="line">        Vector3 targetDir = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0) * input;</span><br><span class="line">        player_controller.Model.transform.rotation = Quaternion.Slerp(player_controller.Model.transform.rotation, Quaternion.LookRotation(targetDir), Time.deltaTime * player_controller.rotateSpeed);</span><br><span class="line">    &#125;</span><br><span class="line">    //运动数据清零逻辑</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>子状态</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【五】缓存池与音效系统</title>
     <url>/posts/f5d21750.html</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在游戏开发中，我们经常需要频繁创建一些物体，诸如射击游戏的子弹、频繁的脚步声，如果频繁创建和销毁，势必会造成大量性能的开销。于是就有了缓存池，以及在缓存池基础上发展出的音效系统。</p>
@@ -152,35 +184,24 @@ NowPaper老师整体的思路是，先声明InputType来存储输入类型，Inp
       </tags>
   </entry>
   <entry>
-    <title>【二】公共Mono模块</title>
-    <url>/posts/ab8e2857.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在Unity开发中，有时我们不想继承Mono却想使用其中的功能，于是写了这样一个公共Mono模块，使用举例：MonoManager.MainInstance.AddStart(传入一个Action)</p>
+    <title>资源下架通知</title>
+    <url>/posts/f48e37fa.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>25年7月17日，我打算停止运营网站“春ノ雪”，下架本站所有游戏资源。</p>
 <hr>
+想了很久，我觉得这是最明智、最安全的做法了，主要有三点吧：</br>
 
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class MonoManager : SingleMono&lt;MonoManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 使用标准的 System.Action 替代 UnityAction（除非需要序列化）</span><br><span class="line">    private event Action onStart;</span><br><span class="line">    private event Action onUpdate;</span><br><span class="line">    private event Action onLateUpdate;</span><br><span class="line">    private event Action onFixedUpdate;</span><br><span class="line"></span><br><span class="line">    void Start() =&gt; onStart?.Invoke();</span><br><span class="line">    void Update() =&gt; onUpdate?.Invoke();</span><br><span class="line">    void LateUpdate() =&gt; onLateUpdate?.Invoke();</span><br><span class="line">    void FixedUpdate() =&gt; onFixedUpdate?.Invoke();</span><br><span class="line">    //防止内存泄露</span><br><span class="line">    void OnDestroy() =&gt; ClearAll();</span><br><span class="line"></span><br><span class="line">    // 添加监听（线程安全版）</span><br><span class="line">    public void AddStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 移除监听（线程安全版）</span><br><span class="line">    public void RemoveStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空所有监听</span><br><span class="line">    public void ClearAll()</span><br><span class="line">    &#123;</span><br><span class="line">        onStart = null;</span><br><span class="line">        onUpdate = null;</span><br><span class="line">        onLateUpdate = null;</span><br><span class="line">        onFixedUpdate = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Unity框架</category>
-      </categories>
+<p>第一点，资源站本身存在一定的风险，是一种吃力不讨好的行为。从23年开始，我的很多友站都已经失联。为了保障我自身的安全，我决定停止运营网站。</br></p>
+<p>第二点，如今我的哔哩哔哩账号已经有十多万粉丝了，相应地做网站的风险更大了，我必须要更加的谨言慎行。资源网站本身就处于边缘地带，谁也无法预知继续做下去的风险，我所要面临的风险也比其他站长更大。</br></p>
+<p>第三点，我做的内容太过繁杂，而且本身涨粉后可能更出名了，相应地我必须更加谨言慎行。我做的内容会有什么影响？我加的好多群聊里有挂人、吵架，会不会有一天突然被人挂出来拷打？…为了规避这些风险，关闭网站也省了不少心。</br></p>
+<p>虽然很遗憾，但考虑到这三点，我还是打算下架所有资源。我不希望某天自己因为做galgame网站GG了…我的好几个友站都是鲜活的例子，我亲眼见过。</p>
+<hr>
+所以我打算，现在我声誉还算不错，趁早网站转型，转成我的学习笔记吧。哔哩哔哩的话继续做，我发现哔哩哔哩官方的态度还是很积极的（官方账号给过我三连ahhh），被推送到过热门。但是音乐文件的话，我只会提供源出处供网友自行下载。</br>
+
+<p>在做账号的同时，我也发现自己对音乐很感兴趣，目前也在慢慢学习，刚学完基础乐理，不定期更新自己的学习笔记。在调查日本作者期间，我发现很多人并非科班出身、并非专业音乐人，反而给了我一部分勇气。我幻想某一天，我能写出像Consider老师一样的曲子。<br></p>
+<p>偷偷藏一个链接：<a href="https://lkdsteuj.ap-northeast-1.clawcloudrun.com/">https://lkdsteuj.ap-northeast-1.clawcloudrun.com</a> 账号密码都是我名字的拼音。</p>
+]]></content>
       <tags>
-        <tag>Untiy</tag>
-        <tag>游戏开发</tag>
-        <tag>ARPG</tag>
-        <tag>公共Mono模块</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【六】子状态管理</title>
-    <url>/posts/bd539c03.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>大体思路，同一个状态下定义多个枚举，可以通过该方法实现奔跑+急停。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Player_MoveState : PlayerStateBase</span><br><span class="line">&#123;</span><br><span class="line">    //声明过渡</span><br><span class="line">    private float walk2RunTransition;</span><br><span class="line"></span><br><span class="line">    //枚举一下</span><br><span class="line">    private enum MoveChildState</span><br><span class="line">    &#123;</span><br><span class="line">        Move,</span><br><span class="line">        Stop</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private MoveChildState moveState;</span><br><span class="line">    private MoveChildState MoveState</span><br><span class="line">    &#123;</span><br><span class="line">        get =&gt; moveState;</span><br><span class="line">        set</span><br><span class="line">        &#123;</span><br><span class="line">            moveState = value;</span><br><span class="line">            switch (moveState)</span><br><span class="line">            &#123;</span><br><span class="line">                case MoveChildState.Move:</span><br><span class="line">                    //注册根运动</span><br><span class="line">                    player_controller.Model.SetRootMotionAction(OnRootMotion);</span><br><span class="line">                    player_controller.PlayAnimation(&quot;Move&quot;);</span><br><span class="line">                    break;</span><br><span class="line">                case MoveChildState.Stop:</span><br><span class="line">                    player_controller.ClearCurrentSpeed();</span><br><span class="line">                    player_controller.PlayAnimation(&quot;RunStop&quot;);</span><br><span class="line">                    player_controller.Model.ClearRootMotionAction();</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public override void OnEnter()</span><br><span class="line">    &#123;</span><br><span class="line">        base.OnEnter();</span><br><span class="line">        Debug.Log(&quot;状态转换成Move&quot;);</span><br><span class="line">        MoveState = MoveChildState.Move;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void OnMoveUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        //记录速度值</span><br><span class="line">        player_controller.currentSpeed = player_controller.Model.Animator.deltaPosition;</span><br><span class="line">        //重力</span><br><span class="line">        player_controller.CharacterController.Move(new Vector3(0, player_controller.gravity * -1 * Time.deltaTime, 0));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //切换待机状态</span><br><span class="line">        if (GameInputManager.MainInstance.move == Vector2.zero)</span><br><span class="line">        &#123;</span><br><span class="line">            //如果当前速度大于某个值</span><br><span class="line">            if(walk2RunTransition &gt;= 0.7)</span><br><span class="line">            &#123;</span><br><span class="line">                //切换为静止状态</span><br><span class="line">                MoveState = MoveChildState.Stop;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                player_controller.ClearCurrentSpeed();</span><br><span class="line">                player_controller.ChangeState(PlayerState.Idle);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            CharacterRotate();</span><br><span class="line">            //如果按了加速键</span><br><span class="line">            if (GameInputManager.MainInstance.Speed)</span><br><span class="line">            &#123;</span><br><span class="line">                walk2RunTransition = Mathf.Clamp(walk2RunTransition + player_controller.walk2runSpeed * Time.deltaTime, 0, 1);</span><br><span class="line">            &#125;</span><br><span class="line">            else//跑到走</span><br><span class="line">            &#123;</span><br><span class="line">                walk2RunTransition = Mathf.Clamp(walk2RunTransition - player_controller.walk2runSpeed * Time.deltaTime, 0, 1);</span><br><span class="line">            &#125;</span><br><span class="line">            player_controller.Model.Animator.SetFloat(&quot;Move&quot;, walk2RunTransition);</span><br><span class="line">            //模型速度调整</span><br><span class="line">            player_controller.Model.Animator.speed = Mathf.Lerp(player_controller.walkSpeed, player_controller.runSpeed, walk2RunTransition);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //TODO:切换翻滚状态</span><br><span class="line"></span><br><span class="line">        //TODO:切换攻击状态</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnStopUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        //书写切换逻辑</span><br><span class="line">        if(CheckAnimatorName(&quot;RunStop&quot;,out float time))</span><br><span class="line">        &#123;</span><br><span class="line">            if(time &gt;= 1f)</span><br><span class="line">            &#123;</span><br><span class="line">                player_controller.ChangeState(PlayerState.Idle);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public override void OnUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        base.OnUpdate();</span><br><span class="line">        //进入跳跃逻辑</span><br><span class="line">        if (GameInputManager.MainInstance.Jump)</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.Jump);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //下落逻辑</span><br><span class="line">        if (!IsReallyGround())</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.AirDown);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //移动逻辑</span><br><span class="line">        switch (moveState)</span><br><span class="line">        &#123;</span><br><span class="line">            case MoveChildState.Move:</span><br><span class="line">                OnMoveUpdate();</span><br><span class="line">                break;</span><br><span class="line">            case MoveChildState.Stop:</span><br><span class="line">                OnStopUpdate();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //翻滚逻辑</span><br><span class="line">        if (GameInputManager.MainInstance.Roll)</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.Roll);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void OnExit()</span><br><span class="line">    &#123;</span><br><span class="line">        walk2RunTransition = 0;</span><br><span class="line">        player_controller.Model.ClearRootMotionAction();</span><br><span class="line">        player_controller.Model.Animator.speed = 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //根运动逻辑</span><br><span class="line">    private void OnRootMotion(Vector3 deltaPosition, Quaternion deltaRotation)</span><br><span class="line">    &#123;</span><br><span class="line">        deltaPosition.y = player_controller.gravity * -1 * Time.deltaTime;</span><br><span class="line">        player_controller.CharacterController.Move(deltaPosition);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //旋转逻辑</span><br><span class="line">    private void CharacterRotate()</span><br><span class="line">    &#123;</span><br><span class="line">        Vector3 input = new Vector3(GameInputManager.MainInstance.move.x, 0, GameInputManager.MainInstance.move.y);</span><br><span class="line">        Vector3 targetDir = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0) * input;</span><br><span class="line">        player_controller.Model.transform.rotation = Quaternion.Slerp(player_controller.Model.transform.rotation, Quaternion.LookRotation(targetDir), Time.deltaTime * player_controller.rotateSpeed);</span><br><span class="line">    &#125;</span><br><span class="line">    //运动数据清零逻辑</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Unity框架</category>
-      </categories>
-      <tags>
-        <tag>Untiy</tag>
-        <tag>游戏开发</tag>
-        <tag>ARPG</tag>
-        <tag>子状态</tag>
+        <tag>公告</tag>
       </tags>
   </entry>
   <entry>
@@ -204,6 +225,28 @@ NowPaper老师整体的思路是，先声明InputType来存储输入类型，Inp
         <tag>游戏开发</tag>
         <tag>ARPG</tag>
         <tag>计时器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>两年来一些感想</title>
+    <url>/posts/1483a6bb.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>从23年高考结束，到现在25年马上开学，不知不觉已经过了两年了。虽然只是两年，但我感觉在这两年间发生了很大的变化。相比于一直禁闭校园的中学时期，我的视野、阅历和思想都有很大变化吧。想到了些什么，于是想要随便写一写。</br></p>
+<h3 id="回归自我"><a href="#回归自我" class="headerlink" title="回归自我"></a>回归自我</h3><p>我感觉这两年，最大的变化是，我慢慢认识了自己、更能把事情控制到自己手里。很久以前，我觉得有很多理所当然的事：努力学习考入名校，高考后考驾照，上大学考四、六级，上大学备战考公、考研。因为大家都在这么做，哦对，我的爱好是计算机，我以后想要从事一份计算机相关的工作。这是以前我所想的。</br><br>然而这一美好的计划、从一开始貌似就破产了，我考入一所双非院校的冷门专业、曾深受心理疾病困扰留级一年。一切美好的愿望貌似被打破了。身边人告诉我，就你的情况、以后难有出息了，以后毕业失业找不到工作、阿巴阿巴。以前觉得顺理成章、理所当然的事请破灭了。</br><br>以往的认知被打破了，我开始去质疑以前的“理所当然”，同时花了一年时间去思考，我想要什么样的生活？想要成为什么样的人？</br><br>我上高中时，就想着考上大学要积极备战考研。我第一次去思考：我为什么要考研？我有了解研究生具体是做什么的吗？我有了解研究生的方向吗？我有分析考研的好与坏吗？老师告诉我，考研好找工作、我们本专业毕业没就业机会。那么，关于就业我有实际调查过吗？招聘我工作的人，是公司的HR、还是我的老师？我一定从事本专业工作吗？</br><br>我上高中时，想要以后找份计算机相关的工作，因为我喜欢电脑。也是在23-25年间，我开始去尝试学习一些计算机相关知识，参与一些活动，做过游戏开发、做过游戏汉化。最后我发现，学生时代的我和社会脱节太严重了，我其实并不了解计算机的就业方向、环境。只是活在自己的幻想里，以前根本没接触过工作。</br></p>
+<hr>
+两年期间我发生了很大变化，我不相信任何大饼，变成偏实干主义的人，做事情一定要在调查和了解后、才做出自己的判断。以前的我每天想的是，我该怎么取得好成绩、如何提升学历、如何证明自己很优秀；现在我开始去思考，我想要做什么样的人？我想要做什么样的事情？我想要什么样的生活？</br>
+到现在我还没考驾照，我没有考研的打算，身边很多朋友不理解，大家都去做的事情，你为什么不去做？原因很简单，我觉得并不适合我。我去思考，我要付出什么样的成本？对我有什么利与弊呢？不知道大家有没有去想过一些看似很理所当然的问题：你为什么要考驾照？你要花多久去考驾照？你能用得到吗；你知道研究生是做什么的吗？你知道考研的方向吗？你有咨询过公司的HR、咨询过上班族吗？你有参加工作过吗？</br>
+我的学长学姐告诉我，我这个专业毕业没出路、难找工作。于是我去招聘网上看企业招聘要求、我和一些公益性招聘会的HR聊了聊天。最后招聘我的人，是企业用人单位、不是我的学长学姐；老师和家长告诉我，我要努力考研，我去询问一些读研的朋友、打算读研但落榜工作的朋友、没打算读研直接工作的朋友、以及一些考研指导的老师。研究生的生活是什么样的？我考研与否有什么利弊？企业对研究生和本科生的招聘要求？企业更看重什么样的人才？</br>
+以前我觉得游戏开发很酷、很好玩，后来我自学了C#和Unity，renpy引擎、lightvn等等。再后来我参与了同人游戏开发，我第一次了解了游戏开发的分工、第一次被组长催着写代码、第一次体会到团体中的矛盾、第一次了解到游戏上架steam要交100刀的管理费。再后来我就不参加团体性的游戏开发了()。</br>
+上次b站大号被封禁了，身边同样被封禁的朋友告诉我：申诉没有用、领导们是不会管的。后来我给12315写投诉信、给互联网信息服务投诉平台写投诉信、给上海市杨浦区周海鹰区长写信，最后我的账号终于解封了。依法维权、不试试看，怎么会知道有没有用呢？
+<hr>
+回到问题根本，我想成为什么样的人？我想要什么样的生活呢？我无法预测未来会发生什么，不过我已经知道了，我会成为什么样的人。</br>
+我是一个理想与实际共存的人，是一个拥有热情的人。我是一个温柔的人，我是一个能有理想、并能付出行动的人。我是一个真诚的人，我是一个热爱生活的人，我是一个不会气馁的人，我是一个能平等对待所有人的人，我是一个不会给任何人贴标签的人，我是一个能在困境中拉人一把的人，我是一个与人为友的人。</br>
+我的生活，有过悲伤、也有过欢乐，曾经有过被称为“后悔与遗憾”的东西。但站在现在的角度来看，所有过去的悲伤与快乐，都塑就了现在的我。不管我过去积过什么德、又做过哪些恶，所有的过去都构成了现在的我。我无法去否认过去，无法去否认自己，我没有后悔、也没有遗憾了。]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
       </tags>
   </entry>
   <entry>
@@ -387,49 +430,6 @@ NowPaper老师整体的思路是，先声明InputType来存储输入类型，Inp
 ]]></content>
       <tags>
         <tag>音乐</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>两年来一些感想</title>
-    <url>/posts/1483a6bb.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>从23年高考结束，到现在25年马上开学，不知不觉已经过了两年了。虽然只是两年，但我感觉在这两年间发生了很大的变化。相比于一直禁闭校园的中学时期，我的视野、阅历和思想都有很大变化吧。想到了些什么，于是想要随便写一写。</br></p>
-<h3 id="回归自我"><a href="#回归自我" class="headerlink" title="回归自我"></a>回归自我</h3><p>我感觉这两年，最大的变化是，我慢慢认识了自己、更能把事情控制到自己手里。很久以前，我觉得有很多理所当然的事：努力学习考入名校，高考后考驾照，上大学考四、六级，上大学备战考公、考研。因为大家都在这么做，哦对，我的爱好是计算机，我以后想要从事一份计算机相关的工作。这是以前我所想的。</br><br>然而这一美好的计划、从一开始貌似就破产了，我考入一所双非院校的冷门专业、曾深受心理疾病困扰留级一年。一切美好的愿望貌似被打破了。身边人告诉我，就你的情况、以后难有出息了，以后毕业失业找不到工作、阿巴阿巴。以前觉得顺理成章、理所当然的事请破灭了。</br><br>以往的认知被打破了，我开始去质疑以前的“理所当然”，同时花了一年时间去思考，我想要什么样的生活？想要成为什么样的人？</br><br>我上高中时，就想着考上大学要积极备战考研。我第一次去思考：我为什么要考研？我有了解研究生具体是做什么的吗？我有了解研究生的方向吗？我有分析考研的好与坏吗？老师告诉我，考研好找工作、我们本专业毕业没就业机会。那么，关于就业我有实际调查过吗？招聘我工作的人，是公司的HR、还是我的老师？我一定从事本专业工作吗？</br><br>我上高中时，想要以后找份计算机相关的工作，因为我喜欢电脑。也是在23-25年间，我开始去尝试学习一些计算机相关知识，参与一些活动，做过游戏开发、做过游戏汉化。最后我发现，学生时代的我和社会脱节太严重了，我其实并不了解计算机的就业方向、环境。只是活在自己的幻想里，以前根本没接触过工作。</br></p>
-<hr>
-两年期间我发生了很大变化，我不相信任何大饼，变成偏实干主义的人，做事情一定要在调查和了解后、才做出自己的判断。以前的我每天想的是，我该怎么取得好成绩、如何提升学历、如何证明自己很优秀；现在我开始去思考，我想要做什么样的人？我想要做什么样的事情？我想要什么样的生活？</br>
-到现在我还没考驾照，我没有考研的打算，身边很多朋友不理解，大家都去做的事情，你为什么不去做？原因很简单，我觉得并不适合我。我去思考，我要付出什么样的成本？对我有什么利与弊呢？不知道大家有没有去想过一些看似很理所当然的问题：你为什么要考驾照？你要花多久去考驾照？你能用得到吗；你知道研究生是做什么的吗？你知道考研的方向吗？你有咨询过公司的HR、咨询过上班族吗？你有参加工作过吗？</br>
-我的学长学姐告诉我，我这个专业毕业没出路、难找工作。于是我去招聘网上看企业招聘要求、我和一些公益性招聘会的HR聊了聊天。最后招聘我的人，是企业用人单位、不是我的学长学姐；老师和家长告诉我，我要努力考研，我去询问一些读研的朋友、打算读研但落榜工作的朋友、没打算读研直接工作的朋友、以及一些考研指导的老师。研究生的生活是什么样的？我考研与否有什么利弊？企业对研究生和本科生的招聘要求？企业更看重什么样的人才？</br>
-以前我觉得游戏开发很酷、很好玩，后来我自学了C#和Unity，renpy引擎、lightvn等等。再后来我参与了同人游戏开发，我第一次了解了游戏开发的分工、第一次被组长催着写代码、第一次体会到团体中的矛盾、第一次了解到游戏上架steam要交100刀的管理费。再后来我就不参加团体性的游戏开发了()。</br>
-上次b站大号被封禁了，身边同样被封禁的朋友告诉我：申诉没有用、领导们是不会管的。后来我给12315写投诉信、给互联网信息服务投诉平台写投诉信、给上海市杨浦区周海鹰区长写信，最后我的账号终于解封了。依法维权、不试试看，怎么会知道有没有用呢？
-<hr>
-回到问题根本，我想成为什么样的人？我想要什么样的生活呢？我无法预测未来会发生什么，不过我已经知道了，我会成为什么样的人。</br>
-我是一个理想与实际共存的人，是一个拥有热情的人。我是一个温柔的人，我是一个能有理想、并能付出行动的人。我是一个真诚的人，我是一个热爱生活的人，我是一个不会气馁的人，我是一个能平等对待所有人的人，我是一个不会给任何人贴标签的人，我是一个能在困境中拉人一把的人，我是一个与人为友的人。</br>
-我的生活，有过悲伤、也有过欢乐，曾经有过被称为“后悔与遗憾”的东西。但站在现在的角度来看，所有过去的悲伤与快乐，都塑就了现在的我。不管我过去积过什么德、又做过哪些恶，所有的过去都构成了现在的我。我无法去否认过去，无法去否认自己，我没有后悔、也没有遗憾了。]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>生活</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>资源下架通知</title>
-    <url>/posts/f48e37fa.html</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>25年7月17日，我打算停止运营网站“春ノ雪”，下架本站所有游戏资源。</p>
-<hr>
-想了很久，我觉得这是最明智、最安全的做法了，主要有三点吧：</br>
-
-<p>第一点，资源站本身存在一定的风险，是一种吃力不讨好的行为。从23年开始，我的很多友站都已经失联。为了保障我自身的安全，我决定停止运营网站。</br></p>
-<p>第二点，如今我的哔哩哔哩账号已经有十多万粉丝了，相应地做网站的风险更大了，我必须要更加的谨言慎行。资源网站本身就处于边缘地带，谁也无法预知继续做下去的风险，我所要面临的风险也比其他站长更大。</br></p>
-<p>第三点，我做的内容太过繁杂，而且本身涨粉后可能更出名了，相应地我必须更加谨言慎行。我做的内容会有什么影响？我加的好多群聊里有挂人、吵架，会不会有一天突然被人挂出来拷打？…为了规避这些风险，关闭网站也省了不少心。</br></p>
-<p>虽然很遗憾，但考虑到这三点，我还是打算下架所有资源。我不希望某天自己因为做galgame网站GG了…我的好几个友站都是鲜活的例子，我亲眼见过。</p>
-<hr>
-所以我打算，现在我声誉还算不错，趁早网站转型，转成我的学习笔记吧。哔哩哔哩的话继续做，我发现哔哩哔哩官方的态度还是很积极的（官方账号给过我三连ahhh），被推送到过热门。但是音乐文件的话，我只会提供源出处供网友自行下载。</br>
-
-<p>在做账号的同时，我也发现自己对音乐很感兴趣，目前也在慢慢学习，刚学完基础乐理，不定期更新自己的学习笔记。在调查日本作者期间，我发现很多人并非科班出身、并非专业音乐人，反而给了我一部分勇气。我幻想某一天，我能写出像Consider老师一样的曲子。<br></p>
-<p>偷偷藏一个链接：<a href="https://lkdsteuj.ap-northeast-1.clawcloudrun.com/">https://lkdsteuj.ap-northeast-1.clawcloudrun.com</a> 账号密码都是我名字的拼音。</p>
-]]></content>
-      <tags>
-        <tag>公告</tag>
       </tags>
   </entry>
   <entry>
