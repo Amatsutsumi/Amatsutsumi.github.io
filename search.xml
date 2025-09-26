@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>NowPaper老师的连招思路</title>
+    <url>/posts/4a18176f.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>本文写于2024年12月，之前写的文章。</br><br>今天上b站，看到了up主NowPaper老师关于Unity连招的思路，觉得代码写得很简洁、同时实现了预输入，觉得很有借鉴意义。</br></p>
+<h3>思路介绍</h3>
+NowPaper老师整体的思路是，先声明InputType来存储输入类型，InputType == 1为轻击输入、InputType == 2为重击输入，结合InputSystem来判断输入类型。
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//声明两个数组来存储轻击和重击动画</span><br><span class="line">//这点我觉得其实鬼鬼鬼ii做的简单技能编辑器效果要更好，关于技能编辑器参考我的文章“Unity基础连招思路”</span><br><span class="line">public AnimationClip[] Attack1Clips;</span><br><span class="line">public AnimationClip[] Attack2Clips;</span><br><span class="line">......</span><br><span class="line">//以下是根据InputSystem配置好的，判断攻击类型的。</span><br><span class="line">int InputType = 0;</span><br><span class="line">void OnFire1(InputType value)</span><br><span class="line">&#123;</span><br><span class="line">    if(value.isPressed)</span><br><span class="line">    &#123;</span><br><span class="line">        InputType = 1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void OnFire2(InputType value)</span><br><span class="line">&#123;</span><br><span class="line">    if(value.isPressed)</span><br><span class="line">    &#123;</span><br><span class="line">        InputType = 2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">......</span><br><span class="line">//声明当前招式索引，默认为0</span><br><span class="line">public int currentAttack = 0;</span><br><span class="line">//声明输入失效时间</span><br><span class="line">float _outTimer = 0;</span><br><span class="line"></span><br><span class="line">private void PlayAttack(int index, int type)</span><br><span class="line">&#123;</span><br><span class="line">    // 开始攻击的时候，让移动失效,这句代码也是事先写好的</span><br><span class="line">    _move.enabled = false;</span><br><span class="line">    AnimationClip clip;</span><br><span class="line">    if (type == 1)</span><br><span class="line">    &#123;</span><br><span class="line">        // 如果是轻攻击，则播放并连招数+1</span><br><span class="line">        clip = Attack1Clips[index];</span><br><span class="line">        currentAttack++;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        // 如果是重攻击，则播放并连招数=0</span><br><span class="line">        clip = Attack2Clips[index];</span><br><span class="line">        currentAttack = 0;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 播放动画</span><br><span class="line">    _animator.CrossFade(clip.name,0.2f);</span><br><span class="line">    //记录动画时间</span><br><span class="line">    _outTimer = clip.Length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">......</span><br><span class="line"></span><br><span class="line">void Update()</span><br><span class="line">&#123;</span><br><span class="line">    // 计算失效时间</span><br><span class="line">    _outTimer -= Time.deltaTime;</span><br><span class="line">    if (_outTimer &lt;= 0)</span><br><span class="line">    &#123;</span><br><span class="line">        // 如果失效，则激活移动，并连招数归0</span><br><span class="line">        _move.enabled = true;</span><br><span class="line">        currentAttack = 0;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if (inputType != 0)</span><br><span class="line">    &#123;</span><br><span class="line">        // 如果在动画结束前0.4秒内，检测输入则播放对应的动画</span><br><span class="line">        //currentAttack &lt; Attack1Clips.Length这点很妙，如果索引超过了就不让你再攻击了，连招打完直接重置</span><br><span class="line">        if (_outTimer &lt;= 0.4f &amp;&amp; currentAttack &lt; Attack1Clips.Length)</span><br><span class="line">        &#123;</span><br><span class="line">            PlayAttack(currentAttack, inputType);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 重置inputType，以便下一次输入</span><br><span class="line">    inputType = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>预输入</tag>
+        <tag>连招</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【七】武器层逻辑与伤害判定</title>
+    <url>/posts/ee272537.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>接下来要处理武器层逻辑，即要开始进行战斗系统开发。关于状态转换，前面我们写好的状态机框架已经足够，接下来最基础的便是伤害判定。</br></p>
+<h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><p>首先我们整个框架采用了类似MVC思想的架构，模型层、控制器、武器层分开。武器层要处理的是伤害判定，模型层处理动画事件的一些逻辑，角色控制层则书写整个伤害逻辑。</br><br>首先，项目运行时，会以“控制器层——模型层——武器层”的顺序执行Init方法初始化。当攻击进行时，首先模型层会触发动画事件：StartSkillHit函数，模型层又会相应地调用控制层的伤害逻辑代码、以及开启武器层的伤害判定逻辑。</p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>武器层代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Weapon_Controller : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    // 拖入碰撞体来编辑</span><br><span class="line">    [SerializeField] private new Collider collider;</span><br><span class="line">    private List&lt;string&gt; enemyTagList;</span><br><span class="line">    private List&lt;IHurt&gt; enemyList = new List&lt;IHurt&gt;();</span><br><span class="line">    private Action&lt;IHurt, Vector3&gt; OnHitAction;</span><br><span class="line"></span><br><span class="line">    //初始化时传入敌人列表、受伤事件</span><br><span class="line">    public void Init(List&lt;string&gt; enemyList, Action&lt;IHurt, Vector3&gt; OnHitAction)</span><br><span class="line">    &#123;</span><br><span class="line">        collider.enabled = false;</span><br><span class="line">        this.enemyTagList = enemyList;</span><br><span class="line">        this.OnHitAction = OnHitAction;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void StartSkillHit()</span><br><span class="line">    &#123;</span><br><span class="line">        collider.enabled = true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void StopSkillHit()</span><br><span class="line">    &#123;</span><br><span class="line">        collider.enabled=false;</span><br><span class="line">        enemyList.Clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnTriggerStay(Collider other)</span><br><span class="line">    &#123;</span><br><span class="line">        //打击对象标签</span><br><span class="line">        if(enemyTagList.Contains(other.tag))</span><br><span class="line">        &#123;</span><br><span class="line">            IHurt enemy = other.GetComponentInParent&lt;IHurt&gt;();</span><br><span class="line">            if (enemy != null &amp;&amp; !enemyList.Contains(enemy))</span><br><span class="line">            &#123;</span><br><span class="line">                Debug.Log(&quot;攻击到了&quot;);</span><br><span class="line">                //通知模型层处理这些</span><br><span class="line">                OnHitAction?.Invoke(enemy,other.ClosestPoint(transform.position));</span><br><span class="line">                enemyList.Add(enemy);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>模型层代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Player_Model : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    public Animator Animator;</span><br><span class="line">    private ISkillOwner skillOwner;</span><br><span class="line">    [SerializeField] Weapon_Controller[] weapons;</span><br><span class="line">    private void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        if (Animator == null) Debug.Log(&quot;你忘记托Aniamto组件啦&quot;);</span><br><span class="line">        Animator.applyRootMotion = true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Init(ISkillOwner skillOwner, List&lt;string&gt; enemyList)</span><br><span class="line">    &#123;</span><br><span class="line">        //获得战斗宿主</span><br><span class="line">        this.skillOwner = skillOwner;</span><br><span class="line">        for(int i = 0; i &lt; weapons.Length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            //初始化武器，传入敌人列表和事件</span><br><span class="line">            weapons[i].Init(enemyList, skillOwner.OnHit);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #region 根运动</span><br><span class="line">    private Action&lt;Vector3, Quaternion&gt; rootMotionAction;</span><br><span class="line">    //注册根运动</span><br><span class="line">    //这里的逻辑是，每次自动执行OnAnimatorMove函数传入跟运动数据，从而调用外部函数，Action只是个桥梁用于接收外部方法</span><br><span class="line">    public void SetRootMotionAction(Action&lt;Vector3, Quaternion&gt; rootMotionAction)</span><br><span class="line">    &#123;</span><br><span class="line">        this.rootMotionAction = rootMotionAction;</span><br><span class="line">    &#125;</span><br><span class="line">    public void ClearRootMotionAction()</span><br><span class="line">    &#123;</span><br><span class="line">        this.rootMotionAction = null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //动画本身有数据、且播放会自动调用，自动填充动画数据</span><br><span class="line">    private void OnAnimatorMove()</span><br><span class="line">    &#123; </span><br><span class="line">        rootMotionAction?.Invoke(Animator.deltaPosition,Animator.deltaRotation);</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line"></span><br><span class="line">    # region 动画事件</span><br><span class="line">    private void FootStep()</span><br><span class="line">    &#123;</span><br><span class="line">        GamePoolManager.MainInstance.TryGetPoolItem(&quot;Walk&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void RunStep()</span><br><span class="line">    &#123;</span><br><span class="line">        GamePoolManager.MainInstance.TryGetPoolItem(&quot;Run&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //技能</span><br><span class="line">    private void StartSkillHit(int weaponIndex)</span><br><span class="line">    &#123;</span><br><span class="line">        //技能执行，还没写具体技能执行要干嘛</span><br><span class="line">        skillOwner.StartSkillHit(weaponIndex);</span><br><span class="line">        //开第几把武器执行碰撞检测等逻辑</span><br><span class="line">        weapons[weaponIndex].StartSkillHit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void StopSkillHit(int weaponIndex)</span><br><span class="line">    &#123;</span><br><span class="line">        skillOwner.StopSkillHit(weaponIndex);</span><br><span class="line">        weapons[weaponIndex].StopSkillHit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void SkillCanSwitch()</span><br><span class="line">    &#123;</span><br><span class="line">        skillOwner.SkillCanSwitch();</span><br><span class="line">    &#125;</span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>控制器层代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class PlayerController : MonoBehaviour, StateMachineOwner,ISkillOwner,IHurt</span><br><span class="line">&#123;</span><br><span class="line">    //拖入角色模型</span><br><span class="line">    [SerializeField] private Player_Model player_Model;</span><br><span class="line">    //访问模型层接口</span><br><span class="line">    public Player_Model Model &#123; get =&gt;player_Model; &#125;</span><br><span class="line"></span><br><span class="line">    //引入角色控制器</span><br><span class="line">    [SerializeField] private CharacterController character_Controller;</span><br><span class="line">    public CharacterController CharacterController &#123; get =&gt; character_Controller; &#125;</span><br><span class="line">    private StateMachine stateMachine;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;配置信息&quot;)]</span><br><span class="line">    public float gravity = 9.8f;</span><br><span class="line">    public float rotateSpeed = 5f;</span><br><span class="line">    public float walk2runSpeed = 2f;</span><br><span class="line">    public float walkSpeed = 1f;</span><br><span class="line">    public float runSpeed = 1f;</span><br><span class="line">    public float groundCheckDistance = 1.5f;</span><br><span class="line">    public List&lt;string&gt; enemyList;</span><br><span class="line"></span><br><span class="line">    [HideInInspector]public Vector3 currentSpeed;</span><br><span class="line">    //初始化状态机</span><br><span class="line">    private void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        stateMachine = new StateMachine();</span><br><span class="line">        stateMachine.Init(this);</span><br><span class="line">        //初始化模型层</span><br><span class="line">        Model.Init(this,enemyList);</span><br><span class="line">        //注册默认状态</span><br><span class="line">        ChangeState(PlayerState.Idle);</span><br><span class="line">    &#125;</span><br><span class="line">    //提供模型层播放动画的方法</span><br><span class="line">    public void PlayAnimation(string animation, float fixedtime = 0.25f)</span><br><span class="line">    &#123;</span><br><span class="line">        player_Model.Animator.CrossFadeInFixedTime(animation, fixedtime);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //提供改变状态的方法,利用枚举</span><br><span class="line">    public void ChangeState(PlayerState state)</span><br><span class="line">    &#123;</span><br><span class="line">        switch (state)</span><br><span class="line">        &#123;</span><br><span class="line">            case (PlayerState.Idle):</span><br><span class="line">                stateMachine.ChangeState&lt;Player_IdleState&gt;();</span><br><span class="line">                break;</span><br><span class="line">            case(PlayerState.Move):</span><br><span class="line">                stateMachine.ChangeState&lt;Player_MoveState&gt;();</span><br><span class="line">                break;</span><br><span class="line">            case(PlayerState.Jump):</span><br><span class="line">                stateMachine.ChangeState&lt;Player_JumpState&gt;();</span><br><span class="line">                break;</span><br><span class="line">            case(PlayerState.AirDown):</span><br><span class="line">                stateMachine.ChangeState&lt;Player_AirDownState&gt;();</span><br><span class="line">                break;</span><br><span class="line">            case(PlayerState.Roll):</span><br><span class="line">                stateMachine.ChangeState&lt;Player_RollState&gt;();</span><br><span class="line">                break;</span><br><span class="line">            case(PlayerState.Attack):</span><br><span class="line">                stateMachine.ChangeState&lt;Player_AttackState&gt;();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //清除移动速度</span><br><span class="line">    public void ClearCurrentSpeed()</span><br><span class="line">    &#123;</span><br><span class="line">        currentSpeed = Vector3.zero;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //实现ISkillOwner</span><br><span class="line"></span><br><span class="line">    public void StartSkillHit(int weaponIndex)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void StopSkillHit(int weaponIndex)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void SkillCanSwitch()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void OnHit(IHurt target, Vector3 hitPosition)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其它代码</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public interface ISkillOwner</span><br><span class="line">&#123;</span><br><span class="line">    void StartSkillHit(int weaponIndex)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void StopSkillHit(int weaponIndex) </span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void SkillCanSwitch() </span><br><span class="line">    &#123; </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void OnHit(IHurt target,Vector3 hitPosition)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">//可以受伤的单位都挂</span><br><span class="line">public interface IHurt</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>武器层</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【一】单例模式基类</title>
+    <url>/posts/8205b61c.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>首先最基础的便是单例模式基类，在Unity开发中，有些东西我们只想让它有一个，比如单独的关卡管理器、单独的公共Mono模块，而单例模式就是为了实现这一需求。</br><br>下面的单例模式，是我结合各家所长（如唐老狮、鬼鬼鬼ii、joker老师）写的一个较为简易的版本，虽然简易，但足够够用，它考虑到多线程、继承MonoBehaviour等方面，可以直接复制粘贴使用。</p>
+<h3 id="不继承MonoBehaviour的单例模式基类"><a href="#不继承MonoBehaviour的单例模式基类" class="headerlink" title="不继承MonoBehaviour的单例模式基类"></a>不继承MonoBehaviour的单例模式基类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class SingleTonBase&lt;T&gt; where T : class, new()</span><br><span class="line">&#123;</span><br><span class="line">    private static T instance;</span><br><span class="line">    protected static readonly object _lock = new object();</span><br><span class="line">    public static T GetInstance()</span><br><span class="line">    &#123;</span><br><span class="line">        if (instance == null)</span><br><span class="line">        &#123;</span><br><span class="line">            lock (_lock)</span><br><span class="line">            &#123;</span><br><span class="line">                if (instance == null)</span><br><span class="line">                &#123;</span><br><span class="line">                    instance = new T();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;    </span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+
+<h3 id="继承MonoBehaviour的单例模式基类"><a href="#继承MonoBehaviour的单例模式基类" class="headerlink" title="继承MonoBehaviour的单例模式基类"></a>继承MonoBehaviour的单例模式基类</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class SingleMono&lt;T&gt; : MonoBehaviour where T : SingleMono&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    private static T _instance;</span><br><span class="line">    private static object _lock = new object();</span><br><span class="line"></span><br><span class="line">    public static T MainInstance</span><br><span class="line">    &#123;</span><br><span class="line">        get</span><br><span class="line">        &#123;</span><br><span class="line">            if (_instance == null)</span><br><span class="line">            &#123;</span><br><span class="line">                lock (_lock)</span><br><span class="line">                &#123;</span><br><span class="line">                    _instance = FindFirstObjectByType&lt;T&gt;() as T; //先去场景中找有没有这个类</span><br><span class="line"></span><br><span class="line">                    if (_instance == null)//如果没有，那么我们自己创建一个Gameobject然后给他加一个T这个类型的脚本，并赋值给instance;</span><br><span class="line">                    &#123;</span><br><span class="line">                        GameObject go = new GameObject(typeof(T).Name);</span><br><span class="line">                        _instance = go.AddComponent&lt;T&gt;();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return _instance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    protected virtual void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        if (_instance == null)</span><br><span class="line">        &#123;</span><br><span class="line">            _instance = (T)this;</span><br><span class="line">            DontDestroyOnLoad(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Destroy(gameObject);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private void OnApplicationQuit()//程序退出时，将instance清空</span><br><span class="line">    &#123;</span><br><span class="line">        _instance = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>单例模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Unity轮子合集</title>
+    <url>/posts/d8721301.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>最近我又开始捣鼓我的Unity了，在一年多的学习后，我写了一些简单的框架，却始终没做出来游戏O_o</br><br>原因在我的学习态度，去年学Unity时，我主打学习和练习，总想着要全凭自己、独立去开发一个游戏（吐槽自己，怎么不把汇编、造计算机也学一遍），重复的轮子一直在造。现在看来，无论通过什么方式、能开发出来游戏就是好游戏。</br><br>我主要学习的是开发ARPG游戏，在此期间我写了很多框架，虽然并不是太完美就是了…为了方便Unity使用者能迅速上手、不用花费太多时间去造轮子，于是我想要把我写的代码开源在网上，公共Mono模块、单例模式，还有其它乱七八糟的，想要使用时直接复制粘贴。</br><br>话已至此，开干吧。</p>
+]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【三】有限状态机</title>
+    <url>/posts/55a6df37.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>老实说，很久前学习了多种有限状态机写法，有学习打工人小祺的、有跟着鬼鬼鬼ii的，有学习Joker老师的…学得越多反而越来越不知道怎么做。但是分析这次需求，我们决定玩家和敌人都用有限状态机，我觉得Joker老师写得最好。既然Joker老师造好了轮子，我们直接拿来用最方便了。</br></p>
+<hr>
+<h2>实践过程</h2>
+在设计有限状态机前，我们先设置好我们的状态基类StateBase，记录下我们所有要执行的函数。
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public abstract class StateBase</span><br><span class="line">&#123;</span><br><span class="line">    //状态机初始化</span><br><span class="line">    public virtual void Init(IStateMachineOwner owner)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //卸载资源</span><br><span class="line">    public virtual void UnInit()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public virtual void Enter()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public virtual void Exit()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public virtual void OnUpdate()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public virtual void OnLateUpdate()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public virtual void OnFixedUpdate()</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>接下来我们去写我们的有限状态机，我们状态机大概分为两类，一类是敌人状态机，一类是玩家状态机，那就声明一个共同的接口或者抽象类。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">//状态机基类</span><br><span class="line">public interface StateMachineOwner</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">public class StateMachine</span><br><span class="line">&#123;</span><br><span class="line">    private StateMachineOwner owner;</span><br><span class="line">    private StateBase currentState;</span><br><span class="line">    //存储状态</span><br><span class="line">    private Dictionary&lt;Type, StateBase&gt; stateDic = new Dictionary&lt;Type, StateBase&gt;();</span><br><span class="line">    public void Init(StateMachineOwner owner)</span><br><span class="line">    &#123;</span><br><span class="line">        //初始化先保存自己</span><br><span class="line">        this.owner = owner;</span><br><span class="line">    &#125;</span><br><span class="line">    //记录当前状态</span><br><span class="line"></span><br><span class="line">    public void ChangeState&lt;T&gt;() where T : StateBase, new()</span><br><span class="line">    &#123;</span><br><span class="line">        if (currentState!= null &amp;&amp; typeof(T) == currentState.GetType())</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.Log(&quot;你切换的状态与当前状态相同&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        if(currentState != null)</span><br><span class="line">        &#123;</span><br><span class="line">            currentState.OnExit();</span><br><span class="line">            //移除方法</span><br><span class="line">            MonoManager.MainInstance.RemoveUpdate(currentState.OnUpdate);</span><br><span class="line">            MonoManager.MainInstance.RemoveFixedUpdate(currentState.OnFixedUpdate);</span><br><span class="line">            MonoManager.MainInstance.RemoveLateUpdate(currentState.OnLateUpdate);</span><br><span class="line">        &#125;</span><br><span class="line">        //切换了状态，并执行一系列函数</span><br><span class="line">        currentState = GetState&lt;T&gt;();</span><br><span class="line">        if (currentState == null) Debug.Log(&quot;currentState为空，没有找到该状态&quot;);</span><br><span class="line">        currentState.OnEnter();</span><br><span class="line">        MonoManager.MainInstance.AddUpdate(currentState.OnUpdate);</span><br><span class="line">        MonoManager.MainInstance.AddFixedUpdate(currentState.OnFixedUpdate);</span><br><span class="line">        MonoManager.MainInstance.AddLateUpdate(currentState.OnLateUpdate);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获得状态</span><br><span class="line">    private StateBase GetState&lt;T&gt;() where T : StateBase, new()</span><br><span class="line">    &#123;</span><br><span class="line">        // 如果不包含，就添加进去</span><br><span class="line">        if (!stateDic.ContainsKey(typeof(T)))</span><br><span class="line">        &#123;</span><br><span class="line">            // 添加状态</span><br><span class="line">            stateDic.Add(typeof(T), new T());</span><br><span class="line">            // 初始化状态</span><br><span class="line">            stateDic[typeof(T)].Init(owner);</span><br><span class="line">        &#125;</span><br><span class="line">        return stateDic[typeof(T)];</span><br><span class="line">    &#125;</span><br><span class="line">    //状态机清除</span><br><span class="line">    public void ClearFSM()</span><br><span class="line">    &#123;</span><br><span class="line">        //执行反初始化卸载函数</span><br><span class="line">        currentState.UnInit();</span><br><span class="line">        //移出方法</span><br><span class="line">        MonoManager.MainInstance.RemoveUpdate(currentState.OnUpdate);</span><br><span class="line">        MonoManager.MainInstance.RemoveFixedUpdate(currentState.OnFixedUpdate);</span><br><span class="line">        MonoManager.MainInstance.RemoveLateUpdate(currentState.OnLateUpdate);</span><br><span class="line">        //清除状态机</span><br><span class="line">        stateDic.Clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2>巧用有限状态机制作角色控制器</h2>
+如何使用我们的有限状态机呢？这里Joker老师采用了类似MVC思想的套路，先写一个角色模型层Player_Model，里面包含我们的动画机。
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Player_Model : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    [SerializeField,Header(&quot;拖入动画状态机&quot;)]private Animator _animator;</span><br><span class="line">    public Animator Animator =&gt;_animator;</span><br><span class="line"></span><br><span class="line">    private void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        if (_animator == null) Debug.Log(&quot;你忘记拖入Aniamto组件啦&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //动画事件注册</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>之后写一个角色控制器脚本Player_Controller，我们分析，需要写播放动画的方法、状态转换的方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Player_Controller : MonoBehaviour,StateMachineOwner</span><br><span class="line">&#123;</span><br><span class="line">    //拖入角色模型</span><br><span class="line">    [SerializeField] private Player_Model player_Model;</span><br><span class="line">    private StateMachine stateMachine;</span><br><span class="line"></span><br><span class="line">    //初始化状态机</span><br><span class="line">    private void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        stateMachine = new StateMachine();</span><br><span class="line">        stateMachine.Init(this);</span><br><span class="line"></span><br><span class="line">        //注册默认状态</span><br><span class="line">        stateMachine.ChangeState&lt;Player_IdleState&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    //提供模型层播放动画的方法</span><br><span class="line">    public void PlayAnimation(string animation,float fixedtime = 0.25f)</span><br><span class="line">    &#123;</span><br><span class="line">        player_Model.Animator.CrossFadeInFixedTime(animation,fixedtime);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //提供改变状态的方法,利用枚举</span><br><span class="line">    public void ChangeState(PlayerState state)</span><br><span class="line">    &#123;</span><br><span class="line">        switch (state)</span><br><span class="line">        &#123;</span><br><span class="line">            case(PlayerState.Idle):</span><br><span class="line">                stateMachine.ChangeState&lt;Player_IdleState&gt;();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接下来针对不同状态不同的写，但是我们状态转换多是需要播放动画的，必然需要PlayerAnimaton方法，那就想办法得到我们的Player_Controller</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public class PlayerStateBase : StateBase</span><br><span class="line">&#123;</span><br><span class="line">    //所有状态都需要先得到我们的控制器</span><br><span class="line">    protected Player_Controller player_Controller;</span><br><span class="line"></span><br><span class="line">    //重写初始化方法</span><br><span class="line">    public override void Init(IStateMachineOwner owner)</span><br><span class="line">    &#123;</span><br><span class="line">        base.Init(owner);</span><br><span class="line">        player_Controller = (Player_Controller)owner;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//进入时默认播放待机动画</span><br><span class="line">public class Player_IdleState : PlayerStateBase</span><br><span class="line">&#123;</span><br><span class="line">    public override void Enter()</span><br><span class="line">    &#123;</span><br><span class="line">        //播放角色待机动画</span><br><span class="line">        player_Controller.PlayAnimation(&quot;Idle&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public override void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        base.Update();</span><br><span class="line">        //检测攻击</span><br><span class="line"></span><br><span class="line">        //检测跳跃</span><br><span class="line"></span><br><span class="line">        //检测玩家移动</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>PlayerState脚本部分：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public enum PlayerState</span><br><span class="line">&#123;</span><br><span class="line">    Idle,</span><br><span class="line">    Move,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+
+<h3 id="解释部分？"><a href="#解释部分？" class="headerlink" title="解释部分？"></a>解释部分？</h3><p>这个状态机的组成部分，最少共调用了六个脚本，StateBase、Player_Controller、PlayerState、PlayerStateBase、Player_Model、StateMachine，最初我是看得一愣一愣。这里稍微解释一下，不想看解释、想要直接上手用可以往下看、跳过。</br><br>首先StateBase是所有状态的基类，是我们每个状态都会用的方法。Init是初始化方法，传入我们的状态机、进行初始化，UnInit是卸载资源用的方法。</br><br>StateMachine是我们的状态机主逻辑脚本，因为分有敌人状态机、玩家状态机，所以再写一个接口，两种状态机继承该接口。</br><br>PlayerState是把状态封装成枚举类型。</br><br>PlayerStateBase是我们玩家的状态基类，我们所有玩家的状态都要继承它。由于我们的每个状态都要用到角色控制器，角色控制器又是状态机的子类，所以要引入控制器。Init方法是在StateMachine的GetState里调用的，每注册一个状态都会初始化一次。</br><br>Player_Controller是我们的玩家状态机，主要通过模型层和状态机处理逻辑。</br><br>Player_IdleState是写的一个示例状态脚本，Player_Model是我们的模型层上文件，拖给角色模型。</p>
+<h3 id="如何使用？"><a href="#如何使用？" class="headerlink" title="如何使用？"></a>如何使用？</h3><p>首先我们打开PlayerState，在枚举中添加状态。<br><br>接着我们创建新的状态脚本，继承PlayerStateBase，书写对应方法。通过player_Controller.ChangeState(PlayerState.枚举状态)来转换状态。</br><br>最后打开Player_Controller，在ChangeState方法里写新的case，stateMachine.ChangeState&lt;状态脚本文件&gt;();</br></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">case(PlayerState.枚举状态):</span><br><span class="line">    stateMachine.ChangeState&lt;状态脚本&gt;();</span><br><span class="line">    break;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>有限状态机</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【五】缓存池与音效系统</title>
+    <url>/posts/f5d21750.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在游戏开发中，我们经常需要频繁创建一些物体，诸如射击游戏的子弹、频繁的脚步声，如果频繁创建和销毁，势必会造成大量性能的开销。于是就有了缓存池，以及在缓存池基础上发展出的音效系统。</p>
+<h3 id="缓存池脚本"><a href="#缓存池脚本" class="headerlink" title="缓存池脚本"></a>缓存池脚本</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class GamePoolManager : SingleMono&lt;GamePoolManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    [System.Serializable]</span><br><span class="line">    private class PoolItem</span><br><span class="line">    &#123;</span><br><span class="line">        public string itemName;</span><br><span class="line">        public GameObject item;</span><br><span class="line">        public int itemCount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;对象池配置&quot;)]</span><br><span class="line">    [SerializeField] private List&lt;PoolItem&gt; poolList = new List&lt;PoolItem&gt;();</span><br><span class="line"></span><br><span class="line">    private Dictionary&lt;string, Queue&lt;GameObject&gt;&gt; poolDic = new Dictionary&lt;string, Queue&lt;GameObject&gt;&gt;();</span><br><span class="line">    private GameObject _poolParent;</span><br><span class="line"></span><br><span class="line">    protected override void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        _poolParent = new GameObject(&quot;对象池父对象&quot;);</span><br><span class="line">        _poolParent.transform.SetParent(transform);</span><br><span class="line">        InitPool();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void InitPool()</span><br><span class="line">    &#123;</span><br><span class="line">        foreach (var poolItem in poolList)</span><br><span class="line">        &#123;</span><br><span class="line">            if (string.IsNullOrEmpty(poolItem.itemName) || poolItem.item == null || poolItem.itemCount &lt;= 0)</span><br><span class="line">            &#123;</span><br><span class="line">                Debug.LogWarning(&quot;无效的对象池配置项&quot;);</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (!poolDic.ContainsKey(poolItem.itemName))</span><br><span class="line">            &#123;</span><br><span class="line">                poolDic.Add(poolItem.itemName, new Queue&lt;GameObject&gt;());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            for (int j = 0; j &lt; poolItem.itemCount; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                var itemObj = Instantiate(poolItem.item);</span><br><span class="line">                itemObj.transform.SetParent(_poolParent.transform);</span><br><span class="line">                itemObj.SetActive(false);</span><br><span class="line">                poolDic[poolItem.itemName].Enqueue(itemObj);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void TryGetPoolItem(string name, Vector3 position, Quaternion rotation)</span><br><span class="line">    &#123;</span><br><span class="line">        if (poolDic.TryGetValue(name, out var queue) &amp;&amp; queue.Count &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            GameObject item = queue.Dequeue();</span><br><span class="line">            item.transform.position = position;</span><br><span class="line">            item.transform.rotation = rotation;</span><br><span class="line">            item.SetActive(true);</span><br><span class="line">            queue.Enqueue(item);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogWarning($&quot;对象池中找不到: &#123;name&#125;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public GameObject TryGetPoolItem(string name)</span><br><span class="line">    &#123;</span><br><span class="line">        if (poolDic.TryGetValue(name, out var queue) &amp;&amp; queue.Count &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            GameObject item = queue.Dequeue();</span><br><span class="line">            item.SetActive(true);</span><br><span class="line">            queue.Enqueue(item);</span><br><span class="line">            return item;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Debug.LogWarning($&quot;对象池中找不到: &#123;name&#125;&quot;);</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="音效系统脚本"><a href="#音效系统脚本" class="headerlink" title="音效系统脚本"></a>音效系统脚本</h3><p>首先是SoundType脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public enum SoundType</span><br><span class="line">&#123;</span><br><span class="line">    ATK,</span><br><span class="line">    HIT,</span><br><span class="line">    BLOCK,</span><br><span class="line">    Run,</span><br><span class="line">    Walk</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其次是SoundData脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line"></span><br><span class="line">[CreateAssetMenu(fileName = &quot;SoundData&quot;, menuName = &quot;Scriptable Objects/SoundData&quot;)]</span><br><span class="line">public class SoundData : ScriptableObject</span><br><span class="line">&#123;</span><br><span class="line">    [SerializeField] private List&lt;Sound_Data&gt; _data = new List&lt;Sound_Data&gt;();</span><br><span class="line"></span><br><span class="line">    [System.Serializable]</span><br><span class="line">    private class Sound_Data</span><br><span class="line">    &#123;</span><br><span class="line">        public SoundType soundType;</span><br><span class="line">        public AudioClip[] audioClip;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public AudioClip GetAudioClip(SoundType type)</span><br><span class="line">    &#123;</span><br><span class="line">        foreach (var data in _data)</span><br><span class="line">        &#123;</span><br><span class="line">            if (data.soundType == type &amp;&amp; data.audioClip != null &amp;&amp; data.audioClip.Length &gt; 0)</span><br><span class="line">            &#123;</span><br><span class="line">                return data.audioClip[Random.Range(0, data.audioClip.Length)];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Debug.LogWarning($&quot;找不到音效类型: &#123;type&#125;&quot;);</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后是Sound脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Sound : MonoBehaviour</span><br><span class="line">&#123;</span><br><span class="line">    private AudioSource audioSource;</span><br><span class="line"></span><br><span class="line">    [Header(&quot;音效设置&quot;)]</span><br><span class="line">    [SerializeField] private SoundType soundType;</span><br><span class="line">    [SerializeField] private SoundData soundData;</span><br><span class="line"></span><br><span class="line">    private void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        audioSource = GetComponent&lt;AudioSource&gt;();</span><br><span class="line">        if (audioSource == null)</span><br><span class="line">        &#123;</span><br><span class="line">            audioSource = gameObject.AddComponent&lt;AudioSource&gt;();</span><br><span class="line">            audioSource.playOnAwake = false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnEnable()</span><br><span class="line">    &#123;</span><br><span class="line">        PlaySound(soundType);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void PlaySound(SoundType type)</span><br><span class="line">    &#123;</span><br><span class="line">        if (soundData == null)</span><br><span class="line">        &#123;</span><br><span class="line">            Debug.LogError(&quot;SoundData未配置!&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        AudioClip clip = soundData.GetAudioClip(type);</span><br><span class="line">        if (clip == null)</span><br><span class="line">        &#123;</span><br><span class="line">            gameObject.SetActive(false);</span><br><span class="line">            Debug.Log(&quot;获取不到音频类型，请检查SoundType脚本和预制体是否配置了&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        audioSource.clip = clip;</span><br><span class="line">        audioSource.Play();</span><br><span class="line">        StartRecycle(clip.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void StartRecycle(float clipLength)</span><br><span class="line">    &#123;</span><br><span class="line">        float delay = Mathf.Max(0.1f, clipLength);</span><br><span class="line">        Invoke(nameof(DisableSelf), delay);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void DisableSelf()</span><br><span class="line">    &#123;</span><br><span class="line">        if (audioSource != null &amp;&amp; audioSource.isPlaying)</span><br><span class="line">            audioSource.Stop();</span><br><span class="line"></span><br><span class="line">        gameObject.SetActive(false);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>GamePoolManager提供了InitPool方法和TryGetPoolItem方法，InitPool方法会创建出多个对象并默认失活，TryGetPoolItem方法既可以处理音频创建、也可以处理物体创建，会激活一个对象。</br><br>而音效系统的代码逻辑，SoundData用来存储所有的音频类型和数据，Sound预制体在被激活时会自动识别我们配置的音频类型、并随机播放音频。最后加入对象池中，形成这样的顺序：对象池创建并激活预制体——识别预制体的音频类型、随机播放对应音频。</p>
+<hr>
+## 使用方法
+
+<h3 id="音效系统使用"><a href="#音效系统使用" class="headerlink" title="音效系统使用"></a>音效系统使用</h3><p>一，更改SoundType脚本，里面的枚举是你的音效类型，按需修改。</br><br>二，右键Scriptable Object，创建一个SoundData，配置好你所需要的音频类型、以及对应的音频。</br><br>三，游戏里创建Sound空物体，拖入Sound.cs脚本，为每一个空物体配置好音频类型、并拖入创建好的SoundData物体，保存作为预制体。有多少个类型的音频创建多少个音频预制体。</br><br>四，游戏再创建空物体，命名GamePoolManager，拖入GamePoolManager.cs脚本。Item Name输入缓存池里物体的名字、Item拖入你上一步创建好的各个音频预制体，Item Count则是缓存池存的物体的数量。</br><br>五，配置好动画事件，在Player_Model脚本写入动画事件函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">public void FootStep()</span><br><span class="line">&#123;</span><br><span class="line">    //括号里传入Item Name的名字</span><br><span class="line">    GamePoolManager.MainInstance.TryGetPoolItem(&quot;Walk&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src = "https://youke1.picui.cn/s1/2025/08/18/68a2bcee8fbde.png"></img><br><img src = "https://youke1.picui.cn/s1/2025/08/18/68a2bcee6ba2d.png"></img></p>
+]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>缓存池</tag>
+        <tag>对象池</tag>
+        <tag>音效系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【二】公共Mono模块</title>
+    <url>/posts/ab8e2857.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在Unity开发中，有时我们不想继承Mono却想使用其中的功能，于是写了这样一个公共Mono模块，使用举例：MonoManager.MainInstance.AddStart(传入一个Action)</p>
+<hr>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class MonoManager : SingleMono&lt;MonoManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    // 使用标准的 System.Action 替代 UnityAction（除非需要序列化）</span><br><span class="line">    private event Action onStart;</span><br><span class="line">    private event Action onUpdate;</span><br><span class="line">    private event Action onLateUpdate;</span><br><span class="line">    private event Action onFixedUpdate;</span><br><span class="line"></span><br><span class="line">    void Start() =&gt; onStart?.Invoke();</span><br><span class="line">    void Update() =&gt; onUpdate?.Invoke();</span><br><span class="line">    void LateUpdate() =&gt; onLateUpdate?.Invoke();</span><br><span class="line">    void FixedUpdate() =&gt; onFixedUpdate?.Invoke();</span><br><span class="line">    //防止内存泄露</span><br><span class="line">    void OnDestroy() =&gt; ClearAll();</span><br><span class="line"></span><br><span class="line">    // 添加监听（线程安全版）</span><br><span class="line">    public void AddStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void AddFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate += action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 移除监听（线程安全版）</span><br><span class="line">    public void RemoveStart(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onStart -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveLateUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onLateUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void RemoveFixedUpdate(Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        onFixedUpdate -= action;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 清空所有监听</span><br><span class="line">    public void ClearAll()</span><br><span class="line">    &#123;</span><br><span class="line">        onStart = null;</span><br><span class="line">        onUpdate = null;</span><br><span class="line">        onLateUpdate = null;</span><br><span class="line">        onFixedUpdate = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>公共Mono模块</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【六】子状态管理</title>
+    <url>/posts/bd539c03.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>大体思路，同一个状态下定义多个枚举，可以通过该方法实现奔跑+急停。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System.Collections;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public class Player_MoveState : PlayerStateBase</span><br><span class="line">&#123;</span><br><span class="line">    //声明过渡</span><br><span class="line">    private float walk2RunTransition;</span><br><span class="line"></span><br><span class="line">    //枚举一下</span><br><span class="line">    private enum MoveChildState</span><br><span class="line">    &#123;</span><br><span class="line">        Move,</span><br><span class="line">        Stop</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private MoveChildState moveState;</span><br><span class="line">    private MoveChildState MoveState</span><br><span class="line">    &#123;</span><br><span class="line">        get =&gt; moveState;</span><br><span class="line">        set</span><br><span class="line">        &#123;</span><br><span class="line">            moveState = value;</span><br><span class="line">            switch (moveState)</span><br><span class="line">            &#123;</span><br><span class="line">                case MoveChildState.Move:</span><br><span class="line">                    //注册根运动</span><br><span class="line">                    player_controller.Model.SetRootMotionAction(OnRootMotion);</span><br><span class="line">                    player_controller.PlayAnimation(&quot;Move&quot;);</span><br><span class="line">                    break;</span><br><span class="line">                case MoveChildState.Stop:</span><br><span class="line">                    player_controller.ClearCurrentSpeed();</span><br><span class="line">                    player_controller.PlayAnimation(&quot;RunStop&quot;);</span><br><span class="line">                    player_controller.Model.ClearRootMotionAction();</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public override void OnEnter()</span><br><span class="line">    &#123;</span><br><span class="line">        base.OnEnter();</span><br><span class="line">        Debug.Log(&quot;状态转换成Move&quot;);</span><br><span class="line">        MoveState = MoveChildState.Move;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void OnMoveUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        //记录速度值</span><br><span class="line">        player_controller.currentSpeed = player_controller.Model.Animator.deltaPosition;</span><br><span class="line">        //重力</span><br><span class="line">        player_controller.CharacterController.Move(new Vector3(0, player_controller.gravity * -1 * Time.deltaTime, 0));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //切换待机状态</span><br><span class="line">        if (GameInputManager.MainInstance.move == Vector2.zero)</span><br><span class="line">        &#123;</span><br><span class="line">            //如果当前速度大于某个值</span><br><span class="line">            if(walk2RunTransition &gt;= 0.7)</span><br><span class="line">            &#123;</span><br><span class="line">                //切换为静止状态</span><br><span class="line">                MoveState = MoveChildState.Stop;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                player_controller.ClearCurrentSpeed();</span><br><span class="line">                player_controller.ChangeState(PlayerState.Idle);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            CharacterRotate();</span><br><span class="line">            //如果按了加速键</span><br><span class="line">            if (GameInputManager.MainInstance.Speed)</span><br><span class="line">            &#123;</span><br><span class="line">                walk2RunTransition = Mathf.Clamp(walk2RunTransition + player_controller.walk2runSpeed * Time.deltaTime, 0, 1);</span><br><span class="line">            &#125;</span><br><span class="line">            else//跑到走</span><br><span class="line">            &#123;</span><br><span class="line">                walk2RunTransition = Mathf.Clamp(walk2RunTransition - player_controller.walk2runSpeed * Time.deltaTime, 0, 1);</span><br><span class="line">            &#125;</span><br><span class="line">            player_controller.Model.Animator.SetFloat(&quot;Move&quot;, walk2RunTransition);</span><br><span class="line">            //模型速度调整</span><br><span class="line">            player_controller.Model.Animator.speed = Mathf.Lerp(player_controller.walkSpeed, player_controller.runSpeed, walk2RunTransition);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //TODO:切换翻滚状态</span><br><span class="line"></span><br><span class="line">        //TODO:切换攻击状态</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void OnStopUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        //书写切换逻辑</span><br><span class="line">        if(CheckAnimatorName(&quot;RunStop&quot;,out float time))</span><br><span class="line">        &#123;</span><br><span class="line">            if(time &gt;= 1f)</span><br><span class="line">            &#123;</span><br><span class="line">                player_controller.ChangeState(PlayerState.Idle);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public override void OnUpdate()</span><br><span class="line">    &#123;</span><br><span class="line">        base.OnUpdate();</span><br><span class="line">        //进入跳跃逻辑</span><br><span class="line">        if (GameInputManager.MainInstance.Jump)</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.Jump);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //下落逻辑</span><br><span class="line">        if (!IsReallyGround())</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.AirDown);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //移动逻辑</span><br><span class="line">        switch (moveState)</span><br><span class="line">        &#123;</span><br><span class="line">            case MoveChildState.Move:</span><br><span class="line">                OnMoveUpdate();</span><br><span class="line">                break;</span><br><span class="line">            case MoveChildState.Stop:</span><br><span class="line">                OnStopUpdate();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //翻滚逻辑</span><br><span class="line">        if (GameInputManager.MainInstance.Roll)</span><br><span class="line">        &#123;</span><br><span class="line">            player_controller.ChangeState(PlayerState.Roll);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public override void OnExit()</span><br><span class="line">    &#123;</span><br><span class="line">        walk2RunTransition = 0;</span><br><span class="line">        player_controller.Model.ClearRootMotionAction();</span><br><span class="line">        player_controller.Model.Animator.speed = 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //根运动逻辑</span><br><span class="line">    private void OnRootMotion(Vector3 deltaPosition, Quaternion deltaRotation)</span><br><span class="line">    &#123;</span><br><span class="line">        deltaPosition.y = player_controller.gravity * -1 * Time.deltaTime;</span><br><span class="line">        player_controller.CharacterController.Move(deltaPosition);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //旋转逻辑</span><br><span class="line">    private void CharacterRotate()</span><br><span class="line">    &#123;</span><br><span class="line">        Vector3 input = new Vector3(GameInputManager.MainInstance.move.x, 0, GameInputManager.MainInstance.move.y);</span><br><span class="line">        Vector3 targetDir = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0) * input;</span><br><span class="line">        player_controller.Model.transform.rotation = Quaternion.Slerp(player_controller.Model.transform.rotation, Quaternion.LookRotation(targetDir), Time.deltaTime * player_controller.rotateSpeed);</span><br><span class="line">    &#125;</span><br><span class="line">    //运动数据清零逻辑</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>子状态</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【四】计时器</title>
+    <url>/posts/57fbe87e.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>在试图做ACT游戏demo时，想要给角色加上技能冷却CD，在CD时间内角色不能释放技能，CD后才可以。于是有了需求，写了计时器。</p>
+<hr>
+<p>计时器主体脚本:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using UnityEngine;</span><br><span class="line"></span><br><span class="line">public enum TimerWorkState</span><br><span class="line">&#123;</span><br><span class="line">    NONE,</span><br><span class="line">    WORKERING,</span><br><span class="line">    DONE</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class GameTimer</span><br><span class="line">&#123;</span><br><span class="line">    private float _startTime;</span><br><span class="line">    private bool _stop;</span><br><span class="line">    private Action _action;</span><br><span class="line">    public TimerWorkState _state;</span><br><span class="line"></span><br><span class="line">    public GameTimer()</span><br><span class="line">    &#123;</span><br><span class="line">        ResetTimer();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// 唤醒一个计时器</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    /// &lt;param name=&quot;time&quot;&gt;计时时长&lt;/param&gt;</span><br><span class="line">    /// &lt;param name=&quot;task&quot;&gt;任务&lt;/param&gt;</span><br><span class="line">    public void CallOut(float time, Action task)</span><br><span class="line">    &#123;</span><br><span class="line">        _startTime = time;</span><br><span class="line">        _action = task;</span><br><span class="line">        _stop = false;</span><br><span class="line">        _state = TimerWorkState.WORKERING;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Working()</span><br><span class="line">    &#123;</span><br><span class="line">        _startTime -= Time.deltaTime;</span><br><span class="line">        if (_startTime &lt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            _action.Invoke();</span><br><span class="line">            _stop = true;</span><br><span class="line">            _state = TimerWorkState.DONE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public TimerWorkState GetTimerState() =&gt; _state;</span><br><span class="line"></span><br><span class="line">    public void ResetTimer()</span><br><span class="line">    &#123;</span><br><span class="line">        _startTime = 0f;</span><br><span class="line">        _stop = true;</span><br><span class="line">        _action = null;</span><br><span class="line">        _state = TimerWorkState.NONE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>计时器管理器：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Threading;</span><br><span class="line">using UnityEngine;</span><br><span class="line">using UnityEngine.UIElements;</span><br><span class="line"></span><br><span class="line">public class TimerManager : SingleMono&lt;TimerManager&gt;</span><br><span class="line">&#123;</span><br><span class="line">    private List&lt;GameTimer&gt; _activeTimers = new List&lt;GameTimer&gt;();</span><br><span class="line">    private Queue&lt;GameTimer&gt; _dormancyTimers = new Queue&lt;GameTimer&gt;();</span><br><span class="line">    [SerializeField] private int _howManyTimer;</span><br><span class="line">    private void Awake()</span><br><span class="line">    &#123;</span><br><span class="line">        InitTimer(_howManyTimer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        TimerWork();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //初始化计时器</span><br><span class="line">    private void InitTimer(int timer)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int i = 0; i &lt; timer; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            GameTimer timer1 = new GameTimer();</span><br><span class="line">            _dormancyTimers.Enqueue(timer1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void TryGetOneTimer(float time,Action action)</span><br><span class="line">    &#123;</span><br><span class="line">        if(_dormancyTimers.Count == 0)</span><br><span class="line">        &#123;</span><br><span class="line">            GameTimer timer = new GameTimer();</span><br><span class="line">            timer.CallOut(time, action);</span><br><span class="line">            _activeTimers.Add(timer);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            GameTimer timer = _dormancyTimers.Dequeue();</span><br><span class="line">            timer.CallOut(time, action); ;</span><br><span class="line">            _activeTimers.Add(timer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void TimerWork()</span><br><span class="line">    &#123;</span><br><span class="line">        if(_activeTimers.Count == 0) return;</span><br><span class="line">        for (int i = 0; i &lt; _activeTimers.Count; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(_activeTimers[i].GetTimerState() == TimerWorkState.WORKERING)</span><br><span class="line">            &#123;</span><br><span class="line">                _activeTimers[i].Working();</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                _dormancyTimers.Enqueue(_activeTimers[i]);</span><br><span class="line">                _activeTimers[i].ResetTimer();</span><br><span class="line">                _activeTimers.Remove(_activeTimers[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>TimerManager.MainInstance.TryGetOneTimer(float time,Action action)</p>
+]]></content>
+      <categories>
+        <category>Unity框架</category>
+      </categories>
+      <tags>
+        <tag>Untiy</tag>
+        <tag>游戏开发</tag>
+        <tag>ARPG</tag>
+        <tag>计时器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>调号速判表</title>
+    <url>/posts/683bd1b3.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="一、升号调（Sharps）"><a href="#一、升号调（Sharps）" class="headerlink" title="一、升号调（Sharps）"></a><strong>一、升号调（Sharps）</strong></h2><h3 id="1-口诀与规则"><a href="#1-口诀与规则" class="headerlink" title="1. 口诀与规则"></a><strong>1. 口诀与规则</strong></h3><ul>
+<li><strong>口诀</strong>：<code>FCGDAE</code>  </li>
+<li><strong>大调名</strong> &#x3D; 最后一个升号 + 半音<br>（例：F♯ C♯ G♯ → 最后一个G♯ + 半音 &#x3D; A大调）  </li>
+<li><strong>关系小调</strong> &#x3D; 大调主音向下数3个半音</li>
+</ul>
+<h3 id="2-升号调表"><a href="#2-升号调表" class="headerlink" title="2. 升号调表"></a><strong>2. 升号调表</strong></h3><table>
+<thead>
+<tr>
+<th><strong>升号数量</strong></th>
+<th><strong>具体升号</strong></th>
+<th><strong>大调</strong></th>
+<th><strong>关系小调</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>F♯</td>
+<td>G大调</td>
+<td>e小调</td>
+</tr>
+<tr>
+<td>2</td>
+<td>F♯、C♯</td>
+<td>D大调</td>
+<td>b小调</td>
+</tr>
+<tr>
+<td>3</td>
+<td>F♯、C♯、G♯</td>
+<td>A大调</td>
+<td>♯f小调</td>
+</tr>
+<tr>
+<td>4</td>
+<td>F♯、C♯、G♯、D♯</td>
+<td>E大调</td>
+<td>♯c小调</td>
+</tr>
+<tr>
+<td>5</td>
+<td>F♯、C♯、G♯、D♯、A♯</td>
+<td>B大调</td>
+<td>♯g小调</td>
+</tr>
+<tr>
+<td>6</td>
+<td>F♯、C♯、G♯、D♯、A♯、E♯</td>
+<td>F♯大调</td>
+<td>♯d小调</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、降号调（Flats）"><a href="#二、降号调（Flats）" class="headerlink" title="二、降号调（Flats）"></a><strong>二、降号调（Flats）</strong></h2><h3 id="1-口诀与规则-1"><a href="#1-口诀与规则-1" class="headerlink" title="1. 口诀与规则"></a><strong>1. 口诀与规则</strong></h3><ul>
+<li><strong>口诀</strong>：<code>BEAD-GC</code>（B♭ E♭ A♭ D♭ G♭ C♭）  </li>
+<li><strong>大调名</strong> &#x3D; 倒数第二个降号<br>（例：B♭ E♭ A♭ D♭ → 倒数第2是A♭ → A♭大调）  </li>
+<li><strong>关系小调</strong> &#x3D; 大调主音向下数3个半音</li>
+</ul>
+<h3 id="2-降号调表"><a href="#2-降号调表" class="headerlink" title="2. 降号调表"></a><strong>2. 降号调表</strong></h3><table>
+<thead>
+<tr>
+<th><strong>降号数量</strong></th>
+<th><strong>具体降号</strong></th>
+<th><strong>大调</strong></th>
+<th><strong>关系小调</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>B♭</td>
+<td>F大调</td>
+<td>d小调</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B♭、E♭</td>
+<td>B♭大调</td>
+<td>g小调</td>
+</tr>
+<tr>
+<td>3</td>
+<td>B♭、E♭、A♭</td>
+<td>E♭大调</td>
+<td>c小调</td>
+</tr>
+<tr>
+<td>4</td>
+<td>B♭、E♭、A♭、D♭</td>
+<td>A♭大调</td>
+<td>f小调</td>
+</tr>
+<tr>
+<td>5</td>
+<td>B♭、E♭、A♭、D♭、G♭</td>
+<td>D♭大调</td>
+<td>b♭小调</td>
+</tr>
+<tr>
+<td>6</td>
+<td>B♭、E♭、A♭、D♭、G♭、C♭</td>
+<td>G♭大调</td>
+<td>e♭小调</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、自然小调调号（关系大调法）"><a href="#三、自然小调调号（关系大调法）" class="headerlink" title="三、自然小调调号（关系大调法）"></a><strong>三、自然小调调号（关系大调法）</strong></h2><table>
+<thead>
+<tr>
+<th><strong>大调</strong></th>
+<th><strong>关系小调</strong></th>
+<th><strong>调号</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C大调</td>
+<td>a小调</td>
+<td>无升降</td>
+</tr>
+<tr>
+<td>G大调</td>
+<td>e小调</td>
+<td>1升号（F♯）</td>
+</tr>
+<tr>
+<td>D大调</td>
+<td>b小调</td>
+<td>2升号（F♯ C♯）</td>
+</tr>
+<tr>
+<td>A大调</td>
+<td>♯f小调</td>
+<td>3升号（F♯ C♯ G♯）</td>
+</tr>
+<tr>
+<td>E大调</td>
+<td>♯c小调</td>
+<td>4升号（F♯ C♯ G♯ D♯）</td>
+</tr>
+<tr>
+<td>F大调</td>
+<td>d小调</td>
+<td>1降号（B♭）</td>
+</tr>
+<tr>
+<td>B♭大调</td>
+<td>g小调</td>
+<td>2降号（B♭ E♭）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、和声小调临时变化"><a href="#四、和声小调临时变化" class="headerlink" title="四、和声小调临时变化"></a><strong>四、和声小调临时变化</strong></h2><table>
+<thead>
+<tr>
+<th><strong>小调</strong></th>
+<th><strong>自然小调调号</strong></th>
+<th><strong>和声小调变化音</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>c小调</td>
+<td>B♭、E♭、A♭</td>
+<td>B♭ → B♮</td>
+</tr>
+<tr>
+<td>f小调</td>
+<td>B♭、E♭、A♭、D♭</td>
+<td>E♭ → E♮</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、总结口诀"><a href="#五、总结口诀" class="headerlink" title="五、总结口诀"></a><strong>五、总结口诀</strong></h2><ol>
+<li><strong>升号调</strong>：<code>FCGDAE</code> → 最后升号+半音&#x3D;大调名  </li>
+<li><strong>降号调</strong>：<code>BEAD-GC</code> → 倒数第二个降号&#x3D;大调名  </li>
+<li><strong>关系小调</strong>：大调主音向下数3个半音</li>
+</ol>
+<p>直接复制使用，打印贴琴上更方便！ 🎵</p>
+]]></content>
+      <tags>
+        <tag>音乐</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>两年来一些感想</title>
+    <url>/posts/1483a6bb.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>从23年高考结束，到现在25年马上开学，不知不觉已经过了两年了。虽然只是两年，但我感觉在这两年间发生了很大的变化。相比于一直禁闭校园的中学时期，我的视野、阅历和思想都有很大变化吧。想到了些什么，于是想要随便写一写。</br></p>
+<h3 id="回归自我"><a href="#回归自我" class="headerlink" title="回归自我"></a>回归自我</h3><p>我感觉这两年，最大的变化是，我慢慢认识了自己、更能把事情控制到自己手里。很久以前，我觉得有很多理所当然的事：努力学习考入名校，高考后考驾照，上大学考四、六级，上大学备战考公、考研。因为大家都在这么做，哦对，我的爱好是计算机，我以后想要从事一份计算机相关的工作。这是以前我所想的。</br><br>然而这一美好的计划、从一开始貌似就破产了，我考入一所双非院校的冷门专业、曾深受心理疾病困扰留级一年。一切美好的愿望貌似被打破了。身边人告诉我，就你的情况、以后难有出息了，以后毕业失业找不到工作、阿巴阿巴。以前觉得顺理成章、理所当然的事请破灭了。</br><br>以往的认知被打破了，我开始去质疑以前的“理所当然”，同时花了一年时间去思考，我想要什么样的生活？想要成为什么样的人？</br><br>我上高中时，就想着考上大学要积极备战考研。我第一次去思考：我为什么要考研？我有了解研究生具体是做什么的吗？我有了解研究生的方向吗？我有分析考研的好与坏吗？老师告诉我，考研好找工作、我们本专业毕业没就业机会。那么，关于就业我有实际调查过吗？招聘我工作的人，是公司的HR、还是我的老师？我一定从事本专业工作吗？</br><br>我上高中时，想要以后找份计算机相关的工作，因为我喜欢电脑。也是在23-25年间，我开始去尝试学习一些计算机相关知识，参与一些活动，做过游戏开发、做过游戏汉化。最后我发现，学生时代的我和社会脱节太严重了，我其实并不了解计算机的就业方向、环境。只是活在自己的幻想里，以前根本没接触过工作。</br></p>
+<hr>
+两年期间我发生了很大变化，我不相信任何大饼，变成偏实干主义的人，做事情一定要在调查和了解后、才做出自己的判断。以前的我每天想的是，我该怎么取得好成绩、如何提升学历、如何证明自己很优秀；现在我开始去思考，我想要做什么样的人？我想要做什么样的事情？我想要什么样的生活？</br>
+到现在我还没考驾照，我没有考研的打算，身边很多朋友不理解，大家都去做的事情，你为什么不去做？原因很简单，我觉得并不适合我。我去思考，我要付出什么样的成本？对我有什么利与弊呢？不知道大家有没有去想过一些看似很理所当然的问题：你为什么要考驾照？你要花多久去考驾照？你能用得到吗；你知道研究生是做什么的吗？你知道考研的方向吗？你有咨询过公司的HR、咨询过上班族吗？你有参加工作过吗？</br>
+我的学长学姐告诉我，我这个专业毕业没出路、难找工作。于是我去招聘网上看企业招聘要求、我和一些公益性招聘会的HR聊了聊天。最后招聘我的人，是企业用人单位、不是我的学长学姐；老师和家长告诉我，我要努力考研，我去询问一些读研的朋友、打算读研但落榜工作的朋友、没打算读研直接工作的朋友、以及一些考研指导的老师。研究生的生活是什么样的？我考研与否有什么利弊？企业对研究生和本科生的招聘要求？企业更看重什么样的人才？</br>
+以前我觉得游戏开发很酷、很好玩，后来我自学了C#和Unity，renpy引擎、lightvn等等。再后来我参与了同人游戏开发，我第一次了解了游戏开发的分工、第一次被组长催着写代码、第一次体会到团体中的矛盾、第一次了解到游戏上架steam要交100刀的管理费。再后来我就不参加团体性的游戏开发了()。</br>
+上次b站大号被封禁了，身边同样被封禁的朋友告诉我：申诉没有用、领导们是不会管的。后来我给12315写投诉信、给互联网信息服务投诉平台写投诉信、给上海市杨浦区周海鹰区长写信，最后我的账号终于解封了。依法维权、不试试看，怎么会知道有没有用呢？
+<hr>
+回到问题根本，我想成为什么样的人？我想要什么样的生活呢？我无法预测未来会发生什么，不过我已经知道了，我会成为什么样的人。</br>
+我是一个理想与实际共存的人，是一个拥有热情的人。我是一个温柔的人，我是一个能有理想、并能付出行动的人。我是一个真诚的人，我是一个热爱生活的人，我是一个不会气馁的人，我是一个能平等对待所有人的人，我是一个不会给任何人贴标签的人，我是一个能在困境中拉人一把的人，我是一个与人为友的人。</br>
+我的生活，有过悲伤、也有过欢乐，曾经有过被称为“后悔与遗憾”的东西。但站在现在的角度来看，所有过去的悲伤与快乐，都塑就了现在的我。不管我过去积过什么德、又做过哪些恶，所有的过去都构成了现在的我。我无法去否认过去，无法去否认自己，我没有后悔、也没有遗憾了。]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>资源下架通知</title>
+    <url>/posts/f48e37fa.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>25年7月17日，我打算停止运营网站“春ノ雪”，下架本站所有游戏资源。</p>
+<hr>
+想了很久，我觉得这是最明智、最安全的做法了，主要有三点吧：</br>
+
+<p>第一点，资源站本身存在一定的风险，是一种吃力不讨好的行为。从23年开始，我的很多友站都已经失联。为了保障我自身的安全，我决定停止运营网站。</br></p>
+<p>第二点，如今我的哔哩哔哩账号已经有十多万粉丝了，相应地做网站的风险更大了，我必须要更加的谨言慎行。资源网站本身就处于边缘地带，谁也无法预知继续做下去的风险，我所要面临的风险也比其他站长更大。</br></p>
+<p>第三点，我做的内容太过繁杂，而且本身涨粉后可能更出名了，相应地我必须更加谨言慎行。我做的内容会有什么影响？我加的好多群聊里有挂人、吵架，会不会有一天突然被人挂出来拷打？…为了规避这些风险，关闭网站也省了不少心。</br></p>
+<p>虽然很遗憾，但考虑到这三点，我还是打算下架所有资源。我不希望某天自己因为做galgame网站GG了…我的好几个友站都是鲜活的例子，我亲眼见过。</p>
+<hr>
+所以我打算，现在我声誉还算不错，趁早网站转型，转成我的学习笔记吧。哔哩哔哩的话继续做，我发现哔哩哔哩官方的态度还是很积极的（官方账号给过我三连ahhh），被推送到过热门。但是音乐文件的话，我只会提供源出处供网友自行下载。</br>
+
+<p>在做账号的同时，我也发现自己对音乐很感兴趣，目前也在慢慢学习，刚学完基础乐理，不定期更新自己的学习笔记。在调查日本作者期间，我发现很多人并非科班出身、并非专业音乐人，反而给了我一部分勇气。我幻想某一天，我能写出像Consider老师一样的曲子。<br></p>
+<p>偷偷藏一个链接：<a href="https://lkdsteuj.ap-northeast-1.clawcloudrun.com/">https://lkdsteuj.ap-northeast-1.clawcloudrun.com</a> 账号密码都是我名字的拼音。</p>
+]]></content>
+      <tags>
+        <tag>公告</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>音乐笔记</title>
+    <url>/posts/10cc2d44.html</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h2 id="大调与小调"><a href="#大调与小调" class="headerlink" title="大调与小调"></a>大调与小调</h2><p>自然大调：全全半全全全半</br><br>自然小调：全半全全半全全</br></p>
+<h2 id="音程（有截图）"><a href="#音程（有截图）" class="headerlink" title="音程（有截图）"></a>音程（有截图）</h2><p>1458无大小，2367不单纯。多少度就是多少键。</p>
+<h3 id="快速识别音程"><a href="#快速识别音程" class="headerlink" title="快速识别音程"></a>快速识别音程</h3><p><b>不涉及升降号下：</b><br>有EF、BC是小二度，其余大二度。</br><br>三度：包含EF或BC是小三度，否则大三度。</br><br>四度：包含EF或BC其中之一是纯四度，都不包含是增四度（只有F到B）。</br><br>五度：包含EF或BC其中之一是纯五度，都包含是减五度（只有B到F）。</br><br>六度和七度 ：包含EF或BC其中之一是大，都包含是小。</br><br>涉及升降号下很简单，看升降。</p>
+<h2 id="三和弦"><a href="#三和弦" class="headerlink" title="三和弦"></a>三和弦</h2><p>大三度：所有键中间隔三个键。小三度：所有键中间隔两个键。</br><br>大二度：所有键中间隔一个键。小二度：相邻的两个键。</br><br>大三和弦：大三度+小三度 C 一般欢快明亮</br><br>小三和弦：小三度+大三度 Cm 一般暗淡悲伤</br><br>减三和弦：小三度+小三度 Cdim 扩张的紧张压抑</br><br>增三和弦：大三度+大三度 Caug 收缩的紧张压抑</br></p>
+<h3 id="三和弦的转位"><a href="#三和弦的转位" class="headerlink" title="三和弦的转位"></a>三和弦的转位</h3><p>原位：CEG</br><br>三和弦的第一转位(六和弦)：EGC三五根</br><br>三和弦的第二转位(四六和弦)：GCE五根三</p>
+<h2 id="七和弦"><a href="#七和弦" class="headerlink" title="七和弦"></a>七和弦</h2><p>属音：调式第五个音</br><br>大七和弦：大三和弦+大七度 Cmaj7</br><br>大小七和弦（属七和弦其中一个含义）：大三和弦+小七度 C7（C调G为属音，G构成的大小七和弦为属七和弦）</br><br>小七和弦：小三和弦+小七度 Cmin7</br><br>小大七和弦：小三和弦+大七度 CmM7</br><br>减小七和弦（半减七和弦，小七降五和弦）：减三和弦+小七度 Cm7-5</br><br>减七和弦：减三和弦+减七度 Cdim7</br><br>​​增大七和弦（半增七和弦，大七升五和弦）​​​​​​：增三和弦 + ​​大七度​​​​</p>
+<h3 id="七和弦的转位"><a href="#七和弦的转位" class="headerlink" title="七和弦的转位"></a>七和弦的转位</h3><p>原位：CEGB</br><br>七和弦的第一转位：EGBC 五六和弦</br><br>七和弦的第二转位：GBCE 三四和弦</br><br>七和弦的第三转位：BCEG 二和弦</br></p>
+<h3 id="转位和弦标记方法"><a href="#转位和弦标记方法" class="headerlink" title="转位和弦标记方法"></a>转位和弦标记方法</h3><p>C&#x2F;E：表示CEG的第一转位，即EGC，大六和弦</br><br>Dm&#x2F;A：D小三和弦，转位低音是A</br><br>Bm7-5&#x2F;A：B减小七和弦，低音是A</br><br>和弦转位的意义：声部进行流畅，构建低音线条</p>
+<h2 id="九和弦"><a href="#九和弦" class="headerlink" title="九和弦"></a>九和弦</h2><p>大九和弦：大七和弦+小三度 Cmai9</br><br>小九和弦：小七和弦+大三度 Cm9</br><br>属九和弦：属七和弦+大三度 C9</br><br>属七降九和弦：属九和弦九音降半音 C7b9</br><br>ADD9和弦：三和弦+九音 Cadd9</br></p>
+<h2 id="挂二和弦"><a href="#挂二和弦" class="headerlink" title="挂二和弦"></a>挂二和弦</h2><p>原本的三度音变成二度，CEG——CDG，Csus2</br><br>原本的三度音变成四度，CEG——CFG，Csus4</br><br>一般用于调式的1和5级和弦</br></p>
+<h2 id="大调"><a href="#大调" class="headerlink" title="大调"></a>大调</h2><p>在音乐理论中，大调音阶由七个音符组成，每个大调音阶都有其特定的音符排列。以下是一些常见大调音阶的音符排列：</br><br>C大调（无升号或降号）：C D E F G A B C</br><br>G大调（一个升号，F#）：G A B C D E F# G</br><br>D大调（两个升号，F# 和 C#）：D E F# G A B C# D</br><br>A大调（三个升号，F#、C# 和 G#）：A B C# D E F# G# A</br><br>E大调（四个升号，F#、C#、G# 和 D#）：E F# G# A B C# D# E</br><br>B大调（五个升号，F#、C#、G#、D# 和 A#）：B C# D# E F# G# A# B</br><br>F#大调（六个升号，F#、C#、G#、D#、A# 和 E#）：F# G# A# B C# D# E# F#</br><br>C#大调（七个升号，F#、C#、G#、D#、A#、E# 和 B#）：C# D# E# F# G# A# B# C#</br><br>F大调（一个降号，B♭）：F G A B♭ C D E F</br><br>B♭大调（两个降号，B♭ 和 E♭）：B♭ C D E♭ F G A B♭</br><br>E♭大调（三个降号，B♭、E♭ 和 A♭）：E♭ F G A♭ B♭ C D E♭</br><br>A♭大调（四个降号，B♭、E♭、A♭ 和 D♭）：A♭ B♭ C D♭ E♭ F G A♭</br><br>D♭大调（五个降号，B♭、E♭、A♭、D♭ 和 G♭）：D♭ E♭ F G♭ A♭ B♭ C D♭</br><br>G♭大调（六个降号，B♭、E♭、A♭、D♭、G♭ 和 C♭）：G♭ A♭ B♭ C♭ D♭ E♭ F G♭</br><br>每个大调音阶的音符排列遵循特定的规律，即全音-全音-半音-全音-全音-全音-半音的间隔。例如，C大调的音符排列是C（主音）到D（全音），D到E（全音），E到F（半音），F到G（全音），G到A（全音），A到B（全音），B到C（半音）。其他大调音阶也是按照这个规律，只是在五线谱上的位置不同。</p>
+<h2 id="小调"><a href="#小调" class="headerlink" title="小调"></a>小调</h2><p>小调音阶也由七个音符组成，但与大调音阶相比，小调音阶的音符排列和情感色彩有所不同。小调通常给人一种较为忧郁或哀伤的感觉。以下是一些常见小调音阶的音符排列，包括自然小调、和声小调以及旋律小调：</br><br>自然小调音阶</br><br>自然小调音阶遵循全音-半音-全音-全音-半音-全音-全音的间隔。</br><br>A小调（无升号或降号）：A B C D E F G A</br><br>E小调（一个升号，F#）：E F# G A B C D E</br><br>B小调（两个升号，F# 和 C#）：B C# D E F# G A B</br><br>F#小调（三个升号，F#、C# 和 G#）：F# G# A B C# D E F#</br><br>C#小调（四个升号，F#、C#、G# 和 D#）：C# D# E F# G# A B C#</br><br>G#小调（五个升号，F#、C#、G#、D# 和 A#）：G# A# B C# D# E F# G#</br><br>D#小调（六个升号，F#、C#、G#、D#、A# 和 E#）：D# E# F# G# A# B C# D#</br><br>F小调（一个降号，B♭）：F G A♭ B♭ C D E♭ F</br><br>B♭小调（两个降号，B♭ 和 E♭）：B♭ C D E♭ F G A♭ B♭</br><br>E♭小调（三个降号，B♭、E♭ 和 A♭）：E♭ F G A♭ B♭ C D E♭</br><br>A♭小调（四个降号，B♭、E♭、A♭ 和 D♭）：A♭ B♭ C D♭ E♭ F G A♭</br><br>D♭小调（五个降号，B♭、E♭、A♭、D♭ 和 G♭）：D♭ E♭ F G A♭ B♭ C D♭</br><br>G♭小调（六个降号，B♭、E♭、A♭、D♭、G♭ 和 C♭）：G♭ A♭ B♭ C♭ D♭ E♭ F G♭</br><br>C小调（七个降号，B♭、E♭、A♭、D♭、G♭、C♭ 和 F♭）：C D E♭ F G A♭ B♭ C</p>
+<h2 id="4152637"><a href="#4152637" class="headerlink" title="4152637"></a>4152637</h2><p>这个就是用升的那么几个音来判断调号的，好用！</br><br>一个升号，升4，是G调；（4对应F，F下一个是G）</br><br>两个升号，升41，是D调；（1对应C，C下一个是D）</br><br>三个升号，升415，是A调；（5对应G，G下一个是A）</br><br>四个升号，升4152，是E调；</br><br>五个升号，升41526，是B调；</br><br>六个升号，升415263，是升F调；</br><br>七个升号，升4152637，是升C调。</br></p>
+<h2 id="和弦先行模板化作曲法"><a href="#和弦先行模板化作曲法" class="headerlink" title="和弦先行模板化作曲法"></a>和弦先行模板化作曲法</h2><p>自然音阶（只有白键）的六个和弦：C、Dm、Em、F、G、Am</br><br>根据模版+和弦作曲，一些长音符，用上和弦中任选两个的构成音符。短音符（装饰音）随便填</br></p>
+<h2 id="三种和弦节奏型"><a href="#三种和弦节奏型" class="headerlink" title="三种和弦节奏型"></a>三种和弦节奏型</h2><p>关键点：强弱、高低、长短</br><br>柱式，分解，半柱式</p>
+<h2 id="协和音程"><a href="#协和音程" class="headerlink" title="协和音程"></a>协和音程</h2><p>极完全协和音程：纯一度、纯八度</br><br>完全协和音程：纯四度、纯五度</br><br>不完全协和音程：大三度小三度，大六度小六度</br><br>不协和音程：大小二度、大小七度、所有增减、倍增倍减音程</br></p>
+<h2 id="调式"><a href="#调式" class="headerlink" title="调式"></a>调式</h2><p>和声大调：VI降半音</br><br>旋律大调：下行时VI、VII同时降半音</br><br>和声小调：VII升半音</br><br>旋律小调：上行时VI、VII同时升半音</br><br>关系大小调：使用相同音名、或者相同调式。C大调与A小调</br></p>
+<h2 id="七大中古调式-以-C-大调音阶为基础-：​​"><a href="#七大中古调式-以-C-大调音阶为基础-：​​" class="headerlink" title="七大中古调式 (以 C 大调音阶为基础)：​​"></a>七大中古调式 (以 C 大调音阶为基础)：​​</h2><p>​​C 伊奥尼亚调式：​​</br><br>​​起始音：​​ C</br><br>​​音阶：​​ C - D - E - F - G - A - B - C</br><br>​​音程结构：​​ 全音 - 全音 - 半音 - 全音 - 全音 - 全音 - 半音</br><br>​​特点：​​ 这就是​​自然大调​​本身。音响明亮、稳定、常见。中心感明确（结束在 C 上）。</br><br>​​与大调关系：​​ 等同于 C 自然大调。</br><br>​​D 多利亚调式：​​</br><br>​​起始音：​​ D</br><br>​​音阶：​​ D - E - F - G - A - B - C - D</br><br>​​音程结构：​​ 全音 - 半音 - 全音 - 全音 - 全音 - 半音 - 全音</br><br>​​特点：​​ ​​小调性质​​，但其第六级音（B）是​​自然大六度​​（相对于自然小调升高的六级）。带来一种忧伤但略带明亮、带有希望或民歌风味的色彩。常用于爵士、布鲁斯、摇滚。听感中心在 D 上。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​D​​ 开始弹奏。可理解为 D 自然小调升高第六级（♯B，相对于 D 小调的 B♭）。</br><br>​​E 弗里几亚调式：​​</br><br>​​起始音：​​ E</br><br>​​音阶：​​ E - F - G - A - B - C - D - E</br><br>​​音程结构：​​ 半音 - 全音 - 全音 - 全音 - 半音 - 全音 - 全音</br><br>​​特点：​​ ​​小调性质​​，其第二级音（F）与主音（E）形成​​小二度​​关系。产生强烈的异域、神秘、忧郁、西班牙弗拉门戈风味，有时带有紧张感（因为小二度在上方）。中心音是 E。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​E​​ 开始弹奏。可理解为 E 自然小调降低第二级（♭F，相对于 E 小调的 F♯）。</br><br>​​F 利底亚调式：​​</br><br>​​起始音：​​ F</br><br>​​音阶：​​ F - G - A - B - C - D - E - F</br><br>​​音程结构：​​ 全音 - 全音 - 全音 - 半音 - 全音 - 全音 - 半音</br><br>​​特点：​​ ​​大调性质​​，但其第四级音（B）与主音（F）形成​​增四度​​（三全音）。这带来一种梦幻、空灵、悬浮感、甚至有些科幻色彩（”Simpsons”主题曲）。明亮中带点不稳定。听感中心在 F 上。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​F​​ 开始弹奏。可理解为 F 自然大调升高第四级（♯B，相对于 F 大调的 B♭）。</br><br>​​G 混合利底亚调式：​​</br><br>​​起始音：​​ G</br><br>​​音阶：​​ G - A - B - C - D - E - F - G</br><br>​​音程结构：​​ 全音 - 全音 - 半音 - 全音 - 全音 - 半音 - 全音</br><br>​​特点：​​ ​​大调性质​​，但其第七级音（F）与主音（G）形成​​小七度​​关系（相对于大调降低的七级）。音响感觉像“未解决”的大调，带有蓝调、乡村、摇滚的味道，有点野性或接地气的色彩。听感中心在 G 上。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​G​​ 开始弹奏。可理解为 G 自然大调降低第七级（♭F，相对于 G 大调的 F♯）。</br><br>​​A 爱奥利亚调式：​​</br><br>​​起始音：​​ A</br><br>​​音阶：​​ A - B - C - D - E - F - G - A</br><br>​​音程结构：​​ 全音 - 半音 - 全音 - 全音 - 半音 - 全音 - 全音</br><br>​​特点：​​ 这就是​​自然小调​​本身。音响感伤、忧郁、黑暗、浪漫、抒情的典型小调色彩。听感中心在 A 上。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​A​​ 开始弹奏（也等同于 A 自然小调）。是 C 大调的​​关系小调​​。</br><br>​​B 洛克里亚调式：​​</br><br>​​起始音：​​ B</br><br>​​音阶：​​ B - C - D - E - F - G - A - B</br><br>​​音程结构：​​ 半音 - 全音 - 全音 - 半音 - 全音 - 全音 - 全音</br><br>​​特点：​​ ​​小调性质​​，但其第二级音（C）与主音（B）形成​​小二度​​，同时其第五级音（F）与主音（B）形成​​减五度​​（三全音）。这是所有调式中最不稳定、最不和谐的。听起来黑暗、悬疑、不协和，非常不稳定，中心音感（B）很弱，倾向于“解决”到其他音。非常不常用。</br><br>​​与大调关系：​​ 相当于以 C 大调音阶从 ​​B​​ 开始弹奏。可理解为 B 自然小调降低第二级（♭C，相对于 B 小调的 C♯）和第五级（♭F，相对于 B 小调的 F♯）。</br></p>
+<h2 id="TSD"><a href="#TSD" class="headerlink" title="TSD"></a>TSD</h2><p>T：135构成，S：461构成，D：572构成。属和弦（D）在自然大调或和声小调中必须是大三和弦​</br><br>C大调&#x2F;a小调：无</br><br>D大调&#x2F;b小调：F# C#</br><br>E大调&#x2F;#c小调：F# C# G# D#</br><br>F大调&#x2F;d小调：B♭</br><br>G大调&#x2F;e小调：F#</br><br>A大调&#x2F;#f小调：F# C# G#</br><br>B大调&#x2F;g小调；F# C# G# D# A#</br><br>c小调：B♭、E♭、A♭</br><br>f小调：B♭、E♭、A♭、D♭</br></p>
+<table>
+<thead>
+<tr>
+<th><strong>降号数量</strong></th>
+<th><strong>具体降号</strong></th>
+<th><strong>大调</strong></th>
+<th><strong>关系小调</strong></th>
+<th><strong>记忆技巧</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1降</strong></td>
+<td>B♭</td>
+<td><strong>F大调</strong></td>
+<td>d小调</td>
+<td>“<strong>F</strong>riends <strong>B</strong>uy Beer”</td>
+</tr>
+<tr>
+<td><strong>2降</strong></td>
+<td>B♭、E♭</td>
+<td><strong>B♭大调</strong></td>
+<td>g小调</td>
+<td>“<strong>B</strong>e <strong>E</strong>asy”</td>
+</tr>
+<tr>
+<td><strong>3降</strong></td>
+<td>B♭、E♭、A♭</td>
+<td><strong>E♭大调</strong></td>
+<td>c小调</td>
+<td>“<strong>E</strong>at <strong>A</strong>ll <strong>B</strong>read”</td>
+</tr>
+<tr>
+<td><strong>4降</strong></td>
+<td>B♭、E♭、A♭、D♭</td>
+<td><strong>A♭大调</strong></td>
+<td>f小调</td>
+<td><strong>倒数第二个降号 &#x3D; A♭</strong></td>
+</tr>
+<tr>
+<td><strong>5降</strong></td>
+<td>B♭、E♭、A♭、D♭、G♭</td>
+<td><strong>D♭大调</strong></td>
+<td>b♭小调</td>
+<td>倒数第二个降号 &#x3D; D♭</td>
+</tr>
+<tr>
+<td><strong>6降</strong></td>
+<td>B♭、E♭、A♭、D♭、G♭、C♭</td>
+<td><strong>G♭大调</strong></td>
+<td>e♭小调</td>
+<td>倒数第二个降号 &#x3D; G♭</td>
+</tr>
+</tbody></table>
+]]></content>
+      <tags>
+        <tag>音乐</tag>
+      </tags>
+  </entry>
+</search>
