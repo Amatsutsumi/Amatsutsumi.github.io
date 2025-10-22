@@ -16,12 +16,14 @@ jobs:
       with:
         repository: 'Amatsutsumi/Amatsutsumi.github.io'
         token: ${{ secrets.GITHUB_TOKEN }}
+        ref: 'main'  # 确保我们检出 main 分支，防止找不到默认分支
 
     - name: Checkout Amatsutsumi_posts repository
       uses: actions/checkout@v2
       with:
         repository: 'Amatsutsumi/Amatsutsumi_posts'
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        ref: 'main'  # 使用 main 分支
         path: posts
 
     - name: Extract issue content and generate Hexo post
