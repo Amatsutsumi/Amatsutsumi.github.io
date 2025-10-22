@@ -1,45 +1,35 @@
-name: Auto Deploy Hexo Blog
+name: Deploy Hexo Blog
 
 on:
-  issues:
-    types:
-      - labeled
+  push:
+    branches:
+      - main  # 监听 main 分支的推送
 
 jobs:
-  create-hexo-post:
-    if: github.event.label.name == '审核通过'
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Amatsutsumi.github.io repository
+    - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
       with:
-        repository: 'Amatsutsumi/Amatsutsumi.github.io'
-        token: ${{ secrets.GITHUB_TOKEN }}
-        ref: 'main'  # 确保我们检出 main 分支，防止找不到默认分支
+        node-version: '14'
 
-    - name: Checkout Amatsutsumi_posts repository
-      uses: actions/checkout@v2
-      with:
-        repository: 'Amatsutsumi/Amatsutsumi_posts'
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        ref: 'main'  # 使用 main 分支
-        path: posts
-
-    - name: Extract issue content and generate Hexo post
+    - name: Install dependencies
       run: |
-        ISSUE_CONTENT=$(curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" https://api.github.com/repos/Amatsutsumi/Amatsutsumi.github.io/issues/${{ github.event.issue.number }})
-        POST_TITLE=$(echo $ISSUE_CONTENT | jq -r '.title')
-        POST_CONTENT=$(echo $ISSUE_CONTENT | jq -r '.body')
+        npm install
+        npm install hexo-cli -g
 
-        # Create a new markdown post for Hexo
-        echo -e "---\ntitle: $POST_TITLE\ndate: $(date +'%Y-%m-%d %H:%M:%S')\n---\n$POST_CONTENT" > posts/source/_posts/$POST_TITLE.md
+    - name: Install Git
+      run: sudo apt-get install git  # 安装 Git
 
-    - name: Commit and push changes to Amatsutsumi_posts repository
+    - name: Generate Hexo site
       run: |
-        cd posts
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add .
-        git commit -m "Add new Hexo post from issue #${{ github.event.issue.number }}"
-        git push
+        hexo generate  # 生成静态文件
+
+    - name: Deploy Hexo site to GitHub Pages
+      run: |
+        hexo deploy  # 部署到 GitHub Pages
