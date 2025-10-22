@@ -1,35 +1,45 @@
-name: Deploy Hexo Blog
+name: Auto Deploy Hexo Blog
 
 on:
-  push:
-    branches:
-      - main  # 监听 main 分支的推送
+  issues:
+    types:
+      - labeled
 
 jobs:
-  build:
+  create-hexo-post:
+    if: github.event.label.name == '审核通过'
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout Amatsutsumi.github.io repository
       uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
       with:
-        node-version: '14'
+        repository: 'Amatsutsumi/Amatsutsumi.github.io'
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: 'main'  # 确保我们检出 main 分支，防止找不到默认分支
 
-    - name: Install dependencies
+    - name: Checkout Amatsutsumi_posts repository
+      uses: actions/checkout@v2
+      with:
+        repository: 'Amatsutsumi/Amatsutsumi_posts'
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        ref: 'main'  # 使用 main 分支
+        path: posts
+
+    - name: Extract issue content and generate Hexo post
       run: |
-        npm install
-        npm install hexo-cli -g
+        ISSUE_CONTENT=$(curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" https://api.github.com/repos/Amatsutsumi/Amatsutsumi.github.io/issues/${{ github.event.issue.number }})
+        POST_TITLE=$(echo $ISSUE_CONTENT | jq -r '.title')
+        POST_CONTENT=$(echo $ISSUE_CONTENT | jq -r '.body')
 
-    - name: Install Git
-      run: sudo apt-get install git  # 安装 Git
+        # Create a new markdown post for Hexo
+        echo -e "---\ntitle: $POST_TITLE\ndate: $(date +'%Y-%m-%d %H:%M:%S')\n---\n$POST_CONTENT" > posts/source/_posts/$POST_TITLE.md
 
-    - name: Generate Hexo site
+    - name: Commit and push changes to Amatsutsumi_posts repository
       run: |
-        hexo generate  # 生成静态文件
-
-    - name: Deploy Hexo site to GitHub Pages
-      run: |
-        hexo deploy  # 部署到 GitHub Pages
+        cd posts
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add .
+        git commit -m "Add new Hexo post from issue #${{ github.event.issue.number }}"
+        git push
