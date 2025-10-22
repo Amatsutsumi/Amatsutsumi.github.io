@@ -1,4 +1,4 @@
-name: Auto Deploy Hexo Blog
+name: Auto Deploy Hexo Post
 
 on:
   issues:
@@ -11,35 +11,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # 1. 检出 Amatsutsumi.github.io 仓库 (获取 issue)
     - name: Checkout Amatsutsumi.github.io repository
       uses: actions/checkout@v2
       with:
         repository: 'Amatsutsumi/Amatsutsumi.github.io'
-        token: ${{ secrets.GITHUB_TOKEN }}
-        ref: 'main'  # 确保我们检出 main 分支，防止找不到默认分支
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        ref: 'main'
 
+    # 2. 检出 Amatsutsumi_posts 仓库
     - name: Checkout Amatsutsumi_posts repository
       uses: actions/checkout@v2
       with:
         repository: 'Amatsutsumi/Amatsutsumi_posts'
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        ref: 'main'  # 使用 main 分支
+        ref: 'main'
         path: posts
 
+    # 3. 从 issue 提取内容并生成 Hexo post
     - name: Extract issue content and generate Hexo post
       run: |
-        ISSUE_CONTENT=$(curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" https://api.github.com/repos/Amatsutsumi/Amatsutsumi.github.io/issues/${{ github.event.issue.number }})
-        POST_TITLE=$(echo $ISSUE_CONTENT | jq -r '.title')
-        POST_CONTENT=$(echo $ISSUE_CONTENT | jq -r '.body')
+        # 获取 issue 内容
+        ISSUE_CONTENT=$(curl -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+          https://api.github.com/repos/Amatsutsumi/Amatsutsumi.github.io/issues/${{ github.event.issue.number }})
 
-        # Create a new markdown post for Hexo
-        echo -e "---\ntitle: $POST_TITLE\ndate: $(date +'%Y-%m-%d %H:%M:%S')\n---\n$POST_CONTENT" > posts/source/_posts/$POST_TITLE.md
+        POST_TITLE=$(echo "$ISSUE_CONTENT" | jq -r '.title')
+        POST_BODY=$(echo "$ISSUE_CONTENT" | jq -r '.body')
 
-    - name: Commit and push changes to Amatsutsumi_posts repository
+        # 文件名安全化，替换空格和特殊字符
+        SAFE_TITLE=$(echo "$POST_TITLE" | sed 's/[^a-zA-Z0-9_-]/-/g')
+
+        # 创建 markdown 文件，直接写入 issue 正文（保留用户写的 front-matter）
+        echo "$POST_BODY" > posts/source/_posts/${SAFE_TITLE}.md
+
+    # 4. 提交并推送到 Amatsutsumi_posts 仓库
+    - name: Commit and push changes
       run: |
         cd posts
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
         git add .
-        git commit -m "Add new Hexo post from issue #${{ github.event.issue.number }}"
+        git commit -m "Add new Hexo post from issue #${{ github.event.issue.number }}" || echo "No changes to commit"
         git push
