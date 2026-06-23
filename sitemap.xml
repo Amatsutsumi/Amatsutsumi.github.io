@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.yinghu.xyz/posts/58581.html</loc>
+    
+    <lastmod>2026-06-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.yinghu.xyz/posts/58700.html</loc>
     
     <lastmod>2026-06-23</lastmod>
@@ -11,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://www.yinghu.xyz/about/index.html</loc>
+    <loc>https://www.yinghu.xyz/essay/index.html</loc>
     
     <lastmod>2026-06-23</lastmod>
     
@@ -20,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://www.yinghu.xyz/essay/index.html</loc>
+    <loc>https://www.yinghu.xyz/about/index.html</loc>
     
     <lastmod>2026-06-23</lastmod>
     
@@ -45,6 +54,13 @@
   </url>
   
 
+  
+  <url>
+    <loc>https://www.yinghu.xyz/categories/%E6%80%9D%E8%80%83/</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://www.yinghu.xyz/categories/%E6%97%A5%E5%B8%B8/</loc>
