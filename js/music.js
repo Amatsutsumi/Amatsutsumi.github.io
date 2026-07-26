@@ -1,5 +1,3 @@
-import { Solitude } from "./core/api.js";
-
 class MusicPlayer {
     constructor() {
         this.init();
@@ -16,13 +14,12 @@ class MusicPlayer {
     }
 
     addEventListeners() {
-        this.boundKeydown = this.handleKeydown.bind(this);
-        document.addEventListener("keydown", this.boundKeydown);
+        document.addEventListener("keydown", this.handleKeydown.bind(this));
         const aplayerList = document.querySelector(".aplayer-list");
         const aplayerLrc = document.querySelector(".aplayer-lrc");
         if (aplayerLrc && !aplayerLrc.dataset.clickBound) {
             aplayerLrc.addEventListener("click", () => {
-                aplayerList?.classList.toggle("aplayer-list-hide");
+                aplayerList.classList.toggle("aplayer-list-hide");
             });
             aplayerLrc.dataset.clickBound = true;
         }
@@ -37,7 +34,6 @@ class MusicPlayer {
 
     updateBackgroundImage(element) {
         const musicCover = document.querySelector("#Music-page .aplayer-pic");
-        if (!element || !musicCover) return;
         const img = new Image();
         img.src = this.extractValue(musicCover.style.backgroundImage);
         img.onload = () => {
@@ -47,15 +43,14 @@ class MusicPlayer {
     }
 
     setLoadingScreen(loadingElement, backgroundElement) {
-        clearInterval(this.loadingTimer);
-        this.loadingTimer = setInterval(() => {
+        const timer = setInterval(() => {
+            this.addEventListeners();
             const musicCover = document.querySelector("#Music-page .aplayer-pic");
             if (musicCover) {
-                if (loadingElement) loadingElement.style.display = "none";
-                clearInterval(this.loadingTimer);
-                this.loadingTimer = null;
+                loadingElement.style.display = "none";
+                clearInterval(timer);
                 this.addEventListenerChangeMusicBg();
-                if (backgroundElement) backgroundElement.style.display = "block";
+                backgroundElement.style.display = "block";
             }
         }, 100);
     }
@@ -66,15 +61,13 @@ class MusicPlayer {
     }
 
     addEventListenerChangeMusicBg() {
-        const aplayer = document.querySelector("#Music-page meting-js")?.aplayer;
-        if (!aplayer) return;
+        const aplayer = document.querySelector("#Music-page meting-js").aplayer;
         aplayer.on('loadeddata', () => this.changeMusicBg(true));
         aplayer.on('timeupdate', this.lrcUpdate.bind(this));
     }
 
     lrcUpdate() {
         const aplayerLrcContents = document.querySelector('.aplayer-lrc-contents');
-        if (!aplayerLrcContents) return;
         const currentLrc = aplayerLrcContents.querySelector('p.aplayer-lrc-current');
         if (currentLrc) {
             const currentIndex = Array.from(aplayerLrcContents.children).indexOf(currentLrc);
@@ -83,9 +76,7 @@ class MusicPlayer {
     }
 
     handleKeydown(event) {
-        if (event.target?.matches?.('input, textarea, [contenteditable="true"]')) return;
-        const aplayer = document.querySelector('#Music-page meting-js')?.aplayer;
-        if (!aplayer) return;
+        const aplayer = document.querySelector('meting-js').aplayer;
         const actions = {
             "Space": () => aplayer.toggle(),
             "ArrowRight": () => aplayer.skipForward(),
@@ -101,13 +92,12 @@ class MusicPlayer {
     }
 
     destroy() {
-        clearInterval(this.loadingTimer);
-        document.removeEventListener("keydown", this.boundKeydown);
+        document.removeEventListener("keydown", this.handleKeydown);
     }
 }
 
-export function initializeMusicPlayer() {
-    const exitingMusic = Solitude.musicPlayer;
+function initializeMusicPlayer() {
+    const exitingMusic = window.scoMusic;
     if (exitingMusic) exitingMusic.destroy();
-    Solitude.musicPlayer = new MusicPlayer();
+    window.scoMusic = new MusicPlayer();
 }

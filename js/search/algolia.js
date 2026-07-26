@@ -1,5 +1,3 @@
-import { Solitude } from "../core/api.js";
-
 class AlgoliaSearch {
     constructor() {
         this.searchInstance = null;
@@ -9,7 +7,7 @@ class AlgoliaSearch {
         this.elements = this.cacheElements();
         
         // Algolia 配置
-        this.config = Solitude.config.algolia;
+        this.config = GLOBAL_CONFIG.algolia;
         
         // 初始化
         this.init();
@@ -93,7 +91,7 @@ class AlgoliaSearch {
      */
     showLoading() {
         if (this.elements.hitsContainer) {
-            const loadingHtml = `<div class="loading">${Solitude.config.lang?.search?.loading || 'Searching...'}</div>`;
+            const loadingHtml = `<div class="loading">${GLOBAL_CONFIG.lang?.search?.loading || 'Searching...'}</div>`;
             this.elements.hitsContainer.innerHTML = loadingHtml;
         }
     }
@@ -139,7 +137,7 @@ class AlgoliaSearch {
             container: this.elements.inputContainer,
             showReset: false,
             showSubmit: false,
-            placeholder: Solitude.config.lang?.search?.placeholder || 'Search by keywords',
+            placeholder: GLOBAL_CONFIG.lang?.search?.placeholder || 'Search by keywords',
             showLoadingIndicator: false,
             searchAsYouType: true,
         });
@@ -161,7 +159,7 @@ class AlgoliaSearch {
      * 格式化统计文本
      */
     formatStatsText(data) {
-        const statsText = Solitude.config.lang?.search?.hit
+        const statsText = GLOBAL_CONFIG.lang?.search?.hit
             ?.replace(/\$\{hits}/, data.nbHits)
             ?.replace(/\$\{time}/, data.processingTimeMS) || 
             `Found ${data.nbHits} results, took ${data.processingTimeMS} ms`;
@@ -190,7 +188,7 @@ class AlgoliaSearch {
      */
     renderHitItem(data) {
         try {
-            const link = data.permalink || (Solitude.config.root + data.path);
+            const link = data.permalink || (GLOBAL_CONFIG.root + data.path);
             const result = data._highlightResult;
             
             // 隐藏加载状态
@@ -216,7 +214,7 @@ class AlgoliaSearch {
         this.hideLoadingIndicator();
         this.delayedFocus();
         
-        const emptyText = Solitude.config.lang?.search?.empty?.replace(/\$\{query}/, data.query) ||
+        const emptyText = GLOBAL_CONFIG.lang?.search?.empty?.replace(/\$\{query}/, data.query) || 
                          `No results found for "${data.query}"`;
         
         return `<div id="algolia-hits-empty">${emptyText}</div>`;
@@ -296,7 +294,7 @@ class AlgoliaSearch {
     bindSearchEvents() {
         // 搜索按钮
         if (this.elements.searchButton) {
-            Solitude.addEventListenerPjax(this.elements.searchButton, "click", () => this.openSearch());
+            utils.addEventListenerPjax(this.elements.searchButton, "click", () => this.openSearch());
         }
 
         // 关闭按钮和遮罩
@@ -313,16 +311,16 @@ class AlgoliaSearch {
      * 绑定右键菜单搜索
      */
     bindRightMenuSearch() {
-        if (Solitude.config.right_menu && this.elements.menuSearch) {
+        if (GLOBAL_CONFIG.right_menu && this.elements.menuSearch) {
             this.elements.menuSearch.addEventListener("click", () => {
-                Solitude.hideRightMenu?.();
+                rm.hideRightMenu();
                 this.openSearch();
                 
                 // 设置选中文本
-                if (Solitude.selectedText) {
+                if (window.selectTextNow) {
                     const searchInput = document.querySelector('.ais-SearchBox-input');
                     if (searchInput) {
-                        searchInput.value = Solitude.selectedText;
+                        searchInput.value = window.selectTextNow;
                         const event = new Event('input', { bubbles: true });
                         searchInput.dispatchEvent(event);
                     }
@@ -336,7 +334,7 @@ class AlgoliaSearch {
      */
     bindPjaxEvents() {
         window.addEventListener("pjax:complete", () => {
-            if (!Solitude.isHidden(this.elements.searchMask)) {
+            if (!utils.isHidden(this.elements.searchMask)) {
                 this.closeSearch();
             }
             
@@ -346,11 +344,11 @@ class AlgoliaSearch {
         });
 
         // PJAX 刷新搜索结果
-        if (Solitude.pjax && this.searchInstance) {
+        if (window.pjax && this.searchInstance) {
             this.searchInstance.on("render", () => {
                 const hitsElement = document.getElementById("algolia-hits");
                 if (hitsElement) {
-                    Solitude.pjax.refresh(hitsElement);
+                    window.pjax.refresh(hitsElement);
                 }
             });
         }
@@ -381,7 +379,7 @@ class AlgoliaSearch {
     openSearch() {
         if (!this.elements.searchMask || !this.elements.searchDialog) return;
 
-        Solitude.animateIn(this.elements.searchMask, "to_show 0.5s");
+        utils.animateIn(this.elements.searchMask, "to_show 0.5s");
         this.elements.searchDialog.style.display = "flex";
         
         // 延迟聚焦以确保动画完成
@@ -394,7 +392,7 @@ class AlgoliaSearch {
         window.addEventListener("resize", this.fixSafariHeight);
         
         // 暴露到全局作用域以保持兼容性
-        Solitude.openSearch = () => this.openSearch();
+        window.openSearch = () => this.openSearch();
     }
 
     /**
@@ -403,8 +401,8 @@ class AlgoliaSearch {
     closeSearch() {
         if (!this.elements.searchMask || !this.elements.searchDialog) return;
 
-        Solitude.animateOut(this.elements.searchDialog, "search_close .5s");
-        Solitude.animateOut(this.elements.searchMask, "to_hide 0.5s");
+        utils.animateOut(this.elements.searchDialog, "search_close .5s");
+        utils.animateOut(this.elements.searchMask, "to_hide 0.5s");
         window.removeEventListener("resize", this.fixSafariHeight);
     }
 
@@ -437,12 +435,6 @@ class AlgoliaSearch {
 }
 
 // DOM 加载完成后初始化搜索功能
-const initializeAlgoliaSearch = () => {
-    Solitude.algoliaSearch ||= new AlgoliaSearch();
-};
-
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializeAlgoliaSearch, { once: true });
-} else {
-    initializeAlgoliaSearch();
-}
+document.addEventListener("DOMContentLoaded", () => {
+    window.algoliaSearch = new AlgoliaSearch();
+});

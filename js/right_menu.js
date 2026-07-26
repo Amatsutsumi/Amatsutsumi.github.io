@@ -1,15 +1,11 @@
-import { Solitude } from "./core/api.js";
-
 let selectTextNow = "";
 let firstShowRightMenu = true;
 
 const selectText = () => {
     selectTextNow = document.selection ? document.selection.createRange().text : window.getSelection().toString() || "";
-    Solitude.selectedText = selectTextNow;
 };
 
-document.addEventListener("mouseup", selectText);
-document.addEventListener("dblclick", selectText);
+document.onmouseup = document.ondbclick = selectText;
 
 const rm = {
     mask: document.getElementById("rightmenu-mask"),
@@ -63,7 +59,7 @@ const rm = {
     copyText(e) {
         if (navigator.clipboard) {
             navigator.clipboard.writeText(e);
-            Solitude.snackbarShow(Solitude.config.lang.copy.success, false, 2000);
+            utils.snackbarShow(GLOBAL_CONFIG.lang.copy.success, false, 2000);
         }
         this.hideRightMenu();
     },
@@ -80,51 +76,35 @@ const rm = {
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
         } catch (error) {
-            Solitude.snackbarShow(Solitude.config.right_menu.img_error, false, 2000);
+            utils.snackbarShow(GLOBAL_CONFIG.right_menu.img_error, false, 2000);
         }
     },
     copyImage(imgUrl = this.domsrc) {
         window.open(imgUrl);
     },
-    setLabel(element, label) {
-        if (!element || !label) return;
-        element.textContent = label;
-        element.setAttribute("title", label);
-        element.setAttribute("heotip", label);
-        const menuItem = element.closest(".rightMenu-item");
-        if (menuItem) {
-            menuItem.setAttribute("title", label);
-            menuItem.setAttribute("heotip", label);
-        }
-    },
     mode(darkmode) {
-        const label = darkmode ? Solitude.config.right_menu.mode.light : Solitude.config.right_menu.mode.dark;
-        this.setLabel(document.querySelector(".menu-darkmode-text"), label);
+        document.querySelector(".menu-darkmode-text").textContent = darkmode ? GLOBAL_CONFIG.right_menu.mode.light : GLOBAL_CONFIG.right_menu.mode.dark;
         this.hideRightMenu();
     },
     barrage(enable) {
-        const label = enable ? Solitude.config.right_menu.barrage.open : Solitude.config.right_menu.barrage.close;
-        this.setLabel(document.querySelector(".menu-commentBarrage-text"), label);
+        document.querySelector(".menu-commentBarrage-text").textContent = enable ? GLOBAL_CONFIG.right_menu.barrage.open : GLOBAL_CONFIG.right_menu.barrage.close;
         this.hideRightMenu();
     },
 };
 
-Solitude.rightMenu = rm;
-Solitude.hideRightMenu = rm.hideRightMenu.bind(rm);
-
 function stopMaskScroll() {
     const hideMenu = rm.hideRightMenu.bind(rm);
-    Solitude.addEventListenerPjax(rm.menu, "mousewheel", hideMenu, { passive: true });
-    Solitude.addEventListenerPjax(rm.mask, "mousewheel", hideMenu, { passive: true });
-    Solitude.addEventListenerPjax(rm.mask, "click", hideMenu, { passive: true });
+    utils.addEventListenerPjax(rm.menu, "mousewheel", hideMenu, { passive: true });
+    utils.addEventListenerPjax(rm.mask, "mousewheel", hideMenu, { passive: true });
+    utils.addEventListenerPjax(rm.mask, "click", hideMenu, { passive: true });
 }
 
-document.addEventListener("contextmenu", (ele) => {
+window.oncontextmenu = (ele) => {
     if (document.body.clientWidth <= 768) return;
-    if (Solitude.config.right_menu.ctrlOriginalMenu) {
+    if (GLOBAL_CONFIG.right_menu.ctrlOriginalMenu) {
         if (firstShowRightMenu) {
             firstShowRightMenu = false;
-            Solitude.snackbarShow(Solitude.config.right_menu.ctrlOriginalMenu, false, 2000);
+            utils.snackbarShow(GLOBAL_CONFIG.right_menu.ctrlOriginalMenu, false, 2000);
         }
         if (ele.ctrlKey) return true;
     }
@@ -142,7 +122,7 @@ document.addEventListener("contextmenu", (ele) => {
     const display = !!(selectTextNow && window.getSelection()) || !!link || !!src || (tagName === "input" || tagName === "textarea") || cls.match(/aplayer/);
 
     rm.menuItems.copy.style.display = selectTextNow && window.getSelection() ? "flex" : "none";
-    Solitude.config.comment && (rm.menuItems.comment.style.display = selectTextNow && window.getSelection() ? "flex" : "none");
+    GLOBAL_CONFIG.comment && (rm.menuItems.comment.style.display = selectTextNow && window.getSelection() ? "flex" : "none");
     rm.menuItems.search && (rm.menuItems.search.style.display = selectTextNow && window.getSelection() ? "flex" : "none");
 
     rm.menuItems.new.style.display = link ? "flex" : "none";
@@ -155,7 +135,7 @@ document.addEventListener("contextmenu", (ele) => {
 
     rm.menuItems.paste.style.display = (tagName === "input" || tagName === "textarea") ? "flex" : "none";
 
-    if (Solitude.config.right_menu.music) {
+    if (GLOBAL_CONFIG.right_menu.music) {
         if (cls.match(/aplayer/)) {
             rm.menuItems.music.forEach(item => item.style.display = "flex");
         } else {
@@ -171,20 +151,20 @@ document.addEventListener("contextmenu", (ele) => {
     y = (y + rm.height > window.innerHeight) ? y - (y + rm.height - window.innerHeight) : y;
 
     rm.showRightMenu(true, x, y);
-    ele.preventDefault();
-});
+    return false;
+};
 
 (function () {
-    const addEventListener = (element, event, handler) => element?.addEventListener(event, handler);
+    const addEventListener = (element, event, handler) => element.addEventListener(event, handler);
 
     addEventListener(rm.menuItems.back, "click", () => window.history.back() || rm.hideRightMenu());
     addEventListener(rm.menuItems.forward, "click", () => window.history.forward() || rm.hideRightMenu());
     addEventListener(rm.menuItems.refresh, "click", () => window.location.reload());
-    addEventListener(rm.menuItems.top, "click", () => Solitude.toTop() || rm.hideRightMenu());
+    addEventListener(rm.menuItems.top, "click", () => sco.toTop() || rm.hideRightMenu());
 
-    if (Solitude.config.right_menu.music) {
+    if (GLOBAL_CONFIG.right_menu.music) {
         addEventListener(rm.menuItems.music[0], "click", () => {
-            Solitude.musicToggle();
+            sco.musicToggle();
             rm.hideRightMenu();
         });
         addEventListener(rm.menuItems.music[1], "click", () => {
@@ -202,18 +182,18 @@ document.addEventListener("contextmenu", (ele) => {
     }
 
     addEventListener(rm.menuItems.copy, "click", () => {
-        if (Solitude.config.copyright && selectTextNow.length > Solitude.config.right_menu.limit) {
-            selectTextNow += `\n\n${Solitude.config.right_menu.author}\n${Solitude.config.right_menu.link}${window.location.href}\n${Solitude.config.right_menu.source}\n${Solitude.config.right_menu.info}`;
+        if (GLOBAL_CONFIG.copyright && selectTextNow.length > GLOBAL_CONFIG.right_menu.limit) {
+            selectTextNow += `\n\n${GLOBAL_CONFIG.right_menu.author}\n${GLOBAL_CONFIG.right_menu.link}${window.location.href}\n${GLOBAL_CONFIG.right_menu.source}\n${GLOBAL_CONFIG.right_menu.info}`;
         }
         rm.copyText(selectTextNow);
     });
 
-    if (Solitude.saveToLocal.get("commentBarrageSwitch") !== null) {
-        rm.menuItems.barrage && rm.barrage(!Solitude.saveToLocal.get("commentBarrageSwitch"));
+    if (utils.saveToLocal.get("commentBarrageSwitch") !== null) {
+        rm.menuItems.barrage && rm.barrage(!utils.saveToLocal.get("commentBarrageSwitch"));
     }
 
     addEventListener(rm.menuItems.paste, "click", () => rm.pasteText() && rm.hideRightMenu());
-    Solitude.config.comment && addEventListener(rm.menuItems.comment, "click", () => rm.hideRightMenu() || Solitude.toTalk(selectTextNow));
+    GLOBAL_CONFIG.comment && addEventListener(rm.menuItems.comment, "click", () => rm.hideRightMenu() || sco.toTalk(selectTextNow));
     addEventListener(rm.menuItems.new, "click", () => window.open(rm.domhref) && rm.hideRightMenu());
     addEventListener(rm.menuItems.downloadImg, "click", () => rm.downloadImage() && rm.hideRightMenu());
     addEventListener(rm.menuItems.copyImg, "click", () => rm.copyImage() && rm.hideRightMenu());
