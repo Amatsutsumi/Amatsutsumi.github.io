@@ -1,1 +1,0 @@
-{"base":{"cdnPath":"https://cdn.jsdelivr.net/gh/LuoTian001/live2d-widget-AIChat@main/","localPath":"/live2d/","homePath":"/"},"tools":["chat","hitokoto","express","info","quit"],"drag":{"enable":false,"direction":["x","y"]},"switchType":"order","chat":{"apiUrl":"http://185.244.193.69:3000/api/chat"}}
